@@ -420,7 +420,7 @@ table.adm-t{width:100%;border-collapse:collapse;font-size:15px}
 .f{display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--mist)}
 .f small{font-size:13px}
 .f input[type=text],.f input[type=password],.f textarea,.f select,.adm-login input{color:var(--ink);padding:11px 14px;border:1px solid var(--line);border-radius:10px;background:var(--paper);width:100%;font-size:15px}
-.f select{padding-right:36px}
+.f select{padding-right:36px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none' stroke='%236E7471' stroke-width='1.5'%3E%3Cpath d='M1 1l4 4 4-4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;-webkit-appearance:none;appearance:none;cursor:pointer}
 .f input:focus,.f textarea:focus,.f select:focus,.adm-login input:focus{outline:none;border-color:var(--ink)}
 .f textarea{resize:vertical;min-height:96px}
 .mh{color:var(--ink);font-weight:500}
@@ -970,6 +970,436 @@ body.cart-open .toast{bottom:auto;top:24px}
 .shr{display:inline-flex;align-items:center;gap:7px;margin-left:auto;border:1px solid var(--line);background:none;border-radius:999px;padding:7px 14px;font-size:13.5px;color:var(--mist);transition:border-color .2s,color .2s}
 .shr:hover{border-color:var(--line-strong);color:var(--ink)}
 .shr svg{width:16px;height:16px}
+
+/* =====================================================================
+   Entrenamiento personalizado (#/entrenamiento y acceso en el inicio)
+   ===================================================================== */
+.tr-hero,.tr-cta{position:relative;isolation:isolate;display:flex;align-items:flex-end;overflow:hidden;border-radius:var(--r-box);background:#151918;color:#fff}
+.tr-hero{min-height:min(76vh,640px);padding:56px}
+.tr-cta{min-height:440px;padding:48px 52px}
+.tr-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transition:transform 1.2s var(--ease)}
+.tr-hero::before,.tr-cta::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(to top,rgba(var(--hero-shade),.95),rgba(var(--hero-shade),.4) 62%,rgba(var(--hero-shade),.6))}
+.tr-cta:hover .tr-bg{transform:scale(1.03)}
+/* sin foto: fondo del panel con un brillo del color de acento y la rutina de ejemplo al costado */
+.tr-hero.nophoto,.tr-cta.nophoto{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:56px;min-height:0;color:var(--ink);border:1px solid var(--line);
+  background:radial-gradient(90% 120% at 100% 0%,color-mix(in srgb,var(--accent) 16%,transparent),transparent 62%),var(--stone)}
+.nophoto::before{display:none}
+.tr-hero.nophoto h1,.tr-cta.nophoto h2{color:var(--ink)}
+.nophoto .tr-in>p{color:var(--ink-soft)}
+.nophoto .tr-kick{color:var(--accent)}
+.nophoto .tr-feats{color:var(--mist)}
+.nophoto .tr-feats li::before{background:var(--accent)}
+.tr-cta.nophoto:hover{border-color:var(--line-strong)}
+.tr-cta.nophoto:hover .tr-mock{transform:rotate(0)}
+/* rutina de ejemplo */
+.tr-mock{width:350px;padding:22px 22px 20px;background:var(--paper);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);font-size:14.5px;transform:rotate(2deg);transition:transform .6s var(--ease)}
+.tr-mock-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:12px}
+.tr-mock-h span{font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+.tr-mock-h b{font-size:14.5px;font-weight:600}
+.tr-mock ul{list-style:none;margin:0;padding:0}
+.tr-mock li{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid var(--line);color:var(--ink-soft)}
+.tr-mock li em{font-style:normal;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums;white-space:nowrap}
+.tr-mock-p{display:grid;gap:8px;margin-top:12px;font-size:13px;color:var(--mist)}
+.tr-mock-p i{display:block;height:6px;border-radius:3px;background:var(--line);overflow:hidden}
+.tr-mock-p b{display:block;width:75%;height:100%;border-radius:3px;background:var(--accent)}
+.tr-mock-n{display:flex;align-items:center;gap:8px;width:fit-content;margin:14px 0 0;padding:7px 12px 7px 10px;border-radius:999px;background:var(--ok-bg);color:var(--ok-ink);font-size:13px}
+.tr-mock-n svg{width:15px;height:15px;flex:none}
+.tr-in{max-width:660px}
+.tr-kick{display:block;margin-bottom:14px;font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--hero-btn)}
+.tr-hero h1,.tr-cta h2{font:300 clamp(40px,5.4vw,76px)/1 var(--font);letter-spacing:-.035em;margin:0 0 16px;color:#fff;text-wrap:balance}
+.tr-in>p{margin:0 0 28px;max-width:50ch;font-size:18px;line-height:1.55;color:rgba(255,255,255,.82)}
+.tr-acts{display:flex;gap:10px;flex-wrap:wrap}
+.tr-feats{list-style:none;display:flex;flex-wrap:wrap;gap:8px 24px;margin:28px 0 0;padding:0;font-size:14.5px;color:rgba(255,255,255,.8)}
+.tr-feats li{display:flex;align-items:center;gap:9px}
+.tr-feats li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--hero-btn)}
+/* cómo funciona */
+.tr-steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.tr-steps li{display:flex;flex-direction:column;gap:8px;padding:26px 24px 28px;background:var(--stone);border-radius:var(--r-box)}
+.tr-n{font:600 40px/1 var(--font);color:var(--accent);margin-bottom:12px}
+.tr-steps strong{font-size:18px;font-weight:600;line-height:1.25}
+.tr-steps p{margin:0;color:var(--mist);font-size:15px;line-height:1.6}
+/* planes */
+.tr-plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding-top:12px}
+.tr-plan{position:relative;display:flex;flex-direction:column;padding:34px 28px 28px;background:var(--stone);border:1.5px solid transparent;border-radius:var(--r-box)}
+.tr-plan.on{border-color:var(--accent)}
+.tr-plan .qbadge{top:-12px;left:26px;right:auto}
+.tr-plan h3{margin:0 0 8px;font:600 22px/1.15 var(--font);letter-spacing:-.01em}
+.tr-sub{margin:0;color:var(--mist);font-size:15px;line-height:1.55}
+.tr-price{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 8px;margin:22px 0;padding-bottom:22px;border-bottom:1px solid var(--line)}
+.tr-price b{font:600 34px/1 var(--font);letter-spacing:-.02em;color:var(--price)}
+.tr-price span{color:var(--mist);font-size:15px}
+.tr-inc{list-style:none;margin:0 0 28px;padding:0;display:grid;gap:12px;align-content:start;flex:1}
+.tr-inc li{display:grid;grid-template-columns:18px minmax(0,1fr);gap:10px;font-size:15px;line-height:1.5;color:var(--ink-soft)}
+.tr-inc svg{width:18px;height:18px;margin-top:2px;color:var(--accent)}
+.tr-plan .btn{width:100%}
+.tr-notes{display:flex;flex-wrap:wrap;gap:8px 32px;margin-top:22px;font-size:14.5px;color:var(--mist)}
+.tr-notes p{margin:0}
+.tr-notes b{color:var(--ink);font-weight:600}
+/* objetivo + suplementos */
+.tr-rec{margin-top:32px}
+.tr-rec .gcta{margin-top:40px}
+.tr-empty{margin:0;padding:22px 24px;border:1px dashed var(--line-strong);border-radius:var(--r-box);color:var(--mist);font-size:15px}
+/* sobre mí */
+.tr-about{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:64px;align-items:center}
+.tr-about.nophoto{grid-template-columns:minmax(0,1fr)}
+.tr-ph{aspect-ratio:4/5;border-radius:var(--r-box)}
+.tr-ph .ini{font-size:160px}
+.tr-bio p{margin:0 0 16px;max-width:58ch;font-size:17px;line-height:1.75;color:var(--ink-soft)}
+.tr-bio p:first-child{font-size:20px;line-height:1.55;color:var(--ink)}
+/* testimonios (aparecen cuando hay alguno cargado) */
+.tr-tests{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.tr-tests figure{margin:0;display:flex;flex-direction:column;justify-content:space-between;gap:20px;padding:28px;background:var(--stone);border-radius:var(--r-box)}
+.tr-tests blockquote{margin:0;font-size:16.5px;line-height:1.65;color:var(--ink-soft)}
+.tr-tests figcaption{font-size:14px;color:var(--mist)}
+.tr-tests figcaption b{display:block;color:var(--ink);font-weight:600;font-size:15px}
+/* preguntas */
+.tr-faq{max-width:860px;border-top:1px solid var(--line)}
+.tr-faq details{border-bottom:1px solid var(--line)}
+.tr-faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:20px 0;font-size:17px;font-weight:500}
+.tr-faq summary::-webkit-details-marker{display:none}
+.tr-faq summary::after{content:"+";flex:none;font-size:26px;font-weight:300;line-height:1;color:var(--accent);transition:transform .25s var(--ease)}
+.tr-faq details[open] summary::after{transform:rotate(45deg)}
+.tr-faq summary:hover{color:var(--accent)}
+.tr-faq details p{margin:0 0 22px;max-width:68ch;color:var(--ink-soft);line-height:1.7}
+/* paleta grafito y naranja: títulos condensados; paleta negra: serif */
+:root:not([data-tema]) :is(.tr-hero h1,.tr-cta h2,.tr-plan h3,.tr-n,.tr-price b){font-family:var(--cond);font-weight:700;text-transform:uppercase;letter-spacing:.005em}
+:root:not([data-tema]) .tr-hero h1{font-size:clamp(52px,7vw,112px);line-height:.9;max-width:15ch}
+:root:not([data-tema]) .nophoto h1{font-size:clamp(50px,6vw,92px)}
+:root:not([data-tema]) .tr-cta h2{font-size:clamp(44px,5.6vw,88px);line-height:.92;max-width:13ch}
+:root:not([data-tema]) .tr-plan h3{font-size:30px;line-height:1}
+:root:not([data-tema]) .tr-n{font-size:48px}
+:root:not([data-tema]) .tr-price b{font-size:46px}
+:root[data-tema="negro"] :is(.tr-hero h1,.tr-cta h2,.tr-plan h3,.tr-n){font-family:var(--serif);font-weight:500;letter-spacing:-.012em}
+:root[data-tema="negro"] .tr-ph .ini{font-family:var(--serif)}
+/* el menú suma «Entrenamiento»: en pantallas medianas se compacta para que entre en una línea */
+@media(min-width:901px) and (max-width:1180px){
+  .bar{gap:28px}
+  nav.main{gap:20px}
+  nav.main a{font-size:14px}
+  .admbtn .lg,.admbtn .sm{display:none}
+  .admbtn .ic{display:grid;place-items:center}
+  .admbtn{width:40px;padding:0;justify-content:center}
+  .cartbtn .lbl{display:none}
+}
+@media(min-width:901px) and (max-width:1020px){
+  .wrap{padding:0 28px}
+  .bar{gap:22px}
+  nav.main{gap:16px}
+}
+@media(max-width:1000px){
+  .tr-steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .tr-tests{grid-template-columns:1fr}
+}
+@media(max-width:900px){
+  .tr-hero.nophoto{grid-template-columns:1fr;gap:36px}
+  .tr-cta.nophoto{grid-template-columns:1fr}
+  .tr-cta .tr-mock{display:none}
+  .tr-mock{transform:none}
+  .tr-plans{grid-template-columns:1fr;max-width:560px;gap:24px}
+  .tr-about{grid-template-columns:1fr;gap:32px}
+  .tr-ph{max-width:420px;aspect-ratio:1}
+}
+@media(max-width:700px){
+  .tr-hero{min-height:600px;padding:32px 22px}
+  .tr-cta{min-height:460px;padding:32px 22px}
+  .tr-hero.nophoto,.tr-cta.nophoto{min-height:0}
+  .tr-mock{width:100%}
+  .tr-in>p{font-size:16.5px}
+  .tr-acts .btn{flex:1 1 100%}
+  .tr-steps{grid-template-columns:1fr}
+  .tr-steps li{padding:22px 20px}
+  .tr-plan{padding:30px 22px 22px}
+  .tr-ph .ini{font-size:120px}
+  .tr-bio p:first-child{font-size:18.5px}
+}
+
+/* portada: dos botones grandes (Tienda / Asesorías) */
+.hgo{display:grid;grid-template-columns:repeat(2,minmax(0,350px));gap:16px}
+.hgo-b{display:flex;align-items:center;gap:18px;min-height:110px;padding:18px 24px 18px 18px;border-radius:20px;border:1.5px solid var(--hero-btn);background:var(--hero-btn);color:var(--hero-btn-ink);box-shadow:0 14px 34px rgba(0,0,0,.28);transition:transform .3s var(--ease),background .2s,border-color .2s,box-shadow .3s}
+.hgo-b:hover{transform:translateY(-3px);background:var(--hero-btn-hover);border-color:var(--hero-btn-hover);box-shadow:0 18px 40px rgba(0,0,0,.34)}
+.hgo-b.alt{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.6);color:#fff;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+.hgo-b.alt:hover{background:rgba(255,255,255,.2);border-color:#fff}
+.hgo-ic{flex:none;display:grid;place-items:center;width:64px;height:64px;border-radius:16px;background:rgba(0,0,0,.14)}
+.hgo-b.alt .hgo-ic{background:rgba(255,255,255,.14)}
+.hgo-ic svg{width:30px;height:30px}
+.hgo-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px;text-align:left}
+.hgo-tx b{font:600 27px/1.05 var(--font);letter-spacing:-.01em}
+.hgo-tx small{font-size:13.5px;line-height:1.35;opacity:.82}
+.hgo-ar{flex:none}
+.hgo-ar svg{width:22px;height:22px;transition:transform .3s var(--ease)}
+.hgo-b:hover .hgo-ar svg{transform:translateX(4px)}
+/* portada sin foto ni video: los botones toman los colores de la página */
+.hgo.plain .hgo-b{background:var(--accent);border-color:var(--accent);color:var(--on-accent);box-shadow:none}
+.hgo.plain .hgo-b.alt{background:var(--stone);border-color:var(--line-strong);color:var(--ink);-webkit-backdrop-filter:none;backdrop-filter:none}
+.hgo.plain .hgo-b.alt .hgo-ic{background:var(--paper);color:var(--accent)}
+:root:not([data-tema]) .hgo-tx b{font-family:var(--cond);font-weight:700;font-size:40px;line-height:.95;text-transform:uppercase;letter-spacing:.01em}
+:root[data-tema="negro"] .hgo-tx b{font-family:var(--serif);font-weight:500;font-size:34px}
+@media(max-width:700px){
+  .hgo{grid-template-columns:1fr;gap:10px}
+  .hgo-b{min-height:84px;padding:14px 18px 14px 14px;gap:14px}
+  .hgo-ic{width:52px;height:52px}
+  :root:not([data-tema]) .hgo-tx b{font-size:30px}
+}
+
+/* =====================================================================
+   Asesorías, toque premium: portada animada, "¿Qué plan es para vos?",
+   brillo en los planes y barra fija en el celular.
+   Todo el movimiento se apaga solo si la persona pidió menos movimiento.
+   ===================================================================== */
+/* rutina de ejemplo: dos ejercicios hechos, uno en curso y la barra de progreso */
+.tr-mock li span{display:flex;align-items:center;gap:10px;min-width:0}
+.tr-mock li i{flex:none;display:grid;place-items:center;width:18px;height:18px;border-radius:50%;border:1.5px solid var(--line-strong)}
+.tr-mock li i svg{width:11px;height:11px;opacity:0}
+.tr-mock li.dn i{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.tr-mock li.dn i svg{opacity:1}
+.tr-mock li.dn>span{color:var(--mist)}
+.tr-mock li.cur{color:var(--ink)}
+.tr-mock li.cur i{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 20%,transparent)}
+.tr-mock-p b{transform-origin:left center}
+/* arranca cuando la tarjeta se ve (clase go) */
+.tr-mock.tr-a:not(.go) li.dn i{background:transparent;border-color:var(--line-strong)}
+.tr-mock.tr-a:not(.go) li.dn i svg{opacity:0}
+.tr-mock.tr-a:not(.go) .tr-mock-p b{transform:scaleX(0)}
+.tr-mock.go li.dn i{animation:trTick .5s var(--ease) both;animation-delay:calc(.8s + var(--i)*.5s)}
+.tr-mock.go li.dn i svg{animation:trTickS .35s var(--ease) both;animation-delay:calc(.95s + var(--i)*.5s)}
+.tr-mock.go li.cur i{animation:trPulse 2.2s ease-out 2s infinite}
+.tr-mock.go .tr-mock-p b{animation:trGrow 1.8s var(--ease) .5s both}
+@keyframes trTick{from{background:transparent;border-color:var(--line-strong);transform:scale(.7)}60%{transform:scale(1.18)}}
+@keyframes trTickS{from{opacity:0;transform:scale(.4)}}
+@keyframes trPulse{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--accent) 55%,transparent)}100%{box-shadow:0 0 0 10px transparent}}
+@keyframes trGrow{from{transform:scaleX(0)}}
+
+/* portada: la rutina con dos tarjetas flotando y profundidad al mover el mouse */
+.tr-stage{position:relative;width:410px;padding:52px 0 112px;transform:perspective(1100px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .8s var(--ease)}
+.tr-stage .tr-mock{width:350px;margin-left:30px;transform:none}
+.tr-fl{position:absolute;z-index:1;display:flex;background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:0 24px 50px -20px rgba(0,0,0,.6),var(--shadow)}
+.tr-fl-a{top:0;right:0;width:250px;align-items:center;gap:12px;padding:12px 16px 12px 12px}
+.tr-fl-ic{flex:none;display:grid;place-items:center;width:42px;height:42px;border-radius:12px;background:var(--accent);color:var(--on-accent)}
+.tr-fl-ic svg{width:22px;height:22px}
+.tr-fl-tx b{display:block;font-size:14.5px;font-weight:600;line-height:1.3;color:var(--ink)}
+.tr-fl-tx small{display:block;margin-top:2px;font-size:12.5px;color:var(--mist)}
+.tr-fl-b{left:0;bottom:0;width:200px;flex-direction:column;gap:8px;padding:14px 16px 12px}
+.tr-fl-t{font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.tr-bars{display:flex;align-items:flex-end;gap:7px;height:44px}
+.tr-bars i{flex:1;height:calc(var(--h)*100%);border-radius:4px 4px 2px 2px;background:color-mix(in srgb,var(--accent) 30%,var(--stone));transform-origin:bottom}
+.tr-bars i:last-child{background:var(--accent)}
+.tr-fl-b small{font-size:12px;color:var(--mist)}
+.tr-stage.tr-a:not(.go) .tr-fl{opacity:0}
+.tr-stage.tr-a:not(.go) .tr-bars i{transform:scaleY(0)}
+.tr-stage.go .tr-fl-a{animation:trPop .9s var(--ease) .45s both,trFloat 6s ease-in-out 1.4s infinite}
+.tr-stage.go .tr-fl-b{animation:trPop .9s var(--ease) .75s both,trFloatB 7s ease-in-out 1.7s infinite}
+.tr-stage.go .tr-bars i{animation:trBar .8s var(--ease) both;animation-delay:calc(1.15s + var(--i)*.09s)}
+@keyframes trPop{from{opacity:0;transform:translateY(24px) scale(.92)}}
+@keyframes trFloat{0%,100%{translate:0 0}50%{translate:0 -10px}}
+@keyframes trFloatB{0%,100%{translate:0 0}50%{translate:0 8px}}
+@keyframes trBar{from{transform:scaleY(0)}}
+/* el título entra palabra por palabra */
+.tr-w{display:inline-block;animation:trWord 1s var(--ease) both;animation-delay:calc(.1s + var(--i)*.06s)}
+@keyframes trWord{from{opacity:0;transform:translateY(.4em);filter:blur(10px)}}
+
+/* ¿Qué plan es para vos? */
+.tr-find{margin-bottom:28px;padding:26px 28px;border:1px solid var(--line);border-radius:var(--r-box);
+  background:radial-gradient(60% 160% at 0% 0%,color-mix(in srgb,var(--accent) 10%,transparent),transparent 62%),var(--paper)}
+.tr-find-in{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:20px 36px;align-items:center;animation:trIn .5s var(--ease) both}
+@keyframes trIn{from{opacity:0;transform:translateY(10px)}}
+.tr-find-k{display:flex;align-items:center;gap:10px;margin-bottom:8px;font-size:12.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--accent)}
+.tr-find h3{margin:0;font:600 26px/1.12 var(--font);letter-spacing:-.01em;outline:none}
+.tr-dots{display:inline-flex;gap:5px}
+.tr-dots i{width:18px;height:4px;border-radius:2px;background:var(--line-strong)}
+.tr-dots i.on{background:var(--accent)}
+.tr-opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.tr-opt{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:16px 16px 16px 18px;border:1px solid var(--line-strong);border-radius:14px;background:var(--stone);color:var(--ink);text-align:left;transition:border-color .2s,background .2s,transform .3s var(--ease)}
+.tr-opt b{display:block;font-size:16px;font-weight:600;line-height:1.3}
+.tr-opt small{display:block;margin-top:3px;font-size:13.5px;line-height:1.4;color:var(--mist)}
+.tr-opt svg{flex:none;width:20px;height:20px;color:var(--accent);transition:transform .3s var(--ease)}
+.tr-opt:hover{border-color:var(--accent);transform:translateY(-2px)}
+.tr-opt:hover svg{transform:translateX(3px)}
+.tr-back{display:inline-block;margin-top:12px;padding:0;border:0;background:none;color:var(--mist);font-size:14px;text-decoration:underline;text-underline-offset:3px}
+.tr-back:hover{color:var(--ink)}
+.tr-find-r p{margin:8px 0 0;max-width:56ch;color:var(--ink-soft);font-size:15.5px;line-height:1.55}
+.tr-find-r p b{font-weight:600;color:var(--price);white-space:nowrap}
+.tr-find-acts{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:10px}
+:root:not([data-tema]) .tr-find h3{font-family:var(--cond);font-weight:700;font-size:34px;line-height:1;text-transform:uppercase;letter-spacing:.005em}
+:root[data-tema="negro"] .tr-find h3{font-family:var(--serif);font-weight:500}
+:root[data-tema="claro"] .tr-find{background:var(--paper)}
+
+/* planes: el recomendado con un borde de luz que gira, el elegido resaltado y un brillo que sigue al mouse */
+.tr-plan{isolation:isolate;transition:transform .4s var(--ease),border-color .3s,box-shadow .4s,opacity .4s}
+@property --tr-ang{syntax:"<angle>";inherits:false;initial-value:0deg}
+.tr-plan.on{border-color:transparent;animation:trSpin 7s linear infinite;
+  background:linear-gradient(var(--stone),var(--stone)) padding-box,conic-gradient(from var(--tr-ang),var(--accent),color-mix(in srgb,var(--accent) 22%,var(--stone)) 22% 78%,var(--accent)) border-box}
+@keyframes trSpin{to{--tr-ang:360deg}}
+.tr-plan.pick{border-color:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 16%,transparent),0 28px 56px -26px color-mix(in srgb,var(--accent) 55%,transparent)}
+.tr-plans.has-pick .tr-plan:not(.pick){opacity:.55}
+.tr-plans.has-pick .tr-plan:not(.pick):hover{opacity:1}
+.tr-pk{display:none;position:absolute;top:-12px;right:26px;padding:3px 10px;border-radius:999px;background:var(--ink);color:var(--paper);font-size:12px;font-weight:600}
+.tr-plan.pick .tr-pk{display:block}
+@media(hover:hover) and (pointer:fine){
+  .tr-plan::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .4s;
+    background:radial-gradient(360px circle at var(--mx,50%) var(--my,0px),color-mix(in srgb,var(--accent) 15%,transparent),transparent 70%)}
+  .tr-plan:hover::before{opacity:1}
+  .tr-plan:hover{transform:translateY(-4px)}
+}
+
+/* barra fija en el celular */
+.tr-stick{transform:translateY(110%);transition:transform .45s var(--ease)}
+body.trbar .tr-stick{transform:none}
+.aibtn{transition:background .2s,bottom .45s var(--ease)}
+
+/* portada de la tienda: un reflejo cruza los botones al pasar el mouse */
+.hgo-b{position:relative;overflow:hidden}
+.hgo-b::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.28) 48%,transparent 66%);transform:translateX(-110%)}
+.hgo-b:hover::after{transform:translateX(110%);transition:transform 1s var(--ease)}
+
+@media(min-width:901px) and (max-width:1180px){
+  .tr-hero.nophoto{gap:36px;padding:48px 44px}
+  .tr-stage{width:372px}
+  .tr-stage .tr-mock{width:322px;margin-left:24px}
+  .tr-fl-a{width:232px}
+  .tr-fl-b{width:186px}
+}
+@media(max-width:900px){
+  .tr-stage{width:100%;max-width:460px}
+  .tr-stage .tr-mock{width:auto;margin:0 24px}
+  .tr-find-in{grid-template-columns:1fr}
+  .tr-find-acts{justify-content:flex-start}
+}
+@media(max-width:820px){
+  body.trbar .aibtn{bottom:96px}
+  body.trbar .toast{bottom:100px}
+}
+@media(max-width:700px){
+  body.trbar .aibtn{bottom:92px}
+  .tr-stage{padding:48px 0 92px}
+  .tr-stage .tr-mock{margin:0 10px}
+  .tr-fl-a{width:226px;padding:10px 14px 10px 10px}
+  .tr-fl-ic{width:38px;height:38px}
+  .tr-fl-b{width:168px;padding:10px 12px 9px;gap:7px}
+  .tr-bars{height:34px}
+  .tr-find{padding:22px 18px}
+  .tr-opts{grid-template-columns:1fr}
+  .tr-find-acts .btn{flex:1 1 100%}
+  .tr-find h3{font-size:22px}
+  :root:not([data-tema]) .tr-find h3{font-size:28px}
+}
+
+/* días por semana dentro de cada plan: una pastilla que se desliza */
+.tr-days{margin-top:22px}
+.tr-days>span{display:block;margin-bottom:8px;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mist)}
+.tr-seg{position:relative;display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));padding:4px;border:1px solid var(--line);border-radius:999px;background:var(--paper)}
+.tr-seg::before{content:"";position:absolute;top:4px;bottom:4px;left:4px;width:calc((100% - 8px)/var(--n));border-radius:999px;background:var(--accent);transform:translateX(calc(var(--i)*100%));transition:transform .45s var(--ease)}
+.tr-seg button{position:relative;z-index:1;height:38px;padding:0;border:0;border-radius:999px;background:none;color:var(--ink-soft);font-size:15px;font-weight:600;font-variant-numeric:tabular-nums;transition:color .3s}
+.tr-seg button.on{color:var(--on-accent)}
+.tr-seg button:not(.on):hover{color:var(--ink)}
+.tr-price b{font-variant-numeric:tabular-nums}
+/* panel: precios por días */
+.dgrid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
+.dgrid label{display:flex;flex-direction:column;gap:5px;font-size:13px;color:var(--mist)}
+@media(max-width:700px){.dgrid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+/* programas por objetivo */
+.tr-prog-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px}
+.tr-prog-ic{display:grid;place-items:center;width:46px;height:46px;border-radius:13px;background:color-mix(in srgb,var(--accent) 16%,transparent);color:var(--accent)}
+.tr-prog-ic svg{width:24px;height:24px}
+.tr-prog-dur{padding:5px 12px;border:1px solid var(--line-strong);border-radius:999px;font-size:12.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
+.tr-tl{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:5px;margin-top:22px}
+.tr-tl span{display:grid;gap:7px;font-size:12px;color:var(--mist);white-space:nowrap}
+.tr-tl i{height:5px;border-radius:3px;background:color-mix(in srgb,var(--accent) var(--k),var(--line-strong));transform-origin:left center}
+.tr-tl.many span:not(:first-child):not(:last-child){font-size:0}
+.tr-tl.tr-a:not(.go) i{transform:scaleX(0)}
+.tr-tl.go i{animation:trGrow .6s var(--ease) both;animation-delay:calc(.25s + var(--j)*.2s)}
+.tr-price .tr-eq{flex-basis:100%;margin-top:6px;font-size:14.5px;line-height:1.4;color:var(--mist)}
+@media(min-width:901px){
+  .tr-progs:has(>:nth-child(4)),.tr-progs:not(:has(>:nth-child(3))){grid-template-columns:repeat(2,minmax(0,1fr))}
+  .tr-progs:not(:has(>:nth-child(2))){grid-template-columns:minmax(0,1fr);max-width:560px}
+}
+.tr-prog-acts{display:grid;justify-items:center;gap:14px}
+.tr-prog-acts .tr-back{margin:0}
+.tr-disc{margin:22px 0 0;max-width:72ch;font-size:14.5px;line-height:1.6;color:var(--mist)}
+/* panel: programas */
+.pgb{margin:10px 0 0;padding:14px 18px 18px;border:1px solid var(--line);border-radius:var(--r-box);min-width:0}
+.pgb legend{padding:0 6px;font-size:13.5px;font-weight:600;color:var(--ink)}
+.pgrid{display:grid;grid-template-columns:2fr 1fr 1fr 1.6fr;gap:12px 14px}
+.pgrid .w2{grid-column:span 2}
+.pgrid textarea{min-height:0}
+@media(max-width:900px){.pgrid{grid-template-columns:1fr 1fr}.pgrid .w2{grid-column:1/-1}}
+@media(max-width:560px){.pgrid{grid-template-columns:1fr}}
+
+/* ficha para arrancar */
+.tr-ficha{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.3fr);gap:28px 56px;align-items:start;padding:44px;border:1px solid var(--line);border-radius:var(--r-box);background:var(--stone)}
+.tr-ficha .tr-kick{color:var(--accent)}
+.tr-fi-intro{position:sticky;top:110px}
+.tr-fi-intro h2{font:400 clamp(26px,3vw,36px)/1.1 var(--font);letter-spacing:-.02em;margin:0 0 12px}
+:root:not([data-tema]) .tr-fi-intro h2{font-family:var(--cond);font-weight:700;font-size:clamp(38px,4.6vw,62px);line-height:.92;text-transform:uppercase;letter-spacing:.005em}
+:root[data-tema="negro"] .tr-fi-intro h2{font-family:var(--serif);font-weight:500;letter-spacing:-.012em}
+.tr-fi-intro p{margin:0;max-width:44ch;color:var(--ink-soft);font-size:16.5px;line-height:1.55}
+.tr-fi-pts{display:grid;gap:10px;margin:22px 0 0;padding:0;list-style:none}
+.tr-fi-pts li{display:flex;align-items:center;gap:10px;font-size:15px;color:var(--ink)}
+.tr-fi-pts svg{flex:none;width:18px;height:18px;color:var(--accent)}
+.tr-fi-intro .tr-back{margin-top:24px}
+.tr-fi{min-width:0;min-height:430px;padding:26px 28px 28px;border:1px solid var(--line);border-radius:var(--r-box);
+  background:radial-gradient(70% 120% at 100% 0%,color-mix(in srgb,var(--accent) 9%,transparent),transparent 60%),var(--paper)}
+:root[data-tema="claro"] .tr-fi{background:var(--paper)}
+.tr-fi-st.in{animation:trIn .45s var(--ease) both}
+.tr-fi-top{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.tr-fi-top .tr-find-k{margin:0;white-space:nowrap}
+.tr-fi .tr-find-k svg{width:16px;height:16px}
+.tr-fi-bar{flex:1;height:4px;border-radius:2px;background:var(--line-strong);overflow:hidden}
+.tr-fi-bar i{display:block;height:100%;border-radius:2px;background:var(--accent);transform-origin:left center;transform:scaleX(var(--p));animation:trFiBar .6s var(--ease) both}
+@keyframes trFiBar{from{transform:scaleX(var(--p0))}}
+.tr-fi-top .tr-back{margin:0}
+.tr-fi h3{margin:0 0 20px;font:600 26px/1.12 var(--font);letter-spacing:-.01em;outline:none}
+:root:not([data-tema]) .tr-fi h3{font-family:var(--cond);font-weight:700;font-size:32px;line-height:1;text-transform:uppercase;letter-spacing:.005em}
+:root[data-tema="negro"] .tr-fi h3{font-family:var(--serif);font-weight:500}
+.tr-fi-goals{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.tr-fi-g{display:flex;align-items:center;gap:12px;min-height:64px;padding:12px 14px;border:1px solid var(--line-strong);border-radius:14px;background:var(--stone);color:var(--ink);font-size:14.5px;font-weight:600;line-height:1.25;text-align:left;transition:border-color .2s,background .2s,transform .3s var(--ease)}
+.tr-fi-g:hover{border-color:var(--accent);transform:translateY(-2px)}
+.tr-fi-ic{display:grid;place-items:center;flex:none;width:36px;height:36px;border-radius:10px;background:color-mix(in srgb,var(--accent) 14%,transparent);color:var(--accent)}
+.tr-fi-ic svg{width:20px;height:20px}
+.tr-fi-g.on,.tr-fi .tr-opt.on{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,var(--stone))}
+.tr-fi-gl{margin:18px 0 8px;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mist)}
+.tr-fi-gl:first-of-type{margin-top:0}
+.tr-fi-ns{margin-top:10px}
+.tr-fi-q{margin-bottom:22px}
+.tr-fi-l{display:block;margin-bottom:10px;font-size:15px;font-weight:600;color:var(--ink)}
+.tr-fi .tr-seg{max-width:360px}
+.tr-fi-pr{margin:10px 0 0;font-size:14.5px;color:var(--mist)}
+.tr-fi-pr b{font-weight:600;color:var(--price);white-space:nowrap}
+.tr-fi-fix{margin:0;font-size:15px;color:var(--ink-soft)}
+.tr-fi .cn{font-size:14px}
+.tr-fi .cn input,.tr-fi .cn textarea{width:100%;min-width:0;color:var(--ink)}
+.tr-fi .cn textarea{min-height:84px}
+.tr-fi-lt{margin-top:14px}
+.tr-fi-row{display:grid;grid-template-columns:minmax(0,1fr) 110px;gap:12px;margin-bottom:14px}
+.tr-fi-nt{margin-bottom:18px}
+.tr-fi-err{margin:0 0 14px;color:var(--danger);font-size:14px;font-weight:500}
+.tr-fi-nav{display:flex;flex-wrap:wrap;gap:10px}
+.tr-fi-sum{display:grid;margin:0 0 22px}
+.tr-fi-sum>div{display:grid;grid-template-columns:150px minmax(0,1fr) auto;gap:4px 16px;align-items:baseline;padding:11px 0;border-bottom:1px solid var(--line)}
+.tr-fi-sum>div:first-child{border-top:1px solid var(--line)}
+.tr-fi-sum dt{font-size:13.5px;color:var(--mist)}
+.tr-fi-sum dd{margin:0;font-size:15px;line-height:1.45;color:var(--ink);overflow-wrap:anywhere}
+.tr-fi-sum .tr-back{margin:0;font-size:13.5px}
+.tr-fi-ok{margin:14px 0 0;font-size:14.5px;color:var(--ink-soft)}
+@media(max-width:900px){
+  .tr-ficha{grid-template-columns:1fr;gap:26px;padding:32px 26px}
+  .tr-fi-intro{position:static}
+  .tr-fi{min-height:0}
+}
+@media(max-width:700px){
+  .tr-ficha{padding:0;border:0;background:none}
+  .tr-fi{padding:20px 16px 22px}
+  .tr-fi-goals{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .tr-fi-g{flex-direction:column;align-items:flex-start;gap:10px;min-height:0;padding:12px}
+  .tr-fi-ic{width:32px;height:32px}
+  .tr-fi h3{font-size:22px;margin-bottom:16px}
+  :root:not([data-tema]) .tr-fi h3{font-size:27px}
+  .tr-fi-row{grid-template-columns:minmax(0,1fr) 88px}
+  .tr-fi-sum>div{grid-template-columns:minmax(0,1fr) auto;gap:2px 12px}
+  .tr-fi-sum dt,.tr-fi-sum dd{grid-column:1}
+  .tr-fi-sum .tr-back{grid-column:2;grid-row:1/3;align-self:center}
+  .tr-fi-nav .btn{flex:1 1 100%}
+}
 </style>
 </head>
 <body>
@@ -1202,7 +1632,23 @@ const CONFIG = {
     quiz_activo:"SI", stack_desc_base:"0", stack_desc_pro:"5", stack_desc_elite:"10",
     asistente_activo:"SI",
     asistente_nombre:"Asistente nutrigoww",
-    asistente_bienvenida:"Contame tu objetivo o tu consulta y te recomiendo qué productos del catálogo te sirven."
+    asistente_bienvenida:"Contame tu objetivo o tu consulta y te recomiendo qué productos del catálogo te sirven.",
+    // entrenamiento personalizado (#/entrenamiento). Los planes de fábrica están en ENTRENA_DEF
+    entrena_activo:"SI",
+    entrena_nombre:"Asesorías", // nombre de la sección en el menú y en el botón grande de la portada
+    entrena_titulo:"Entrená con un plan hecho para vos.",
+    entrena_texto:"Rutinas a medida de tu objetivo, tu nivel y los días que tenés. Con seguimiento real y la suplementación justa, todo en un mismo lugar.",
+    entrena_foto:"",          // link de Drive (o cualquier link de imagen). Vacío = foto de la portada
+    entrena_planes:"",        // JSON con los planes; vacío = los de fábrica
+    entrena_precios_online:"",      // precios por días: 2=35000|3=40000|… (se editan en el panel, pestaña Asesorías)
+    entrena_precios_seguimiento:"", // vacío = los de fábrica
+    entrena_precios_presencial:"",
+    entrena_prog_activo:"SI",       // programas por objetivo: duración y precio cerrados
+    entrena_programas:"",           // JSON con los programas; vacío = los de fábrica (se editan en el panel)
+    entrena_ficha_activo:"SI",      // ficha para arrancar: 4 pasos que llegan completos por WhatsApp (no guarda datos)
+    entrena_bio:"",           // párrafos de «Sobre mí» separados por |; vacío = los de fábrica
+    entrena_testimonios:"",   // JSON [{texto,nombre,detalle}]; vacío = no se muestra la sección
+    entrena_desc_suple:"10"   // % de descuento en suplementos para alumnos (vacío o 0 = no se muestra)
   }
 };
 
@@ -1454,7 +1900,7 @@ function renderFooter(){
   $("#sitefoot").innerHTML=`<div class="wrap fcols">
     <div><div class="flogo">${esc(S.nombre)}</div>${S.pie?`<p>${esc(S.pie)}</p>`:""}${fpay}</div>
     <div><h4>Tienda</h4><a href="#/marcas">Marcas</a><a href="#/tienda">Toda la tienda</a>${cats}</div>
-    ${pages?`<div><h4>Información</h4>${pages}</div>`:""}
+    ${entrenaOn()||pages?`<div><h4>Información</h4>${entrenaOn()?`<a href="#/entrenamiento">${esc(trName())}</a>`:""}${pages}</div>`:""}
     ${any?`<div><h4>Contacto</h4>${wa}${ig}${em}${dir}${hor}</div>`:""}
   </div><div class="wrap"><div class="fbot">© ${yr} ${esc(S.nombre)}. Todos los derechos reservados.</div></div>`;
   $("#mf").innerHTML=wa+ig+em;
@@ -1538,7 +1984,7 @@ function renderNav(){
   const items=[
     ["#/marcas","Marcas",h.startsWith("#/marcas")||h.startsWith("#/m/")],
     ["#/tienda","Tienda",h.startsWith("#/tienda")||h.startsWith("#/c/")]
-  ].concat(quizOn()?[["#/armar","Armá tu stack",h.startsWith("#/armar")]]:[]).concat([["#/guia","Guía",h.startsWith("#/guia")]]).concat(DATA.paginas.filter(p=>p.menu&&!p.padre).map(p=>["#/pagina/"+p.id,p.titulo,h==="#/pagina/"+p.id||DATA.paginas.some(k=>k.padre===p.id&&h==="#/pagina/"+k.id)]));
+  ].concat(entrenaOn()?[["#/entrenamiento",trName(),h.startsWith("#/entrenamiento")]]:[]).concat(quizOn()?[["#/armar","Armá tu stack",h.startsWith("#/armar")]]:[]).concat([["#/guia","Guía",h.startsWith("#/guia")]]).concat(DATA.paginas.filter(p=>p.menu&&!p.padre).map(p=>["#/pagina/"+p.id,p.titulo,h==="#/pagina/"+p.id||DATA.paginas.some(k=>k.padre===p.id&&h==="#/pagina/"+k.id)]));
   const html=items.map(([href,t,on])=>`<a href="${href}" class="${on?"on":""}">${esc(t)}</a>`).join("");
   $("#nav").innerHTML=html; $("#mnav").innerHTML=html;
 }
@@ -1603,10 +2049,10 @@ function bannerHTML(){
     <div class="wrap in">
       <h1>${accentTitle(S.banner_titulo)}</h1>
       ${S.banner_texto?`<p>${esc(S.banner_texto)}</p>`:""}
-      <div class="acts">
+      ${entrenaOn()?heroChoices(hasImg):`<div class="acts">
         <a class="${b1}" href="${esc(link)}" ${ext?'target="_blank" rel="noopener"':""}>${esc(S.banner_boton||"Ver marcas")}</a>
         <a class="${b2}" href="#/tienda">Ver la tienda</a>
-      </div>
+      </div>`}
     </div>
     ${vid?`<button class="vpp" id="heroPP" type="button" aria-label="Pausar video"><span class="i-pause" aria-hidden="true"></span></button>`:""}
     ${hasImg?`<button class="scue" id="heroCue" type="button" aria-label="Bajar al contenido"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>`:""}
@@ -1655,6 +2101,7 @@ function viewHome(){
     html=sec("Estamos preparando la tienda","",`<p class="prep">Muy pronto vas a encontrar acá los productos.${S.whatsapp?" Mientras tanto, podés escribirnos por WhatsApp.":""}</p>${S.whatsapp?`<a class="btn" href="https://wa.me/${S.whatsapp}" target="_blank" rel="noopener">Escribir por WhatsApp</a>`:""}`);
   } else {
     html=reorderCard()+stackCTA()+sec("Destacados",`<a href="#/tienda">Ver todo</a>`,show.length?`<div class="grid">${show.map(card).join("")}</div>`:`<div class="empty">Todavía no hay productos cargados.</div>`)
+      +trainerCTA()
       +(topCats().length?sec("Categorías","",`<div class="catlist">${topCats().map(c=>{const sb=subCats(c.id);return `<a href="#/c/${c.id}"><strong>${esc(c.nombre)}</strong><small>${sb.length?sb.map(x=>esc(x.nombre)).join(", "):(esc(c.descripcion)||"")}</small></a>`}).join("")}</div>`):"")
       +(DATA.marcas.length?sec("Marcas",`<a href="#/marcas">Ver todas</a>`,`<div class="brands home">${DATA.marcas.map(brandTile).join("")}</div>`):"");
   }
@@ -2005,6 +2452,7 @@ function quizResult(){
     <aside class="qsum"><div class="tot"><span>Subtotal</span><span>${money(sub)}</span></div>${pct?`<div class="tot qdisc"><span>Descuento stack ${esc(t.l)} (${pct}%)</span><span>−${money(disc)}</span></div>`:""}<div class="tot qtotal"><span>Total</span><span>${money(sub-disc)}</span></div>${tPct()?`<p class="ttot">Con transferencia: <b>${money(tPrice(sub-disc))}</b></p>`:""}
       <button type="button" class="btn" data-q="addstack">Agregar el stack al carrito</button>
       <p class="qnote">${pct?"El descuento se aplica en el carrito mientras tengas el stack completo.":t.n>items.length?"Con los productos que hay hoy, este nivel no está completo, así que no lleva descuento.":"Este nivel no lleva descuento."}</p></aside></div>
+    ${entrenaOn()?`<div class="gcta"><p>¿Querés también la rutina para este objetivo?</p><a class="btn out" href="#/entrenamiento">Ver planes de entrenamiento</a></div>`:""}
     ${EDU_NOTE}</div>`;
 }
 function quizMount(){
@@ -2060,6 +2508,554 @@ function guideMount(){
   const ch=$("#gchips"); if(!ch) return;
   ch.addEventListener("click",e=>{ const b=e.target.closest("[data-g]"); if(!b) return; ch.querySelectorAll(".chip").forEach(c=>c.classList.toggle("on",c===b)); const g=allGoals().find(x=>x.id===b.dataset.g), set=g?new Set([...g.t,g.alt].flatMap(x=>[x,...(EQUIV[x]||[])])):null; document.querySelectorAll(".gitem").forEach(i=>{ i.hidden=!!set&&!set.has(i.dataset.tipo); }); });
 }
+/* =====================================================================
+   ENTRENAMIENTO PERSONALIZADO  (#/entrenamiento)
+   La página del personal trainer: cómo funciona, planes, objetivo con los
+   suplementos de la tienda que lo acompañan, sobre mí y preguntas frecuentes.
+   - Los textos y los planes de fábrica están en ENTRENA_DEF (precios de ejemplo).
+   - Se pueden pisar desde la pestaña Config con las claves entrena_*:
+     entrena_planes y entrena_testimonios en formato JSON (igual que objetivos),
+     entrena_bio con los párrafos separados por |.
+   - Precios según los días por semana: entrena_precios_online, _seguimiento y
+     _presencial con el formato 2=35000|3=40000 (pestaña Asesorías del panel).
+   - Programas por objetivo (duración y precio cerrados): entrena_programas,
+     también desde la pestaña Asesorías. Sin promesas de resultados.
+   - Ficha para arrancar: entrena_ficha_activo (SI/NO). Arma un mensaje de
+     WhatsApp con las respuestas; no guarda nada. Necesita el WhatsApp cargado.
+   ===================================================================== */
+const ENTRENA_DEF={
+  planes:[
+    {id:"online",nombre:"Online",periodo:"mes",dias:{2:35000,3:40000,4:45000,5:50000},sub:"Tu rutina a medida, para entrenar por tu cuenta donde quieras.",
+     incluye:["Evaluación inicial: objetivo, nivel, lesiones y días disponibles","Rutina personalizada en tu celular, con video de cada ejercicio","Rutina nueva cada 4 semanas","Consultas por WhatsApp"]},
+    {id:"seguimiento",nombre:"Online + seguimiento",periodo:"mes",dias:{2:50000,3:55000,4:60000,5:65000},destacado:true,sub:"Para no aflojar: revisamos tu progreso todas las semanas.",
+     incluye:["Todo lo del plan Online","Control semanal de cargas, medidas y fotos","Ajustes de la rutina todas las semanas","Corrección de técnica por video","Guía de alimentación y suplementación"]},
+    {id:"presencial",nombre:"Presencial",periodo:"mes",dias:{2:80000,3:110000,4:140000,5:165000},sub:"Entrenamos juntos, uno a uno, los días que elijas.",
+     incluye:["{clases} clases por mes, uno a uno","Todo lo del plan Online + seguimiento","Rutina para los días que entrenás por tu cuenta","Horarios a coordinar"]}
+  ],
+  // programas por objetivo: precio por todo el programa (ejemplos). Sin prometer kilos: la meta se define en la evaluación.
+  programas:[
+    {nombre:"Bajar de peso",meses:3,precio:150000,objetivo:"perder-grasa",
+     texto:"Para bajar grasa de forma sostenible, con entrenamiento, hábitos y alimentación. Sin dietas extremas.",
+     incluye:["Evaluación inicial y meta personalizada","Rutina a medida que se ajusta cada semana","Guía de alimentación y hábitos","Control semanal de peso, medidas y fotos"]},
+    {nombre:"Ganar masa muscular",meses:4,precio:190000,objetivo:"ganar-masa-muscular",
+     texto:"Fuerza e hipertrofia con una progresión de cargas planificada semana a semana.",
+     incluye:["Evaluación inicial y meta personalizada","Plan de fuerza con progresión de cargas","Guía de alimentación para ganar masa","Control de cargas y medidas cada semana"]},
+    {nombre:"Empezar de cero",meses:2,precio:80000,objetivo:"salud-general",
+     texto:"Para arrancar o volver después de un parate: técnica, hábito y confianza, sin lesionarte.",
+     incluye:["Evaluación inicial y meta personalizada","Aprendés la técnica de cada ejercicio","Rutina progresiva de 2 o 3 días por semana","Consultas por WhatsApp"]}
+  ],
+  faqProg:["¿Qué diferencia hay entre un plan y un programa?","El plan es por mes: lo renovás, lo cambiás o lo dejás cuando quieras. El programa va por una meta concreta, con una duración y un precio cerrados de principio a fin."],
+  pasos:[
+    ["Elegís tu plan","Elegís un plan por mes (con los días que quieras) o un programa por objetivo, me escribís por WhatsApp y coordinamos el inicio."],
+    ["Evaluación inicial","Me contás tu objetivo, tu experiencia, tus horarios, dónde entrenás y si tenés alguna lesión."],
+    ["Recibís tu rutina","Armo tu plan a medida y te llega al celular, con cada ejercicio explicado."],
+    ["Seguimiento y ajustes","Vemos cómo avanzás y ajustamos la rutina para que sigas progresando."]
+  ],
+  bio:[
+    "Como personal trainer, armo cada plan a medida: nada de rutinas copiadas ni genéricas.",
+    "Empezamos por conocerte: tu objetivo, tu experiencia, tus horarios y cualquier lesión o molestia. Con eso armo tu rutina y la vamos ajustando según cómo responde tu cuerpo.",
+    "Y como también tenemos la tienda, te oriento con la suplementación justa para tu objetivo, sin venderte de más."
+  ],
+  faq:[
+    ["¿Necesito experiencia previa?","No. El plan se arma según tu nivel, tanto si empezás de cero como si ya entrenás hace años."],
+    ["¿Puedo entrenar en casa o en mi gimnasio?","Sí. Me contás con qué equipamiento contás y la rutina se adapta: gimnasio, casa o al aire libre."],
+    ["¿Qué pasa si tengo una lesión o una molestia?","Contámelo en la evaluación inicial. Adaptamos los ejercicios y, si hace falta, te pido el visto bueno de tu médico o kinesiólogo."],
+    ["¿Cómo pago?",""],   // vacío: se completa con los medios de pago de la tienda
+    ["¿Puedo cambiar de plan o de días?","Sí. Los planes son por mes y sin permanencia: podés cambiar de plan o de cantidad de días, pausar o dejar al terminar cada mes."]
+  ]
+};
+const entrenaOn=()=>!no(S.entrena_activo);
+const entrenaProgOn=()=>!no(S.entrena_prog_activo);
+const entrenaFichaOn=()=>!no(S.entrena_ficha_activo)&&!!S.whatsapp;
+const trName=()=>String(S.entrena_nombre||"").trim()||"Asesorías";
+function jsonArr(v,def){ try{ const j=v?JSON.parse(v):null; if(Array.isArray(j)&&j.length) return j; }catch(e){} return def; }
+// precios por días: "2=35000|3=40000", {2:35000} o [{dias:2,precio:35000}] → [{d:2,precio:35000},…]
+function trDias(v){
+  let pairs=[];
+  if(Array.isArray(v)) pairs=v.map(x=>Array.isArray(x)?x:[x&&x.dias,x&&x.precio]);
+  else if(v&&typeof v==="object") pairs=Object.entries(v);
+  else if(v) pairs=String(v).split(/[|;\n]+|,(?=\s*\d+\s*(?:d[ií]as?)?\s*[=:])/i).map(x=>x.split(/[=:]/));
+  const out=[];
+  pairs.forEach(([d,p])=>{ d=parseInt(String(d==null?"":d).replace(/\D/g,""),10); p=num(p); if(d>=1&&d<=7&&p>0&&!out.some(o=>o.d===d)) out.push({d,precio:p}); });
+  return out.sort((a,b)=>a.d-b.d);
+}
+function trPlans(){
+  return jsonArr(S.entrena_planes,ENTRENA_DEF.planes).filter(p=>p&&typeof p==="object").map((p,i)=>{
+    const nombre=String(p.nombre||"").trim(), id=slug(p.id||nombre)||("plan"+i);
+    const own=trDias(S["entrena_precios_"+id.replace(/-/g,"_")]), opts=own.length?own:trDias(p.dias);
+    // los días elegidos, o los más cercanos que ofrezca este plan
+    const o=opts.length?opts.reduce((a,b)=>Math.abs(b.d-TR.dias)<Math.abs(a.d-TR.dias)?b:a):null, precio=o?o.precio:num(p.precio);
+    return {id,nombre,precio,opts,d:o?o.d:0,desde:opts.length?Math.min(...opts.map(x=>x.precio)):precio,
+      periodo:String(p.periodo||"mes").trim(),sub:String(p.sub||"").trim(),destacado:p.destacado===true||yes(p.destacado),
+      incluye:(Array.isArray(p.incluye)?p.incluye:list(p.incluye,"|")).map(x=>String(x).trim()).filter(Boolean)};
+  }).filter(p=>p.nombre);
+}
+const trDiasTxt=d=>`${d} ${d===1?"día":"días"} por semana`;
+const trClases=(x,p)=>x.replace(/\{clases\}/g,p.d?String(p.d*4):"");
+const trTests=()=>jsonArr(S.entrena_testimonios,[]).filter(t=>t&&String(t.texto||"").trim()).slice(0,6);
+const TR={goal:"",fq:"",pick:"",dias:3};
+const trGoals=()=>quizGoals().length?quizGoals():allGoals();
+const trGoal=()=>trGoals().find(g=>g.id===TR.goal)||null;
+const trFoto=()=>String(S.entrena_foto||"").trim();   // tu foto: sin foto, la portada usa un diseño con la rutina de ejemplo
+// link de WhatsApp con el plan elegido y el objetivo (si lo eligió)
+function trWa(plan){
+  if(!S.whatsapp) return "";
+  const g=trGoal();
+  let msg=plan?`Hola ${S.nombre}! Quiero empezar el plan ${plan.nombre}${plan.d?`, ${trDiasTxt(plan.d)}`:""}${plan.precio?` (${money(plan.precio)} por ${plan.periodo})`:""}.`:`Hola ${S.nombre}! Quiero consultar por el entrenamiento personalizado.`;
+  if(g) msg+=` Mi objetivo: ${g.l.toLowerCase()}.`;
+  return `https://wa.me/${S.whatsapp}?text=${encodeURIComponent(msg)}`;
+}
+const TR_CHECK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+
+// las animaciones de la rutina de ejemplo arrancan cuando se ve (y nunca si la persona pidió menos movimiento)
+const TR_ANIM=MOTION&&"IntersectionObserver" in window;
+// tarjeta decorativa: cómo se ve una rutina en el celular (dos ejercicios hechos y uno en curso)
+function trMock(){
+  const rows=[["Sentadilla","4 × 8"],["Press de banca","4 × 8"],["Remo con barra","3 × 10"],["Peso muerto rumano","3 × 10"],["Plancha","3 × 40 s"]];
+  return `<div class="tr-mock${TR_ANIM?" tr-a":""}" aria-hidden="true"><div class="tr-mock-h"><span>Tu rutina</span><b>Semana 3 · Día A</b></div>
+    <ul>${rows.map(([e,r],i)=>`<li${i<2?' class="dn"':i===2?' class="cur"':""} style="--i:${i}"><span><i>${TR_CHECK}</i>${e}</span><em>${r}</em></li>`).join("")}</ul>
+    <div class="tr-mock-p"><span>Progreso del bloque</span><i><b></b></i></div>
+    <p class="tr-mock-n">${TR_CHECK}Ajustada según tu último control</p></div>`;
+}
+// portada de la página: la rutina con dos tarjetas flotando (control semanal y progreso de cargas)
+function trStage(){
+  const cal='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4M9.5 15l1.8 1.8 3.4-3.6"/></svg>';
+  return `<div class="tr-stage${TR_ANIM?" tr-a":""}" aria-hidden="true">${trMock()}
+    <div class="tr-fl tr-fl-a"><span class="tr-fl-ic">${cal}</span><span class="tr-fl-tx"><b>Control semanal</b><small>Cargas, medidas y fotos</small></span></div>
+    <div class="tr-fl tr-fl-b"><span class="tr-fl-t">Carga en sentadilla</span><span class="tr-bars">${[.4,.52,.6,.74,.92].map((h,i)=>`<i style="--h:${h};--i:${i}"></i>`).join("")}</span><small>Semana 1 a 5</small></div>
+  </div>`;
+}
+// el título aparece palabra por palabra
+const trWords=t=>MOTION?String(t||"").trim().split(/\s+/).map((w,i)=>`<span class="tr-w" style="--i:${i}">${esc(w)}</span>`).join(" "):esc(t);
+const TRP={io:null,bar:null};
+function trPlay(){
+  if(!TR_ANIM) return;
+  if(!TRP.io) TRP.io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("go"); TRP.io.unobserve(e.target); } }),{threshold:.3});
+  TRP.io.disconnect();
+  document.querySelectorAll(".tr-a:not(.go)").forEach(x=>TRP.io.observe(x));
+}
+
+/* ---------- portada: dos botones grandes, Tienda y Asesorías ---------- */
+function heroChoices(onImg){
+  const ar='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+  const ic=p=>`<span class="hgo-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${p}</svg></span>`;
+  const bag='<path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8V6.5a3 3 0 016 0V8"/>';
+  return `<div class="hgo${onImg?"":" plain"}">
+    <a class="hgo-b" href="#/tienda">${ic(bag)}<span class="hgo-tx"><b>Tienda</b><small>Suplementos de las mejores marcas</small></span><span class="hgo-ar">${ar}</span></a>
+    <a class="hgo-b alt" href="#/entrenamiento">${ic(ICONS.pesa[1])}<span class="hgo-tx"><b>${esc(trName())}</b><small>Entrenamiento personalizado</small></span><span class="hgo-ar">${ar}</span></a>
+  </div>`;
+}
+
+/* ---------- inicio: acceso a entrenamiento ---------- */
+function trainerCTA(){
+  if(!entrenaOn()) return "";
+  const f=trFoto(), low=trPlans().filter(p=>p.desde).sort((a,b)=>a.desde-b.desde)[0];
+  return `<section class="blk"><a class="tr-cta${f?"":" nophoto"}" href="#/entrenamiento">${f?`<img class="tr-bg" src="${esc(img(f,1600))}" alt="" loading="lazy" referrerpolicy="no-referrer">`:""}
+    <div class="tr-in"><span class="tr-kick">Entrenamiento personalizado</span><h2>Entrená con un plan a medida</h2><p>Online o presencial, con seguimiento y la suplementación justa para tu objetivo.${low?` Planes desde ${money(low.desde)} por ${esc(low.periodo)}${entrenaProgOn()&&trProgs(S.entrena_programas).length?" y programas por objetivo":""}.`:""}</p><span class="btn${f?" light":""}">Ver planes</span></div>${f?"":trMock()}</a></section>`;
+}
+
+/* ---------- suplementos que acompañan el objetivo elegido ---------- */
+function trRec(){
+  const g=trGoal();
+  if(!g) return `<p class="tr-empty">Elegí un objetivo y te mostramos los suplementos que mejor lo acompañan.</p>`;
+  const items=buildStack(g.id,"elite");
+  if(!items.length) return `<p class="tr-empty">Por ahora no hay productos para este objetivo. Escribinos y te asesoramos.</p>`;
+  const mp=maxPct();
+  return `<div class="grid">${items.map(card).join("")}</div>${quizOn()?`<div class="gcta"><p>¿Querés el combo completo${mp?` con hasta ${mp}% de descuento`:""}?</p><a class="btn" href="#/armar" data-trstack>Armar mi stack</a></div>`:""}`;
+}
+
+/* ---------- "¿Qué plan es para vos?": dos preguntas y marca el plan que le conviene ---------- */
+const TR_AR='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+// necesita un plan presencial y dos online (el más barato y el de seguimiento); si los planes cambian y no hay, no aparece
+function trFindMap(plans){
+  const k=p=>p.id+" "+slug(p.nombre);
+  const pres=plans.find(p=>/presencial/.test(k(p)));
+  const rest=plans.filter(p=>p!==pres&&p.desde).sort((a,b)=>a.desde-b.desde);
+  const segui=rest.find(p=>/seguimiento/.test(k(p)))||rest[rest.length-1], solo=rest.find(p=>p!==segui);
+  return pres&&solo&&segui?{pres,solo,segui}:null;
+}
+function trFind(){
+  const m=trFindMap(trPlans()); if(!m) return "";
+  const opt=(v,t,s)=>`<button type="button" class="tr-opt" data-tf="${v}"><span><b>${t}</b><small>${s}</small></span>${TR_AR}</button>`;
+  const dots=n=>`<span class="tr-dots" aria-hidden="true"><i class="on"></i><i${n>1?' class="on"':""}></i></span>`;
+  const p=[m.pres,m.solo,m.segui].find(x=>x.id===TR.pick);
+  if(p) return `<div class="tr-find-in tr-find-r"><div><span class="tr-find-k">Tu plan ideal</span><h3 tabindex="-1">${esc(p.nombre)}</h3>
+      <p>${p.sub?esc(p.sub)+" ":""}${p.precio?`<b data-tfp>${trFindPrice(p)}</b>`:""}</p><button type="button" class="tr-back" data-tf="reset">Volver a empezar</button></div>
+    <div class="tr-find-acts">${S.whatsapp?`<a class="btn" data-tw="${esc(p.id)}" href="${esc(trWa(p))}" target="_blank" rel="noopener">Quiero este plan</a>`:""}<button type="button" class="btn out" data-tr="trp-${esc(p.id)}">Ver qué incluye</button></div></div>`;
+  if(TR.fq==="cuenta") return `<div class="tr-find-in"><div><span class="tr-find-k">${dots(2)}Pregunta 2 de 2</span><h3 tabindex="-1">¿Cuánto acompañamiento querés?</h3><button type="button" class="tr-back" data-tf="reset">Volver</button></div>
+    <div class="tr-opts">${opt("solo","Solo la rutina","A medida, para seguirla a tu ritmo")}${opt("segui","Que me sigas de cerca","Controles y ajustes todas las semanas")}</div></div>`;
+  return `<div class="tr-find-in"><div><span class="tr-find-k">${dots(1)}¿No sabés cuál elegir?</span><h3 tabindex="-1">¿Dónde querés entrenar?</h3></div>
+    <div class="tr-opts">${opt("pres","Conmigo, en persona","Entrenamos juntos, uno a uno")}${opt("cuenta","Por mi cuenta","En el gimnasio, en casa o al aire libre")}</div></div>`;
+}
+// barra fija abajo en el celular: aparece al pasar la portada y se va al llegar al final
+function trBar(plans){
+  if(!S.whatsapp&&!plans.length) return "";
+  const low=plans.filter(p=>p.desde).sort((a,b)=>a.desde-b.desde)[0];
+  return `<div class="stick tr-stick"><div><small>${low?`Planes por ${esc(low.periodo)}`:esc(trName())}</small><b>${low?`Desde ${money(low.desde)}`:"Entrenamiento personalizado"}</b></div>${S.whatsapp?`<a class="btn" data-tw="" href="${esc(trWa())}" target="_blank" rel="noopener">Quiero empezar</a>`:`<button type="button" class="btn" data-tr="trPlanes">Ver planes</button>`}</div>`;
+}
+
+/* ---------- días por semana: el mismo número en todas las tarjetas ---------- */
+const trFindPrice=p=>`${p.d?trDiasTxt(p.d)+" · ":""}${money(p.precio)} por ${esc(p.periodo)}`;
+function trSeg(p){
+  if(p.opts.length<2) return "";
+  return `<div class="tr-days"><span id="trd-${esc(p.id)}">Días por semana</span><div class="tr-seg" role="group" aria-labelledby="trd-${esc(p.id)}" style="--n:${p.opts.length};--i:${Math.max(0,p.opts.findIndex(o=>o.d===p.d))}">${p.opts.map(o=>`<button type="button" data-td="${o.d}" aria-label="${o.d} ${o.d===1?"día":"días"}" aria-pressed="${o.d===p.d}"${o.d===p.d?' class="on"':""}>${o.d}</button>`).join("")}</div></div>`;
+}
+// el precio cuenta hasta el nuevo valor
+function trCount(el,to){
+  const from=+el.dataset.v||to; el.dataset.v=to; cancelAnimationFrame(el._raf);
+  if(!MOTION||from===to){ el.textContent=money(to); return; }
+  const t0=performance.now();
+  const step=t=>{ const k=Math.min(1,(t-t0)/450), e=1-Math.pow(1-k,3); el.textContent=money(k<1?Math.round((from+(to-from)*e)/100)*100:to); if(k<1) el._raf=requestAnimationFrame(step); };
+  el._raf=requestAnimationFrame(step);
+}
+function trSyncDias(root){
+  const plans=trPlans();
+  root.querySelectorAll(".tr-plan[data-plan]").forEach(c=>{
+    const p=plans.find(x=>x.id===c.dataset.plan); if(!p) return;
+    const seg=c.querySelector(".tr-seg");
+    if(seg){
+      seg.style.setProperty("--i",Math.max(0,p.opts.findIndex(o=>o.d===p.d)));
+      seg.querySelectorAll("[data-td]").forEach(b=>{ const on=+b.dataset.td===p.d; b.classList.toggle("on",on); b.setAttribute("aria-pressed",on); });
+    }
+    const pr=c.querySelector("[data-tp]"); if(pr) trCount(pr,p.precio);
+    c.querySelectorAll("[data-tcl]").forEach(x=>{ x.textContent=trClases(x.dataset.tcl,p); });
+  });
+  const fp=root.querySelector("[data-tfp]"), pk=plans.find(x=>x.id===TR.pick);
+  if(fp&&pk) fp.textContent=trFindPrice(pk);
+}
+
+/* ---------- programas por objetivo: duración y precio cerrados ---------- */
+function trProgs(v){
+  let a=null;
+  if(Array.isArray(v)) a=v; else { try{ const j=v?JSON.parse(v):null; if(Array.isArray(j)) a=j; }catch(e){} }
+  if(!a) a=ENTRENA_DEF.programas;   // "[]" guardado a propósito = sin programas
+  return a.filter(p=>p&&typeof p==="object"&&String(p.nombre||"").trim()).map((p,i)=>{
+    const nombre=String(p.nombre).trim();
+    return {id:slug(nombre)||("prog"+i),nombre,meses:Math.max(0,Math.round(num(p.meses))),precio:num(p.precio),objetivo:String(p.objetivo||"").trim(),
+      texto:String(p.texto||"").trim(),incluye:(Array.isArray(p.incluye)?p.incluye:list(p.incluye,"|")).map(x=>String(x).trim()).filter(Boolean)};
+  });
+}
+const trMeses=n=>`${n} ${n===1?"mes":"meses"}`;
+const trProgGoal=p=>p.objetivo?trGoals().find(g=>g.id===slug(p.objetivo)||slug(g.l)===slug(p.objetivo))||null:null;
+function trWaProg(p){
+  if(!S.whatsapp) return "";
+  const det=[p.meses?trMeses(p.meses):"",p.precio?money(p.precio):""].filter(Boolean).join(", ");
+  return `https://wa.me/${S.whatsapp}?text=${encodeURIComponent(`Hola ${S.nombre}! Quiero empezar el programa ${p.nombre}${det?` (${det})`:""}.`)}`;
+}
+function trProgCard(p){
+  const g=trProgGoal(p), ic=g&&ICONS[g.ic];
+  return `<article class="tr-plan tr-prog" data-prog="${esc(p.id)}">
+    <div class="tr-prog-top">${ic?`<span class="tr-prog-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ic[1]}</svg></span>`:"<span></span>"}${p.meses?`<span class="tr-prog-dur">${trMeses(p.meses)}</span>`:""}</div>
+    <h3>${esc(p.nombre)}</h3>${p.texto?`<p class="tr-sub">${esc(p.texto)}</p>`:""}
+    ${p.meses>1&&p.meses<=12?`<div class="tr-tl${TR_ANIM?" tr-a":""}${p.meses>6?" many":""}" aria-hidden="true" style="--n:${p.meses}">${Array.from({length:p.meses},(_,i)=>`<span style="--j:${i};--k:${Math.round((i+1)/p.meses*100)}%"><i></i>Mes ${i+1}</span>`).join("")}</div>`:""}
+    <div class="tr-price">${p.precio?`<b>${money(p.precio)}</b><span>${p.meses?"en total":"precio total"}</span>${p.meses>1?`<span class="tr-eq">Equivale a ${money(Math.round(p.precio/p.meses/100)*100)} por mes</span>`:""}`:`<b>A consultar</b>`}</div>
+    ${p.incluye.length?`<ul class="tr-inc">${p.incluye.map(x=>`<li>${TR_CHECK}<span>${esc(x)}</span></li>`).join("")}</ul>`:""}
+    <div class="tr-prog-acts">${S.whatsapp?`<a class="btn out" href="${esc(trWaProg(p))}" target="_blank" rel="noopener">Quiero este programa</a>`:""}${g?`<button type="button" class="tr-back" data-trgo="${esc(g.id)}">Suplementos para este objetivo</button>`:""}</div>
+  </article>`;
+}
+
+/* ---------- página ---------- */
+/* ---------- ficha para arrancar: 4 pasos cortos y llega completa por WhatsApp (no se guarda nada) ---------- */
+const TRF={step:1,from:1,ret:false,goal:"",plan:"",donde:"",exp:"",les:"",lesTxt:"",nombre:"",edad:"",nota:"",err:"",sent:false};
+const TRF_DONDE=[["gym","En un gimnasio"],["casa","En casa"],["aire","Al aire libre"]];
+const TRF_EXP=[["cero","Nunca entrené","Nunca entrené"],["volver","Entrené, pero lo dejé","Entrené antes, pero lo dejé"],["menos","Menos de un año","Entreno hace menos de un año"],["mas","Más de un año","Entreno hace más de un año"]];
+const trIsPres=p=>/presencial/.test(p.id+" "+slug(p.nombre));
+// lo que eligió en el paso 2: un plan por mes, un programa o "todavía no sé"
+function trFiSel(){
+  const v=TRF.plan||"";
+  if(v.startsWith("plan:")){ const p=trPlans().find(x=>x.id===v.slice(5)); return p?{k:"plan",p}:null; }
+  if(v.startsWith("prog:")){ const p=(entrenaProgOn()?trProgs(S.entrena_programas):[]).find(x=>x.id===v.slice(5)); return p?{k:"prog",p}:null; }
+  return v==="nose"?{k:"nose"}:null;
+}
+const trFiPres=s=>!!s&&s.k==="plan"&&trIsPres(s.p);
+// días: los que ofrece el plan elegido (el mismo número que en las tarjetas); si no, de 2 a 5
+const trFiDiasOpts=s=>s&&s.k==="plan"&&s.p.opts.length?s.p.opts.map(o=>o.d):[2,3,4,5];
+const trFiDias=s=>trFiDiasOpts(s).reduce((a,b)=>Math.abs(b-TR.dias)<Math.abs(a-TR.dias)?b:a);
+function trFiSelTxt(s){
+  if(!s) return "";
+  if(s.k==="plan") return `Plan ${s.p.nombre}, ${trDiasTxt(trFiDias(s))}${s.p.precio?` (${money(s.p.precio)} por ${s.p.periodo})`:""}`;
+  if(s.k==="prog"){ const det=[s.p.meses?trMeses(s.p.meses):"",s.p.precio?money(s.p.precio):""].filter(Boolean).join(", "); return `Programa ${s.p.nombre}${det?` (${det})`:""}`; }
+  return "Todavía no sé, quiero que me asesores";
+}
+function trFiPr(s){
+  if(s&&s.k==="plan"&&s.p.precio) return `${esc(s.p.nombre)}${s.p.opts.length?", "+trDiasTxt(trFiDias(s)):""}: <b>${money(s.p.precio)} por ${esc(s.p.periodo)}</b>`;
+  if(s&&s.k==="prog"&&s.p.precio) return `Programa ${esc(s.p.nombre)}: <b>${money(s.p.precio)} en total</b>`;
+  return "";
+}
+// qué falta completar hasta el paso n (devuelve el primer paso con algo pendiente)
+function trFiErr(n){
+  if(!trGoals().some(g=>g.id===TRF.goal)) return {s:1,m:"Elegí tu objetivo."};
+  const s=trFiSel();
+  if(n>=2&&!s) return {s:2,m:"Elegí cómo querés entrenar."};
+  if(n>=3&&!trFiPres(s)&&!TRF.donde) return {s:3,m:"Elegí dónde vas a entrenar."};
+  if(n>=3&&!TRF.exp) return {s:3,m:"Contame hace cuánto entrenás."};
+  if(n>=4&&!TRF.les) return {s:4,m:"Contame si tenés alguna lesión o molestia."};
+  if(n>=4&&TRF.edad&&!(+TRF.edad>=12&&+TRF.edad<=99)) return {s:4,m:"Revisá la edad: solo el número, por ejemplo 28."};
+  return null;
+}
+// las respuestas, en el orden del mensaje: [título, texto, paso donde se cambia]
+function trFiRows(){
+  const g=trGoals().find(x=>x.id===TRF.goal), s=trFiSel(), ex=TRF_EXP.find(x=>x[0]===TRF.exp), dn=TRF_DONDE.find(x=>x[0]===TRF.donde);
+  const nom=TRF.nombre.trim(), ed=TRF.edad?`${TRF.edad} años`:"", lt=TRF.lesTxt.trim();
+  return [
+    nom?["Nombre",nom+(ed?` (${ed})`:""),4]:["Edad",ed,4],
+    ["Objetivo",g?g.l:"",1],
+    ["Me interesa",trFiSelTxt(s),2],
+    ["Días por semana",s&&s.k!=="plan"?String(trFiDias(s)):"",3],
+    ["Dónde entreno",!trFiPres(s)&&dn?dn[1]:"",3],
+    ["Experiencia",ex?ex[2]:"",3],
+    ["Lesiones o molestias",TRF.les==="si"?(lt?`Sí: ${lt}`:"Sí, te cuento por acá"):TRF.les==="no"?"No":"",4],
+    ["Comentario",TRF.nota.trim(),4]
+  ].filter(r=>r[1]);
+}
+function trFiWa(){
+  if(!S.whatsapp) return "";
+  const msg=`Hola ${S.nombre}! Te mando mi ficha para arrancar:\n\n${trFiRows().map(([k,v])=>`*${k}:* ${v}`).join("\n")}`;
+  return `https://wa.me/${S.whatsapp}?text=${encodeURIComponent(msg)}`;
+}
+function trFiInit(){
+  if(!TRF.goal&&TR.goal&&trGoals().some(g=>g.id===TR.goal)) TRF.goal=TR.goal;
+  if(!TRF.plan&&TR.pick&&trPlans().some(p=>p.id===TR.pick)) TRF.plan="plan:"+TR.pick;
+  TRF.from=TRF.step;   // al entrar a la página, sin animación
+}
+function trFi(){
+  if(TRF.step>1){ const er=trFiErr(TRF.step-1); if(er) TRF.step=er.s; }   // si cambiaron los planes, vuelve al paso que falta
+  const st=TRF.step, moved=TRF.from!==st, p0=Math.min(TRF.from,4)/4; TRF.from=st;
+  const err=TRF.err?`<p class="tr-fi-err" role="alert">${esc(TRF.err)}</p>`:"";
+  const head=n=>`<div class="tr-fi-top"><span class="tr-find-k">Paso ${n} de 4</span><span class="tr-fi-bar" aria-hidden="true"><i style="--p0:${p0};--p:${n/4}"></i></span>${n>1?`<button type="button" class="tr-back" data-fi="back">Atrás</button>`:""}</div>`;
+  const chip=(k,v,t)=>`<button type="button" class="chip${TRF[k]===v?" on":""}" data-fi="${k}" data-v="${v}" aria-pressed="${TRF[k]===v}">${esc(t)}</button>`;
+  const q=(id,l,body)=>`<div class="tr-fi-q"><span class="tr-fi-l" id="${id}">${l}</span>${body}</div>`;
+  const opt=x=>`<button type="button" class="tr-opt${TRF.plan===x.v?" on":""}" data-fi="plan" data-v="${esc(x.v)}" aria-pressed="${TRF.plan===x.v}"><span><b>${esc(x.t)}</b>${x.s?`<small>${esc(x.s)}</small>`:""}</span>${TR_AR}</button>`;
+  const s=trFiSel();
+  let h="";
+  if(st===1){
+    h=`${head(1)}<h3 tabindex="-1">¿Qué querés lograr?</h3>
+    <div class="tr-fi-goals" role="group" aria-label="Tu objetivo">${trGoals().map(g=>{ const on=TRF.goal===g.id, ic=ICONS[g.ic];
+      return `<button type="button" class="tr-fi-g${on?" on":""}" data-fi="goal" data-v="${esc(g.id)}" aria-pressed="${on}">${ic?`<span class="tr-fi-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ic[1]}</svg></span>`:""}<span>${esc(g.l)}</span></button>`; }).join("")}</div>`;
+  } else if(st===2){
+    const plans=trPlans().map(p=>({v:"plan:"+p.id,t:p.nombre,s:p.desde?`Desde ${money(p.desde)} por ${p.periodo}`:p.sub}));
+    const progs=(entrenaProgOn()?trProgs(S.entrena_programas):[]).map(p=>({v:"prog:"+p.id,t:p.nombre,s:[p.meses?trMeses(p.meses):"",p.precio?money(p.precio)+" en total":""].filter(Boolean).join(" · ")}));
+    h=`${head(2)}<h3 tabindex="-1">¿Cómo querés entrenar?</h3>
+    ${plans.length?`<p class="tr-fi-gl">Planes por mes</p><div class="tr-opts">${plans.map(opt).join("")}</div>`:""}
+    ${progs.length?`<p class="tr-fi-gl">Programas por objetivo</p><div class="tr-opts">${progs.map(opt).join("")}</div>`:""}
+    <div class="tr-opts tr-fi-ns">${opt({v:"nose",t:"Todavía no sé",s:"Quiero que me asesores"})}</div>`;
+  } else if(st===3){
+    const ds=trFiDiasOpts(s), d=trFiDias(s), pr=trFiPr(s);
+    h=`${head(3)}<h3 tabindex="-1">Tu semana y tu experiencia</h3>
+    ${q("trfi-d","¿Cuántos días por semana podés entrenar?",(ds.length>1?`<div class="tr-seg" role="group" aria-labelledby="trfi-d" style="--n:${ds.length};--i:${Math.max(0,ds.indexOf(d))}">${ds.map(x=>`<button type="button" data-fi="dias" data-v="${x}" aria-label="${x} ${x===1?"día":"días"}" aria-pressed="${x===d}"${x===d?' class="on"':""}>${x}</button>`).join("")}</div>`:`<p class="tr-fi-fix">${trDiasTxt(d)}</p>`)+(pr?`<p class="tr-fi-pr" data-fipr>${pr}</p>`:""))}
+    ${trFiPres(s)?"":q("trfi-w","¿Dónde vas a entrenar?",`<div class="chips" role="group" aria-labelledby="trfi-w">${TRF_DONDE.map(([v,t])=>chip("donde",v,t)).join("")}</div>`)}
+    ${q("trfi-e","¿Hace cuánto entrenás?",`<div class="chips" role="group" aria-labelledby="trfi-e">${TRF_EXP.map(([v,t])=>chip("exp",v,t)).join("")}</div>`)}
+    ${err}<div class="tr-fi-nav"><button type="button" class="btn" data-fi="next">Siguiente</button></div>`;
+  } else if(st===4){
+    h=`${head(4)}<h3 tabindex="-1">Último paso: contame de vos</h3>
+    ${q("trfi-l","¿Tenés alguna lesión o molestia?",`<div class="chips" role="group" aria-labelledby="trfi-l">${chip("les","no","No")}${chip("les","si","Sí")}</div>${TRF.les==="si"?`<label class="cn tr-fi-lt">¿Cuál? Contame en pocas palabras<input type="text" data-fin="lesTxt" maxlength="150" value="${esc(TRF.lesTxt)}" placeholder="Ej: molestia en la rodilla derecha"></label>`:""}`)}
+    <div class="tr-fi-row"><label class="cn">Tu nombre<input type="text" data-fin="nombre" maxlength="60" autocomplete="given-name" value="${esc(TRF.nombre)}"></label><label class="cn">Edad<input type="text" inputmode="numeric" data-fin="edad" maxlength="2" value="${esc(TRF.edad)}"></label></div>
+    <label class="cn tr-fi-nt">¿Algo más que quieras contarme? (opcional)<textarea data-fin="nota" rows="3" maxlength="400" placeholder="Horarios, deportes que hacés, qué te gustaría mejorar…">${esc(TRF.nota)}</textarea></label>
+    ${err}<div class="tr-fi-nav"><button type="button" class="btn" data-fi="next">Ver mi ficha</button></div>`;
+  } else {
+    h=`<div class="tr-fi-top"><span class="tr-find-k">${TR_CHECK}Ficha lista</span><span class="tr-fi-bar" aria-hidden="true"><i style="--p0:${p0};--p:1"></i></span></div>
+    <h3 tabindex="-1">Revisá y mandámela</h3>
+    <dl class="tr-fi-sum">${trFiRows().map(([k,v,n])=>`<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd><button type="button" class="tr-back" data-fi="edit" data-v="${n}" aria-label="Cambiar ${esc(k.toLowerCase())}">Cambiar</button></div>`).join("")}</dl>
+    <div class="tr-fi-nav"><a class="btn" data-fiwa href="${esc(trFiWa())}" target="_blank" rel="noopener">Enviar por WhatsApp</a></div>
+    <p class="tr-fi-ok"${TRF.sent?"":" hidden"}>¡Listo! Se abrió WhatsApp con tu ficha. Si no se abrió, tocá el botón de nuevo.</p>`;
+  }
+  return `<div class="tr-fi-st${moved&&MOTION?" in":""}">${h}</div>`;
+}
+function trFichaSec(){
+  return `<section class="blk" id="trFicha"><div class="tr-ficha">
+    <div class="tr-fi-intro"><span class="tr-kick">Ficha para arrancar</span><h2>¿Arrancamos?</h2>
+      <p>Completá tu ficha en un minuto y me llega todo por WhatsApp. Así la primera charla va directo a armar tu plan.</p>
+      <ul class="tr-fi-pts"><li>${TR_CHECK}4 pasos cortos</li><li>${TR_CHECK}La mandás vos por WhatsApp</li><li>${TR_CHECK}No se guarda nada en la página</li></ul>
+      <a class="tr-back" data-tw="" href="${esc(trWa())}" target="_blank" rel="noopener">Prefiero escribirte directo</a></div>
+    <div class="tr-fi" id="trFi">${trFi()}</div>
+  </div></section>`;
+}
+
+function viewTrainer(){
+  if(!entrenaOn()) return view404();
+  if(!TR.goal&&QZ.goal&&trGoals().some(g=>g.id===QZ.goal)) TR.goal=QZ.goal;   // si viene del quiz, ya trae su objetivo
+  const plans=trPlans(), tests=trTests(), pl=payList(), f=trFoto(), wa=!!S.whatsapp;
+  if(TR.pick&&!plans.some(p=>p.id===TR.pick)){ TR.pick=""; TR.fq=""; }
+  const ficha=entrenaFichaOn(); if(ficha) trFiInit();
+  const bio=list(S.entrena_bio,"|"), bioP=bio.length?bio:ENTRENA_DEF.bio;
+  const dsc=Math.max(0,Math.min(50,Math.round(num(S.entrena_desc_suple))));
+  const payA=pl.length?`Los planes se pagan por mes y los programas tienen precio cerrado. Podés pagar con ${pl.join(", ")}.${S.pagos_detalle?" "+S.pagos_detalle:""}`:"Los planes se pagan por mes y los programas tienen precio cerrado. Te paso los medios de pago por WhatsApp.";
+  const progs=entrenaProgOn()?trProgs(S.entrena_programas):[];
+  const faq=ENTRENA_DEF.faq.map(([q,a])=>[q,a||payA]).concat(progs.length?[ENTRENA_DEF.faqProg]:[]);
+  const sec=(title,extra,body,id)=>`<section class="blk"${id?` id="${id}"`:""}><div class="head"><h2>${title}</h2>${extra||""}</div>${body}</section>`;
+  const waBtn=(cls,txt)=>wa?`<a class="btn ${cls}" data-tw="" href="${esc(trWa())}" target="_blank" rel="noopener">${txt}</a>`:"";
+  const find=trFindMap(plans)?`<div class="tr-find" id="trFind" aria-live="polite">${trFind()}</div>`:"";
+  return `<div class="page-top tr"><div class="crumbs"><a href="#/">Inicio</a> / ${esc(trName())}</div>
+  <section class="tr-hero${f?"":" nophoto"}">${f?`<img class="tr-bg" src="${esc(img(f,1600))}" alt="" referrerpolicy="no-referrer">`:""}
+    <div class="tr-in"><span class="tr-kick">Entrenamiento personalizado</span>
+      <h1>${trWords(S.entrena_titulo)}</h1>
+      ${S.entrena_texto?`<p>${esc(S.entrena_texto)}</p>`:""}
+      <div class="tr-acts">${plans.length?`<button type="button" class="btn${f?" light":""}" data-tr="trPlanes">Ver planes</button>`:""}${waBtn(f?"line":"out","Consultar por WhatsApp")}</div>
+      <ul class="tr-feats"><li>Online o presencial</li><li>Rutina en tu celular</li><li>Ajustes según tu progreso</li></ul>
+    </div>${f?"":trStage()}</section>
+  ${sec("Cómo funciona","",`<ol class="tr-steps">${ENTRENA_DEF.pasos.map(([t,d],i)=>`<li><span class="tr-n">${String(i+1).padStart(2,"0")}</span><strong>${esc(t)}</strong><p>${esc(d)}</p></li>`).join("")}</ol>`)}
+  ${plans.length?sec("Planes",`<span class="crumbs" style="margin:0">Precios por mes</span>`,`${find}<div class="tr-plans${TR.pick?" has-pick":""}">${plans.map(p=>`<article class="tr-plan${p.destacado?" on":""}${TR.pick===p.id?" pick":""}" id="trp-${esc(p.id)}" data-plan="${esc(p.id)}">${p.destacado?`<span class="qbadge">Recomendado</span>`:""}<span class="tr-pk">Ideal para vos</span>
+      <h3>${esc(p.nombre)}</h3>${p.sub?`<p class="tr-sub">${esc(p.sub)}</p>`:""}
+      ${trSeg(p)}
+      <div class="tr-price">${p.precio?`<b data-tp data-v="${p.precio}">${money(p.precio)}</b><span>por ${esc(p.periodo)}${p.opts.length===1?` · ${trDiasTxt(p.d)}`:""}</span>`:`<b>A consultar</b>`}</div>
+      ${p.incluye.length?`<ul class="tr-inc">${p.incluye.map(x=>`<li>${TR_CHECK}<span${/\{clases\}/.test(x)?` data-tcl="${esc(x)}"`:""}>${esc(trClases(x,p))}</span></li>`).join("")}</ul>`:""}
+      ${wa?`<a class="btn${p.destacado?"":" out"}" data-tw="${esc(p.id)}" href="${esc(trWa(p))}" target="_blank" rel="noopener">Quiero este plan</a>`:""}
+    </article>`).join("")}</div>
+    ${dsc||pl.length?`<div class="tr-notes">${dsc?`<p>Con cualquier plan tenés <b>${dsc}% de descuento</b> en los suplementos de la tienda.</p>`:""}${pl.length?`<p>Medios de pago: ${esc(pl.join(" · "))}</p>`:""}</div>`:""}`,"trPlanes"):""}
+  ${progs.length?sec("Programas por objetivo",`<span class="crumbs" style="margin:0">Duración y precio cerrados</span>`,`<p class="prep">¿Tenés una meta concreta? Elegí un programa con principio y fin: arrancamos con una evaluación y definimos juntos tu meta según tu punto de partida.</p>
+    <div class="tr-plans tr-progs">${progs.map(trProgCard).join("")}</div>
+    <p class="tr-disc">Los resultados dependen de cada persona: tu punto de partida, la constancia, el descanso y la alimentación. Por eso la meta la definimos juntos en la evaluación inicial.</p>`,"trProgs"):""}
+  ${sec("Entrenamiento y suplementación",`<a href="#/guia">Guía de suplementos</a>`,`<p class="prep">Elegí tu objetivo: lo sumamos a tu consulta y te mostramos qué suplementos de la tienda lo acompañan.</p>
+    <div class="chips" role="group" aria-label="Tu objetivo">${trGoals().map(g=>`<button type="button" class="chip${TR.goal===g.id?" on":""}" data-trg="${esc(g.id)}" aria-pressed="${TR.goal===g.id}">${esc(g.l)}</button>`).join("")}</div>
+    <div class="tr-rec" id="trRec" aria-live="polite">${trRec()}</div>`,"trSup")}
+  <section class="blk"><div class="tr-about${f?"":" nophoto"}">
+    ${f?`<div class="ph tr-ph">${imgTag(f,"",900)}</div>`:""}
+    <div><div class="head"><h2>Sobre mí</h2></div><div class="tr-bio">${bioP.map(t=>`<p>${esc(t)}</p>`).join("")}</div></div>
+  </div></section>
+  ${tests.length?sec("Lo que dicen los alumnos","",`<div class="tr-tests">${tests.map(t=>`<figure><blockquote>${esc(t.texto)}</blockquote><figcaption><b>${esc(t.nombre||"")}</b>${esc(t.detalle||"")}</figcaption></figure>`).join("")}</div>`):""}
+  ${sec("Preguntas frecuentes","",`<div class="tr-faq">${faq.map(([q,a])=>`<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join("")}</div>`)}
+  ${ficha?trFichaSec():`<section class="blk"><div class="stackcta"><div><h2>¿Arrancamos?</h2><p>Escribime, te hago unas preguntas y armamos tu plan.</p></div>${waBtn("","Escribir por WhatsApp")}</div></section>`}
+  <p class="edu-note">Si tenés alguna condición de salud, una lesión o estás embarazada, consultá con tu médico antes de empezar un plan de entrenamiento.</p>
+  </div>${trBar(plans)}`;
+}
+function trainerMount(){
+  const el=document.querySelector(".tr"); if(!el) return;
+  const root=el.parentElement||el;   // root también incluye la barra fija del celular
+  const hero=el.querySelector(".tr-hero"), stage=el.querySelector(".tr-stage");
+  // los links de WhatsApp llevan el plan (el del botón o el que eligió en las preguntas), los días y el objetivo
+  const setWa=()=>{ const all=trPlans(); root.querySelectorAll("[data-tw]").forEach(a=>{ a.href=trWa(all.find(x=>x.id===(a.dataset.tw||TR.pick))||null); }); };
+  // objetivo elegido: chips, suplementos y WhatsApp
+  const paintGoal=()=>{
+    el.querySelectorAll("[data-trg]").forEach(b=>{ const on=b.dataset.trg===TR.goal; b.classList.toggle("on",on); b.setAttribute("aria-pressed",on); });
+    const r=$("#trRec"); if(r){ r.innerHTML=trRec(); rvScan(true); }
+    setWa();
+  };
+  const paintPick=()=>{
+    const ps=root.querySelector(".tr-plans"); if(ps) ps.classList.toggle("has-pick",!!TR.pick);
+    root.querySelectorAll(".tr-plan[data-plan]").forEach(c=>c.classList.toggle("pick",c.dataset.plan===TR.pick));
+  };
+  // ficha para arrancar: al cambiar de paso, el foco va al título (y sube si el paso quedó arriba)
+  const fiPaint=sel=>{
+    const box=$("#trFi"); if(!box) return;
+    const moved=TRF.from!==TRF.step;
+    box.innerHTML=trFi();
+    if(moved){
+      const h=box.querySelector("h3"); if(h) h.focus({preventScroll:true});
+      const hh=(document.querySelector("header.top")||{}).offsetHeight||0, top=box.getBoundingClientRect().top;
+      if(top<hh+8) window.scrollTo({top:top+scrollY-hh-12,behavior:MOTION?"smooth":"auto"});
+    } else if(sel){ const f=box.querySelector(sel); if(f) f.focus({preventScroll:true}); }
+  };
+  // los días de la ficha son los mismos que los de las tarjetas
+  const fiDias=()=>{
+    const box=$("#trFi"); if(!box) return;
+    if(TRF.step===5){ fiPaint(); return; }
+    const seg=box.querySelector(".tr-seg"); if(!seg) return;
+    const s=trFiSel(), ds=trFiDiasOpts(s), d=trFiDias(s);
+    seg.style.setProperty("--i",Math.max(0,ds.indexOf(d)));
+    seg.querySelectorAll("[data-fi]").forEach(b=>{ const on=+b.dataset.v===d; b.classList.toggle("on",on); b.setAttribute("aria-pressed",on); });
+    const pr=box.querySelector("[data-fipr]"); if(pr) pr.innerHTML=trFiPr(s);
+  };
+  root.addEventListener("click",e=>{
+    if(e.target.closest("[data-fiwa]")){ TRF.sent=true; const ok=$("#trFi .tr-fi-ok"); if(ok) ok.hidden=false; return; }
+    const fb=e.target.closest("[data-fi]");
+    if(fb){
+      const a=fb.dataset.fi, v=fb.dataset.v||"";
+      const go=n=>{ TRF.err=""; TRF.step=n; fiPaint(); };
+      const after=n=>TRF.ret&&!trFiErr(4)?5:n;   // si vino a cambiar algo desde el resumen, vuelve al resumen
+      if(a==="goal"){ TRF.goal=v; if(TR.goal!==v){ TR.goal=v; paintGoal(); } go(after(2)); }
+      else if(a==="plan"){ TRF.plan=v; go(after(3)); }
+      else if(a==="dias"){ const d=+v; if(d&&d!==TR.dias){ TR.dias=d; trSyncDias(root); setWa(); } fiDias(); }
+      else if(a==="donde"||a==="exp"){
+        TRF[a]=v; TRF.err="";
+        fb.parentElement.querySelectorAll("[data-fi]").forEach(b=>{ const on=b===fb; b.classList.toggle("on",on); b.setAttribute("aria-pressed",on); });
+        const er=$("#trFi .tr-fi-err"); if(er) er.remove();
+      }
+      else if(a==="les"){ TRF.les=v; TRF.err=""; fiPaint(v==="si"?'[data-fin="lesTxt"]':'[data-fi="les"][data-v="no"]'); }
+      else if(a==="next"){
+        const n=TRF.step, er=trFiErr(n);
+        if(er){ TRF.err=er.m; if(er.s!==n) TRF.step=er.s; fiPaint('[data-fi="next"]'); return; }
+        go(after(n+1));
+      }
+      else if(a==="back"){ TRF.ret=false; go(Math.max(1,TRF.step-1)); }
+      else if(a==="edit"){ TRF.ret=true; go(+v||1); }
+      return;
+    }
+    const s=e.target.closest("[data-tr]");
+    if(s){
+      const t=document.getElementById(s.dataset.tr); if(!t) return;
+      const hh=(document.querySelector("header.top")||{}).offsetHeight||0;
+      window.scrollTo({top:t.getBoundingClientRect().top+scrollY-hh-(t.classList.contains("tr-plan")?28:8),behavior:MOTION?"smooth":"auto"});
+      return;
+    }
+    const q=e.target.closest("[data-tf]");
+    if(q){
+      const m=trFindMap(trPlans()), v=q.dataset.tf; if(!m) return;
+      if(v==="cuenta"){ TR.fq="cuenta"; TR.pick=""; }
+      else if(v==="reset"){ TR.fq=""; TR.pick=""; }
+      else TR.pick=(v==="pres"?m.pres:v==="solo"?m.solo:m.segui).id;
+      const box=$("#trFind");
+      if(box){ box.innerHTML=trFind(); const h=box.querySelector("h3"); if(h) h.focus({preventScroll:true}); }
+      paintPick(); setWa();
+      return;
+    }
+    const td=e.target.closest("[data-td]");
+    if(td){ const d=+td.dataset.td; if(d&&d!==TR.dias){ TR.dias=d; trSyncDias(root); setWa(); fiDias(); } return; }
+    // programa: "Suplementos para este objetivo" elige el objetivo y baja a los suplementos
+    const go=e.target.closest("[data-trgo]");
+    if(go){
+      TR.goal=go.dataset.trgo; paintGoal();
+      const t=document.getElementById("trSup"), hh=(document.querySelector("header.top")||{}).offsetHeight||0;
+      if(t) window.scrollTo({top:t.getBoundingClientRect().top+scrollY-hh-8,behavior:MOTION?"smooth":"auto"});
+      return;
+    }
+    const g=e.target.closest("[data-trg]");
+    if(g){ TR.goal=TR.goal===g.dataset.trg?"":g.dataset.trg; paintGoal(); return; }
+    // "Armar mi stack": el quiz arranca con el mismo objetivo ya elegido
+    if(e.target.closest("[data-trstack]")&&TR.goal){ QZ.goal=TR.goal; QZ.step=1; }
+  });
+  // ficha: lo que escribe queda guardado mientras navega (solo en esta pestaña)
+  root.addEventListener("input",e=>{
+    const t=e.target.closest("[data-fin]"); if(!t) return;
+    let v=t.value;
+    if(t.dataset.fin==="edad"){ const c=v.replace(/\D/g,"").slice(0,2); if(c!==v){ t.value=c; v=c; } }
+    TRF[t.dataset.fin]=v;
+  });
+  root.addEventListener("keydown",e=>{
+    if(e.key!=="Enter"||!e.target.matches("#trFi input[data-fin]")) return;
+    e.preventDefault(); const n=$("#trFi [data-fi=next]"); if(n) n.click();
+  });
+  const fine=window.matchMedia&&matchMedia("(hover:hover) and (pointer:fine)").matches;
+  // planes y programas: un brillo suave sigue al mouse
+  if(fine) el.querySelectorAll(".tr-plans").forEach(ps=>ps.addEventListener("pointermove",e=>{
+    const c=e.target.closest(".tr-plan"); if(!c) return;
+    const r=c.getBoundingClientRect();
+    c.style.setProperty("--mx",Math.round(e.clientX-r.left)+"px"); c.style.setProperty("--my",Math.round(e.clientY-r.top)+"px");
+  }));
+  // portada: las tarjetas se inclinan apenas siguiendo al mouse
+  if(hero&&stage&&fine&&MOTION){
+    hero.addEventListener("pointermove",e=>{
+      const r=hero.getBoundingClientRect();
+      stage.style.setProperty("--ry",(((e.clientX-r.left)/r.width-.5)*10).toFixed(2)+"deg");
+      stage.style.setProperty("--rx",((.5-(e.clientY-r.top)/r.height)*8).toFixed(2)+"deg");
+    });
+    hero.addEventListener("pointerleave",()=>{ stage.style.removeProperty("--ry"); stage.style.removeProperty("--rx"); });
+  }
+  // barra fija del celular: visible entre el final de la portada y el "¿Arrancamos?"
+  const bar=root.querySelector(".tr-stick"), end=el.querySelector(".tr-ficha,.stackcta");
+  if(bar&&hero&&"IntersectionObserver" in window){
+    const st=new Map();
+    TRP.bar=new IntersectionObserver(es=>{
+      es.forEach(x=>st.set(x.target,{on:x.isIntersecting,top:x.boundingClientRect.top}));
+      const h=st.get(hero), z=end&&st.get(end);
+      const passed=!!h&&!h.on&&h.top<0, done=!!z&&(z.on||z.top<0);
+      document.body.classList.toggle("trbar",passed&&!done);
+    });
+    TRP.bar.observe(hero); if(end) TRP.bar.observe(end);
+  }
+}
+// al salir de la página: la barra fija se apaga
+function trOff(){ if(TRP.bar){ TRP.bar.disconnect(); TRP.bar=null; } document.body.classList.remove("trbar"); }
+
 /* ---------- ficha de producto: qué es y cómo se usa ---------- */
 function productEdu(p){
   const t=TIPO[p.tipo]; if(!t) return "";
@@ -2140,6 +3136,7 @@ function pageTitle(parts){
   if(a==="pagina"){ const x=DATA.paginas.find(v=>v.id===b); return t(x&&x.titulo); }
   if(a==="marcas") return t("Marcas"); if(a==="tienda") return t("Tienda"); if(a==="admin") return t("Administrador");
   if(a==="armar") return t("Armá tu stack"); if(a==="guia"){ const x=TIPO[b]; return t(x?x.nombre:"Guía de suplementos"); }
+  if(a==="entrenamiento") return t(trName());
   return n;
 }
 function route(keep){
@@ -2156,9 +3153,11 @@ function route(keep){
   else if(parts[0]==="pagina") html=viewPage(parts[1]);
   else if(parts[0]==="armar") html=viewQuiz();
   else if(parts[0]==="guia") html=parts[1]?viewGuideItem(parts[1]):viewGuide();
+  else if(parts[0]==="entrenamiento") html=viewTrainer();
   else html=view404();
   document.body.classList.toggle("home",home);
   document.body.classList.toggle("pdp",parts[0]==="p");
+  trOff();
   const bh=home?bannerHTML():"", oldB=app.firstElementChild;
   const sameHero=home&&!!oldB&&oldB.classList.contains("banner")&&app.dataset.bh===bh;
   if(sameHero){
@@ -2178,6 +3177,8 @@ function route(keep){
   if(home) stripMount();
   if(parts[0]==="armar") quizMount();
   if(parts[0]==="guia"&&!parts[1]) guideMount();
+  if(parts[0]==="entrenamiento") trainerMount();
+  if(home||parts[0]==="entrenamiento") trPlay();
   if(nowAdmin) admMount();
   rvScan(keep);
   aiSync(nowAdmin); trackRoute(parts,params);
@@ -2241,7 +3242,7 @@ addEventListener("resize",()=>{ clearTimeout(stripMount.t); stripMount.t=setTime
 if(document.fonts&&document.fonts.ready) document.fonts.ready.then(()=>{ if(document.body.classList.contains("home")) stripMount(); });
 
 /* aparición al bajar: cada bloque entra suave cuando llega a la pantalla (los que entran juntos, escalonados) */
-const RV_SEL=".blk>.head,.blk>.reord,.stackcta,.grid>.item,.catlist>a,.brands>.bt,.glist>.gitem,.gcta,.educols>div,.gcols>section,.pd>.ph,.pd>.info,.doc>*,.fcols>div,.fbot";
+const RV_SEL=".blk>.head,.blk>.reord,.stackcta,.grid>.item,.catlist>a,.brands>.bt,.glist>.gitem,.gcta,.educols>div,.gcols>section,.pd>.ph,.pd>.info,.doc>*,.fcols>div,.fbot,.tr-cta,.tr-steps>li,.tr-plans>.tr-plan,.tr-about>*,.tr-faq,.tr-tests>figure";
 const RV={io:null};
 function rvScan(keep){
   if(!MOTION||!("IntersectionObserver" in window)) return;
@@ -2494,6 +3495,24 @@ const SCHEMA={
     {k:"stack_desc_base",l:"Descuento stack Base (%)",t:"text",num:1,ej:"0",hint:"1 producto. Ej: 0"},
     {k:"stack_desc_pro",l:"Descuento stack Pro (%)",t:"text",num:1,ej:"5",hint:"2 productos. Ej: 5"},
     {k:"stack_desc_elite",l:"Descuento stack Elite (%)",t:"text",num:1,ej:"10",hint:"3 productos. Ej: 10"}]},
+  asesorias:{label:"Asesorías",tab:"config",cols:[],fields:[
+    {k:"entrena_activo",l:"Mostrar Asesorías en la tienda",t:"bool",def:1},
+    {k:"entrena_nombre",l:"Nombre en el menú",t:"text",hint:"Ej: Asesorías"},
+    {k:"entrena_titulo",l:"Título de la portada",t:"text",wide:1},
+    {k:"entrena_texto",l:"Texto de la portada",t:"area"},
+    {k:"entrena_foto",l:"Tu foto (opcional)",t:"image",hint:"Se ve de fondo en la portada y en «Sobre mí». Vacía = la portada con la rutina de ejemplo."},
+    {t:"h",l:"Precios por mes según los días por semana"},
+    {k:"entrena_precios_online",l:"Online",t:"dias",plan:"online"},
+    {k:"entrena_precios_seguimiento",l:"Online + seguimiento",t:"dias",plan:"seguimiento"},
+    {k:"entrena_precios_presencial",l:"Presencial",t:"dias",plan:"presencial"},
+    {k:"entrena_desc_suple",l:"Descuento en suplementos para alumnos (%)",t:"text",num:1,ej:"10",hint:"Ej: 10. Vacío o 0 = no se muestra."},
+    {t:"h",l:"Programas por objetivo"},
+    {k:"entrena_prog_activo",l:"Mostrar programas por objetivo",t:"bool",def:1},
+    {k:"entrena_programas",l:"Programas (hasta 4)",t:"progs",hint:"Para sacar uno, borrá su nombre. El precio es por todo el programa; vacío = «A consultar». Consejo: no prometas kilos exactos, la meta la definen juntos en la evaluación."},
+    {t:"h",l:"Ficha para arrancar"},
+    {k:"entrena_ficha_activo",l:"Mostrar la ficha para arrancar",t:"bool",def:1,hint:"Al final de la página: 4 pasos (objetivo, plan, días, experiencia y lesiones) que te llegan completos por WhatsApp. No guarda datos en la página. Necesita el WhatsApp cargado en la pestaña Tienda."},
+    {t:"h",l:"Sobre mí"},
+    {k:"entrena_bio",l:"Texto de «Sobre mí»",t:"lines",hint:"Un párrafo por línea. Vacío = el texto de ejemplo."}]},
   tienda:{label:"Tienda",tab:"config",cols:[],fields:[
     {t:"h",l:"Estilo"},
     {k:"estilo",l:"Estilo de la página",t:"choice",opts:[["grafito","Grafito y naranja (deportivo)"],["negro","Negro y dorado"],["claro","Claro (blanco y gris)"]],hint:"Cambia los colores de toda la tienda y del panel."},
@@ -2596,7 +3615,7 @@ async function admLoad(){
       ADM.cfg={}; r.rows.forEach(x=>{ if(x.clave) ADM.cfg[slug(x.clave).replace(/-/g,"_")]=x.valor||""; });
       ADM.ai={hasKey:!!st.hasKey,model:st.model||""};
     }
-    else if(ADM.tab==="tienda"||ADM.tab==="stack"){ const r=await admApi("read",{tab:CONFIG.TABS.config}); ADM.cfg={}; r.rows.forEach(x=>{ if(x.clave) ADM.cfg[slug(x.clave).replace(/-/g,"_")]=x.valor||""; }); if(ADM.tab==="stack") admGoalsLoad(); }
+    else if(ADM.tab==="tienda"||ADM.tab==="stack"||ADM.tab==="asesorias"){ const r=await admApi("read",{tab:CONFIG.TABS.config}); ADM.cfg={}; r.rows.forEach(x=>{ if(x.clave) ADM.cfg[slug(x.clave).replace(/-/g,"_")]=x.valor||""; }); if(ADM.tab==="stack") admGoalsLoad(); }
     else{ const r=await admApi("read",{tab:CONFIG.TABS[SCHEMA[ADM.tab].tab]}); ADM.rows=r.rows; if(ADM.tab==="productos") await admLoadLists(); }
   }catch(e){ ADM.err=e.message; }
   ADM.loading=false; admRender();
@@ -2631,6 +3650,7 @@ function admPanel(){
   else if(ADM.tab==="asistente") body=admAI()+`<div style="margin-top:40px">${admForm(SCHEMA.asistente.fields,{...CONFIG.DEFAULTS,...ADM.cfg},"admCfg","Cómo se presenta en la tienda")}</div>`;
   else if(ADM.tab==="stack") body=admStack();
   else if(ADM.tab==="tienda") body=admForm(SCHEMA.tienda.fields,{...CONFIG.DEFAULTS,...ADM.cfg},"admCfg","Ajustes de la tienda");
+  else if(ADM.tab==="asesorias") body=admForm(SCHEMA.asesorias.fields,{...CONFIG.DEFAULTS,...ADM.cfg},"admCfg","Asesorías");
   else if(ADM.edit) body=admForm(SCHEMA[ADM.tab].fields,ADM.edit.data,"admForm",`${ADM.edit.row?"Editar":SCHEMA[ADM.tab].nw} ${SCHEMA[ADM.tab].one}`,ADM.tab==="productos"&&!ADM.edit.row);
   else body=admList();
   return `<div class="adm-top"><div><h1>Administrador</h1><span class="muted">Los cambios se ven en la tienda al instante.</span></div>
@@ -2817,7 +3837,8 @@ function admField(f,val){
   const lab=esc(f.l)+(f.req?" *":"");
   if(f.t==="bool"){
     const on=val===""?!!f.def:yes(val);
-    return `<label class="chk"><input type="checkbox" name="${f.k}" ${on?"checked":""}> ${esc(f.l)}</label>`;
+    const c=`<label class="chk"><input type="checkbox" name="${f.k}" ${on?"checked":""}> ${esc(f.l)}</label>`;
+    return f.hint?`<div class="f wide">${c}${hint}</div>`:c;
   }
   if(f.t==="pages"){
     const sel=new Set(String(val||"").split(/[|,]/).map(x=>slug(x)).filter(Boolean));
@@ -2837,6 +3858,23 @@ function admField(f,val){
     const cur=ADM.edit?ADM.edit.row:null;
     const opts=ADM.rows.filter(r=>!r.padre&&r._row!==cur).map(r=>{const id=slug(r.slug||r.titulo||r.nombre);return `<option value="${esc(id)}" ${val&&slug(val)===id?"selected":""}>${esc(r.titulo||r.nombre)}</option>`}).join("");
     return `<label class="f wide">${lab}<select name="${f.k}"><option value="">${ADM.tab==="categorias"?"Ninguna (es una categoría principal)":"Ninguna (es una página principal)"}</option>${opts}</select>${hint}</label>`;
+  }
+  if(f.t==="progs"){   // hasta 4 programas: nombre, duración, precio, objetivo, texto e incluye
+    const cur=trProgs(val).slice(0,4), gs=trGoals(), n=k=>`${f.k}__`+k;
+    while(cur.length<4) cur.push({nombre:"",meses:"",precio:"",objetivo:"",texto:"",incluye:[]});
+    const blk=(p,i)=>{ const og=trProgGoal(p); return `<fieldset class="pgb"><legend>Programa ${i+1}</legend><div class="pgrid">
+      <label class="f">Nombre<input type="text" name="${n(i+"_nombre")}" value="${esc(p.nombre)}" placeholder="Ej: Bajar de peso"></label>
+      <label class="f">Duración (meses)<input type="text" inputmode="numeric" name="${n(i+"_meses")}" value="${esc(p.meses||"")}"></label>
+      <label class="f">Precio total<input type="text" inputmode="decimal" name="${n(i+"_precio")}" value="${esc(p.precio||"")}"></label>
+      <label class="f">Objetivo (para los suplementos)<select name="${n(i+"_objetivo")}"><option value="">Ninguno</option>${gs.map(g=>`<option value="${esc(g.id)}" ${og&&og.id===g.id?"selected":""}>${esc(g.l)}</option>`).join("")}</select></label>
+      <label class="f w2">Para quién es<textarea name="${n(i+"_texto")}" rows="3">${esc(p.texto)}</textarea></label>
+      <label class="f w2">Qué incluye (uno por línea)<textarea name="${n(i+"_incluye")}" rows="4">${esc(p.incluye.join("\n"))}</textarea></label>
+    </div></fieldset>`; };
+    return `<div class="f wide"><span>${lab}</span>${cur.map(blk).join("")}${hint}</div>`;
+  }
+  if(f.t==="dias"){   // un precio por cada cantidad de días; vacío = ese día no se ofrece
+    const cur=trDias(val).length?trDias(val):trDias((ENTRENA_DEF.planes.find(p=>p.id===f.plan)||{}).dias);
+    return `<div class="f wide"><span>${lab}</span><div class="dgrid">${[1,2,3,4,5,6].map(d=>{ const o=cur.find(x=>x.d===d); return `<label>${d} ${d===1?"día":"días"}<input name="${f.k}__${d}" type="text" inputmode="decimal" value="${o?o.precio:""}" placeholder="—"></label>`; }).join("")}</div>${hint||"<small>Precio por mes, solo el número. Dejá vacíos los días que no ofrecés.</small>"}</div>`;
   }
   if(f.t==="choice"){
     const cur=val||f.opts[0][0];
@@ -2864,6 +3902,29 @@ function admCollect(form,fields){
       const c=[...form.querySelectorAll('input[name="pagos_chk"]:checked')].map(i=>i.value);
       const o=(form.elements.pagos_otros.value||"").split(",").map(x=>x.trim()).filter(Boolean);
       raw[f.k]=[...c,...o].join("|"); continue;
+    }
+    if(f.t==="progs"){
+      const arr=[]; let err="";
+      for(let i=0;i<4;i++){
+        const g=k=>{ const x=form.elements[`${f.k}__${i}_${k}`]; return x?x.value.trim():""; };
+        const nombre=g("nombre"); if(!nombre) continue;
+        const ms=g("meses"), m=parseInt(ms,10), pr=g("precio"), np=pr?admNum(pr):"";
+        if(!err&&!(m>=1&&m<=24&&/^\d+$/.test(ms))) err=`En «Programa ${i+1}», poné la duración en meses: un número del 1 al 24.`;
+        if(!err&&pr&&np===null) err=`En «Programa ${i+1}», poné el precio solo con números. Ej: 150000`;
+        arr.push({nombre,meses:m||ms,precio:np===null?pr:(np?+np:""),objetivo:g("objetivo"),texto:g("texto"),incluye:g("incluye").split("\n").map(x=>x.trim()).filter(Boolean)});
+      }
+      raw[f.k]=JSON.stringify(arr);   // aunque haya un error, lo escrito no se pierde
+      if(err) return {err,raw};
+      continue;
+    }
+    if(f.t==="dias"){
+      const parts=[];
+      for(let d=1;d<=6;d++){
+        const x=form.elements[`${f.k}__${d}`], v=x?x.value.trim():""; if(!v) continue;
+        const n=admNum(v); if(n===null||+n<=0) return {err:`En «${f.l}», ${d} ${d===1?"día":"días"}: poné solo el número. Ej: 40000`,raw};
+        parts.push(`${d}=${n}`);
+      }
+      raw[f.k]=parts.join("|"); continue;
     }
     const el=form.elements[f.k];
     raw[f.k]=f.t==="bool"?(el.checked?"SI":"NO"):el.value;
