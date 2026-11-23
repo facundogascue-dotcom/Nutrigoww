@@ -970,6 +970,148 @@ body.cart-open .toast{bottom:auto;top:24px}
 .shr{display:inline-flex;align-items:center;gap:7px;margin-left:auto;border:1px solid var(--line);background:none;border-radius:999px;padding:7px 14px;font-size:13.5px;color:var(--mist);transition:border-color .2s,color .2s}
 .shr:hover{border-color:var(--line-strong);color:var(--ink)}
 .shr svg{width:16px;height:16px}
+
+/* =====================================================================
+   Entrenamiento personalizado (#/entrenamiento y acceso en el inicio)
+   ===================================================================== */
+.tr-hero,.tr-cta{position:relative;isolation:isolate;display:flex;align-items:flex-end;overflow:hidden;border-radius:var(--r-box);background:#151918;color:#fff}
+.tr-hero{min-height:min(76vh,640px);padding:56px}
+.tr-cta{min-height:440px;padding:48px 52px}
+.tr-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transition:transform 1.2s var(--ease)}
+.tr-hero::before,.tr-cta::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(to top,rgba(var(--hero-shade),.95),rgba(var(--hero-shade),.4) 62%,rgba(var(--hero-shade),.6))}
+.tr-cta:hover .tr-bg{transform:scale(1.03)}
+/* sin foto: fondo del panel con un brillo del color de acento y la rutina de ejemplo al costado */
+.tr-hero.nophoto,.tr-cta.nophoto{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:56px;min-height:0;color:var(--ink);border:1px solid var(--line);
+  background:radial-gradient(90% 120% at 100% 0%,color-mix(in srgb,var(--accent) 16%,transparent),transparent 62%),var(--stone)}
+.nophoto::before{display:none}
+.tr-hero.nophoto h1,.tr-cta.nophoto h2{color:var(--ink)}
+.nophoto .tr-in>p{color:var(--ink-soft)}
+.nophoto .tr-kick{color:var(--accent)}
+.nophoto .tr-feats{color:var(--mist)}
+.nophoto .tr-feats li::before{background:var(--accent)}
+.tr-cta.nophoto:hover{border-color:var(--line-strong)}
+.tr-cta.nophoto:hover .tr-mock{transform:rotate(0)}
+/* rutina de ejemplo */
+.tr-mock{width:350px;padding:22px 22px 20px;background:var(--paper);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);font-size:14.5px;transform:rotate(2deg);transition:transform .6s var(--ease)}
+.tr-mock-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:12px}
+.tr-mock-h span{font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+.tr-mock-h b{font-size:14.5px;font-weight:600}
+.tr-mock ul{list-style:none;margin:0;padding:0}
+.tr-mock li{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid var(--line);color:var(--ink-soft)}
+.tr-mock li em{font-style:normal;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums;white-space:nowrap}
+.tr-mock-p{display:grid;gap:8px;margin-top:12px;font-size:13px;color:var(--mist)}
+.tr-mock-p i{display:block;height:6px;border-radius:3px;background:var(--line);overflow:hidden}
+.tr-mock-p b{display:block;width:75%;height:100%;border-radius:3px;background:var(--accent)}
+.tr-mock-n{display:flex;align-items:center;gap:8px;width:fit-content;margin:14px 0 0;padding:7px 12px 7px 10px;border-radius:999px;background:var(--ok-bg);color:var(--ok-ink);font-size:13px}
+.tr-mock-n svg{width:15px;height:15px;flex:none}
+.tr-in{max-width:660px}
+.tr-kick{display:block;margin-bottom:14px;font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--hero-btn)}
+.tr-hero h1,.tr-cta h2{font:300 clamp(40px,5.4vw,76px)/1 var(--font);letter-spacing:-.035em;margin:0 0 16px;color:#fff;text-wrap:balance}
+.tr-in>p{margin:0 0 28px;max-width:50ch;font-size:18px;line-height:1.55;color:rgba(255,255,255,.82)}
+.tr-acts{display:flex;gap:10px;flex-wrap:wrap}
+.tr-feats{list-style:none;display:flex;flex-wrap:wrap;gap:8px 24px;margin:28px 0 0;padding:0;font-size:14.5px;color:rgba(255,255,255,.8)}
+.tr-feats li{display:flex;align-items:center;gap:9px}
+.tr-feats li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--hero-btn)}
+/* cómo funciona */
+.tr-steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.tr-steps li{display:flex;flex-direction:column;gap:8px;padding:26px 24px 28px;background:var(--stone);border-radius:var(--r-box)}
+.tr-n{font:600 40px/1 var(--font);color:var(--accent);margin-bottom:12px}
+.tr-steps strong{font-size:18px;font-weight:600;line-height:1.25}
+.tr-steps p{margin:0;color:var(--mist);font-size:15px;line-height:1.6}
+/* planes */
+.tr-plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding-top:12px}
+.tr-plan{position:relative;display:flex;flex-direction:column;padding:34px 28px 28px;background:var(--stone);border:1.5px solid transparent;border-radius:var(--r-box)}
+.tr-plan.on{border-color:var(--accent)}
+.tr-plan .qbadge{top:-12px;left:26px;right:auto}
+.tr-plan h3{margin:0 0 8px;font:600 22px/1.15 var(--font);letter-spacing:-.01em}
+.tr-sub{margin:0;color:var(--mist);font-size:15px;line-height:1.55}
+.tr-price{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 8px;margin:22px 0;padding-bottom:22px;border-bottom:1px solid var(--line)}
+.tr-price b{font:600 34px/1 var(--font);letter-spacing:-.02em;color:var(--price)}
+.tr-price span{color:var(--mist);font-size:15px}
+.tr-inc{list-style:none;margin:0 0 28px;padding:0;display:grid;gap:12px;align-content:start;flex:1}
+.tr-inc li{display:grid;grid-template-columns:18px minmax(0,1fr);gap:10px;font-size:15px;line-height:1.5;color:var(--ink-soft)}
+.tr-inc svg{width:18px;height:18px;margin-top:2px;color:var(--accent)}
+.tr-plan .btn{width:100%}
+.tr-notes{display:flex;flex-wrap:wrap;gap:8px 32px;margin-top:22px;font-size:14.5px;color:var(--mist)}
+.tr-notes p{margin:0}
+.tr-notes b{color:var(--ink);font-weight:600}
+/* objetivo + suplementos */
+.tr-rec{margin-top:32px}
+.tr-rec .gcta{margin-top:40px}
+.tr-empty{margin:0;padding:22px 24px;border:1px dashed var(--line-strong);border-radius:var(--r-box);color:var(--mist);font-size:15px}
+/* sobre mí */
+.tr-about{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:64px;align-items:center}
+.tr-about.nophoto{grid-template-columns:minmax(0,1fr)}
+.tr-ph{aspect-ratio:4/5;border-radius:var(--r-box)}
+.tr-ph .ini{font-size:160px}
+.tr-bio p{margin:0 0 16px;max-width:58ch;font-size:17px;line-height:1.75;color:var(--ink-soft)}
+.tr-bio p:first-child{font-size:20px;line-height:1.55;color:var(--ink)}
+/* testimonios (aparecen cuando hay alguno cargado) */
+.tr-tests{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.tr-tests figure{margin:0;display:flex;flex-direction:column;justify-content:space-between;gap:20px;padding:28px;background:var(--stone);border-radius:var(--r-box)}
+.tr-tests blockquote{margin:0;font-size:16.5px;line-height:1.65;color:var(--ink-soft)}
+.tr-tests figcaption{font-size:14px;color:var(--mist)}
+.tr-tests figcaption b{display:block;color:var(--ink);font-weight:600;font-size:15px}
+/* preguntas */
+.tr-faq{max-width:860px;border-top:1px solid var(--line)}
+.tr-faq details{border-bottom:1px solid var(--line)}
+.tr-faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:20px 0;font-size:17px;font-weight:500}
+.tr-faq summary::-webkit-details-marker{display:none}
+.tr-faq summary::after{content:"+";flex:none;font-size:26px;font-weight:300;line-height:1;color:var(--accent);transition:transform .25s var(--ease)}
+.tr-faq details[open] summary::after{transform:rotate(45deg)}
+.tr-faq summary:hover{color:var(--accent)}
+.tr-faq details p{margin:0 0 22px;max-width:68ch;color:var(--ink-soft);line-height:1.7}
+/* paleta grafito y naranja: títulos condensados; paleta negra: serif */
+:root:not([data-tema]) :is(.tr-hero h1,.tr-cta h2,.tr-plan h3,.tr-n,.tr-price b){font-family:var(--cond);font-weight:700;text-transform:uppercase;letter-spacing:.005em}
+:root:not([data-tema]) .tr-hero h1{font-size:clamp(52px,7vw,112px);line-height:.9;max-width:15ch}
+:root:not([data-tema]) .nophoto h1{font-size:clamp(50px,6vw,92px)}
+:root:not([data-tema]) .tr-cta h2{font-size:clamp(44px,5.6vw,88px);line-height:.92;max-width:13ch}
+:root:not([data-tema]) .tr-plan h3{font-size:30px;line-height:1}
+:root:not([data-tema]) .tr-n{font-size:48px}
+:root:not([data-tema]) .tr-price b{font-size:46px}
+:root[data-tema="negro"] :is(.tr-hero h1,.tr-cta h2,.tr-plan h3,.tr-n){font-family:var(--serif);font-weight:500;letter-spacing:-.012em}
+:root[data-tema="negro"] .tr-ph .ini{font-family:var(--serif)}
+/* el menú suma «Entrenamiento»: en pantallas medianas se compacta para que entre en una línea */
+@media(min-width:901px) and (max-width:1180px){
+  .bar{gap:28px}
+  nav.main{gap:20px}
+  nav.main a{font-size:14px}
+  .admbtn .lg,.admbtn .sm{display:none}
+  .admbtn .ic{display:grid;place-items:center}
+  .admbtn{width:40px;padding:0;justify-content:center}
+  .cartbtn .lbl{display:none}
+}
+@media(min-width:901px) and (max-width:1020px){
+  .wrap{padding:0 28px}
+  .bar{gap:22px}
+  nav.main{gap:16px}
+}
+@media(max-width:1000px){
+  .tr-steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .tr-tests{grid-template-columns:1fr}
+}
+@media(max-width:900px){
+  .tr-hero.nophoto{grid-template-columns:1fr;gap:36px}
+  .tr-cta.nophoto{grid-template-columns:1fr}
+  .tr-cta .tr-mock{display:none}
+  .tr-mock{transform:none}
+  .tr-plans{grid-template-columns:1fr;max-width:560px;gap:24px}
+  .tr-about{grid-template-columns:1fr;gap:32px}
+  .tr-ph{max-width:420px;aspect-ratio:1}
+}
+@media(max-width:700px){
+  .tr-hero{min-height:600px;padding:32px 22px}
+  .tr-cta{min-height:460px;padding:32px 22px}
+  .tr-hero.nophoto,.tr-cta.nophoto{min-height:0}
+  .tr-mock{width:100%}
+  .tr-in>p{font-size:16.5px}
+  .tr-acts .btn{flex:1 1 100%}
+  .tr-steps{grid-template-columns:1fr}
+  .tr-steps li{padding:22px 20px}
+  .tr-plan{padding:30px 22px 22px}
+  .tr-ph .ini{font-size:120px}
+  .tr-bio p:first-child{font-size:18.5px}
+}
 </style>
 </head>
 <body>
@@ -1202,7 +1344,16 @@ const CONFIG = {
     quiz_activo:"SI", stack_desc_base:"0", stack_desc_pro:"5", stack_desc_elite:"10",
     asistente_activo:"SI",
     asistente_nombre:"Asistente nutrigoww",
-    asistente_bienvenida:"Contame tu objetivo o tu consulta y te recomiendo qué productos del catálogo te sirven."
+    asistente_bienvenida:"Contame tu objetivo o tu consulta y te recomiendo qué productos del catálogo te sirven.",
+    // entrenamiento personalizado (#/entrenamiento). Los planes de fábrica están en ENTRENA_DEF
+    entrena_activo:"SI",
+    entrena_titulo:"Entrená con un plan hecho para vos.",
+    entrena_texto:"Rutinas a medida de tu objetivo, tu nivel y los días que tenés. Con seguimiento real y la suplementación justa, todo en un mismo lugar.",
+    entrena_foto:"",          // link de Drive (o cualquier link de imagen). Vacío = foto de la portada
+    entrena_planes:"",        // JSON con los planes; vacío = los de fábrica
+    entrena_bio:"",           // párrafos de «Sobre mí» separados por |; vacío = los de fábrica
+    entrena_testimonios:"",   // JSON [{texto,nombre,detalle}]; vacío = no se muestra la sección
+    entrena_desc_suple:"10"   // % de descuento en suplementos para alumnos (vacío o 0 = no se muestra)
   }
 };
 
@@ -1454,7 +1605,7 @@ function renderFooter(){
   $("#sitefoot").innerHTML=`<div class="wrap fcols">
     <div><div class="flogo">${esc(S.nombre)}</div>${S.pie?`<p>${esc(S.pie)}</p>`:""}${fpay}</div>
     <div><h4>Tienda</h4><a href="#/marcas">Marcas</a><a href="#/tienda">Toda la tienda</a>${cats}</div>
-    ${pages?`<div><h4>Información</h4>${pages}</div>`:""}
+    ${entrenaOn()||pages?`<div><h4>Información</h4>${entrenaOn()?`<a href="#/entrenamiento">Entrenamiento personalizado</a>`:""}${pages}</div>`:""}
     ${any?`<div><h4>Contacto</h4>${wa}${ig}${em}${dir}${hor}</div>`:""}
   </div><div class="wrap"><div class="fbot">© ${yr} ${esc(S.nombre)}. Todos los derechos reservados.</div></div>`;
   $("#mf").innerHTML=wa+ig+em;
@@ -1538,7 +1689,7 @@ function renderNav(){
   const items=[
     ["#/marcas","Marcas",h.startsWith("#/marcas")||h.startsWith("#/m/")],
     ["#/tienda","Tienda",h.startsWith("#/tienda")||h.startsWith("#/c/")]
-  ].concat(quizOn()?[["#/armar","Armá tu stack",h.startsWith("#/armar")]]:[]).concat([["#/guia","Guía",h.startsWith("#/guia")]]).concat(DATA.paginas.filter(p=>p.menu&&!p.padre).map(p=>["#/pagina/"+p.id,p.titulo,h==="#/pagina/"+p.id||DATA.paginas.some(k=>k.padre===p.id&&h==="#/pagina/"+k.id)]));
+  ].concat(entrenaOn()?[["#/entrenamiento","Entrenamiento",h.startsWith("#/entrenamiento")]]:[]).concat(quizOn()?[["#/armar","Armá tu stack",h.startsWith("#/armar")]]:[]).concat([["#/guia","Guía",h.startsWith("#/guia")]]).concat(DATA.paginas.filter(p=>p.menu&&!p.padre).map(p=>["#/pagina/"+p.id,p.titulo,h==="#/pagina/"+p.id||DATA.paginas.some(k=>k.padre===p.id&&h==="#/pagina/"+k.id)]));
   const html=items.map(([href,t,on])=>`<a href="${href}" class="${on?"on":""}">${esc(t)}</a>`).join("");
   $("#nav").innerHTML=html; $("#mnav").innerHTML=html;
 }
@@ -1655,6 +1806,7 @@ function viewHome(){
     html=sec("Estamos preparando la tienda","",`<p class="prep">Muy pronto vas a encontrar acá los productos.${S.whatsapp?" Mientras tanto, podés escribirnos por WhatsApp.":""}</p>${S.whatsapp?`<a class="btn" href="https://wa.me/${S.whatsapp}" target="_blank" rel="noopener">Escribir por WhatsApp</a>`:""}`);
   } else {
     html=reorderCard()+stackCTA()+sec("Destacados",`<a href="#/tienda">Ver todo</a>`,show.length?`<div class="grid">${show.map(card).join("")}</div>`:`<div class="empty">Todavía no hay productos cargados.</div>`)
+      +trainerCTA()
       +(topCats().length?sec("Categorías","",`<div class="catlist">${topCats().map(c=>{const sb=subCats(c.id);return `<a href="#/c/${c.id}"><strong>${esc(c.nombre)}</strong><small>${sb.length?sb.map(x=>esc(x.nombre)).join(", "):(esc(c.descripcion)||"")}</small></a>`}).join("")}</div>`):"")
       +(DATA.marcas.length?sec("Marcas",`<a href="#/marcas">Ver todas</a>`,`<div class="brands home">${DATA.marcas.map(brandTile).join("")}</div>`):"");
   }
@@ -2005,6 +2157,7 @@ function quizResult(){
     <aside class="qsum"><div class="tot"><span>Subtotal</span><span>${money(sub)}</span></div>${pct?`<div class="tot qdisc"><span>Descuento stack ${esc(t.l)} (${pct}%)</span><span>−${money(disc)}</span></div>`:""}<div class="tot qtotal"><span>Total</span><span>${money(sub-disc)}</span></div>${tPct()?`<p class="ttot">Con transferencia: <b>${money(tPrice(sub-disc))}</b></p>`:""}
       <button type="button" class="btn" data-q="addstack">Agregar el stack al carrito</button>
       <p class="qnote">${pct?"El descuento se aplica en el carrito mientras tengas el stack completo.":t.n>items.length?"Con los productos que hay hoy, este nivel no está completo, así que no lleva descuento.":"Este nivel no lleva descuento."}</p></aside></div>
+    ${entrenaOn()?`<div class="gcta"><p>¿Querés también la rutina para este objetivo?</p><a class="btn out" href="#/entrenamiento">Ver planes de entrenamiento</a></div>`:""}
     ${EDU_NOTE}</div>`;
 }
 function quizMount(){
@@ -2060,6 +2213,159 @@ function guideMount(){
   const ch=$("#gchips"); if(!ch) return;
   ch.addEventListener("click",e=>{ const b=e.target.closest("[data-g]"); if(!b) return; ch.querySelectorAll(".chip").forEach(c=>c.classList.toggle("on",c===b)); const g=allGoals().find(x=>x.id===b.dataset.g), set=g?new Set([...g.t,g.alt].flatMap(x=>[x,...(EQUIV[x]||[])])):null; document.querySelectorAll(".gitem").forEach(i=>{ i.hidden=!!set&&!set.has(i.dataset.tipo); }); });
 }
+/* =====================================================================
+   ENTRENAMIENTO PERSONALIZADO  (#/entrenamiento)
+   La página del personal trainer: cómo funciona, planes, objetivo con los
+   suplementos de la tienda que lo acompañan, sobre mí y preguntas frecuentes.
+   - Los textos y los planes de fábrica están en ENTRENA_DEF (precios de ejemplo).
+   - Se pueden pisar desde la pestaña Config con las claves entrena_*:
+     entrena_planes y entrena_testimonios en formato JSON (igual que objetivos),
+     entrena_bio con los párrafos separados por |.
+   ===================================================================== */
+const ENTRENA_DEF={
+  planes:[
+    {id:"online",nombre:"Online",precio:25000,periodo:"mes",sub:"Tu rutina a medida, para entrenar por tu cuenta donde quieras.",
+     incluye:["Evaluación inicial: objetivo, nivel, lesiones y días disponibles","Rutina personalizada en tu celular, con video de cada ejercicio","Rutina nueva cada 4 semanas","Consultas por WhatsApp"]},
+    {id:"seguimiento",nombre:"Online + seguimiento",precio:45000,periodo:"mes",destacado:true,sub:"Para no aflojar: revisamos tu progreso todas las semanas.",
+     incluye:["Todo lo del plan Online","Control semanal de cargas, medidas y fotos","Ajustes de la rutina todas las semanas","Corrección de técnica por video","Guía de alimentación y suplementación"]},
+    {id:"presencial",nombre:"Presencial",precio:80000,periodo:"mes",sub:"Entrenamos juntos, uno a uno, dos veces por semana.",
+     incluye:["8 clases por mes, uno a uno","Todo lo del plan Online + seguimiento","Rutina para los días que entrenás por tu cuenta","Horarios a coordinar"]}
+  ],
+  pasos:[
+    ["Elegís tu plan","Me escribís por WhatsApp con el plan que te interesa y coordinamos el inicio."],
+    ["Evaluación inicial","Me contás tu objetivo, tu experiencia, tus horarios, dónde entrenás y si tenés alguna lesión."],
+    ["Recibís tu rutina","Armo tu plan a medida y te llega al celular, con cada ejercicio explicado."],
+    ["Seguimiento y ajustes","Vemos cómo avanzás y ajustamos la rutina para que sigas progresando."]
+  ],
+  bio:[
+    "Como personal trainer, armo cada plan a medida: nada de rutinas copiadas ni genéricas.",
+    "Empezamos por conocerte: tu objetivo, tu experiencia, tus horarios y cualquier lesión o molestia. Con eso armo tu rutina y la vamos ajustando según cómo responde tu cuerpo.",
+    "Y como también tenemos la tienda, te oriento con la suplementación justa para tu objetivo, sin venderte de más."
+  ],
+  faq:[
+    ["¿Necesito experiencia previa?","No. El plan se arma según tu nivel, tanto si empezás de cero como si ya entrenás hace años."],
+    ["¿Puedo entrenar en casa o en mi gimnasio?","Sí. Me contás con qué equipamiento contás y la rutina se adapta: gimnasio, casa o al aire libre."],
+    ["¿Qué pasa si tengo una lesión o una molestia?","Contámelo en la evaluación inicial. Adaptamos los ejercicios y, si hace falta, te pido el visto bueno de tu médico o kinesiólogo."],
+    ["¿Cómo pago?",""],   // vacío: se completa con los medios de pago de la tienda
+    ["¿Puedo cambiar de plan o dejar cuando quiera?","Sí. Los planes son por mes y sin permanencia: podés cambiar, pausar o dejar al terminar cada mes."]
+  ]
+};
+const entrenaOn=()=>!no(S.entrena_activo);
+function jsonArr(v,def){ try{ const j=v?JSON.parse(v):null; if(Array.isArray(j)&&j.length) return j; }catch(e){} return def; }
+function trPlans(){
+  return jsonArr(S.entrena_planes,ENTRENA_DEF.planes).filter(p=>p&&typeof p==="object").map((p,i)=>{
+    const nombre=String(p.nombre||"").trim();
+    return {id:slug(p.id||nombre)||("plan"+i),nombre,precio:num(p.precio),periodo:String(p.periodo||"mes").trim(),sub:String(p.sub||"").trim(),
+      destacado:p.destacado===true||yes(p.destacado),
+      incluye:(Array.isArray(p.incluye)?p.incluye:list(p.incluye,"|")).map(x=>String(x).trim()).filter(Boolean)};
+  }).filter(p=>p.nombre);
+}
+const trTests=()=>jsonArr(S.entrena_testimonios,[]).filter(t=>t&&String(t.texto||"").trim()).slice(0,6);
+const TR={goal:""};
+const trGoals=()=>quizGoals().length?quizGoals():allGoals();
+const trGoal=()=>trGoals().find(g=>g.id===TR.goal)||null;
+const trFoto=()=>String(S.entrena_foto||"").trim();   // tu foto: sin foto, la portada usa un diseño con la rutina de ejemplo
+// link de WhatsApp con el plan elegido y el objetivo (si lo eligió)
+function trWa(plan){
+  if(!S.whatsapp) return "";
+  const g=trGoal();
+  let msg=plan?`Hola ${S.nombre}! Quiero empezar el plan ${plan.nombre}${plan.precio?` (${money(plan.precio)} por ${plan.periodo})`:""}.`:`Hola ${S.nombre}! Quiero consultar por el entrenamiento personalizado.`;
+  if(g) msg+=` Mi objetivo: ${g.l.toLowerCase()}.`;
+  return `https://wa.me/${S.whatsapp}?text=${encodeURIComponent(msg)}`;
+}
+const TR_CHECK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+
+// tarjeta decorativa: cómo se ve una rutina en el celular
+function trMock(){
+  const rows=[["Sentadilla","4 × 8"],["Press de banca","4 × 8"],["Remo con barra","3 × 10"],["Peso muerto rumano","3 × 10"],["Plancha","3 × 40 s"]];
+  return `<div class="tr-mock" aria-hidden="true"><div class="tr-mock-h"><span>Tu rutina</span><b>Semana 3 · Día A</b></div>
+    <ul>${rows.map(([e,r])=>`<li><span>${e}</span><em>${r}</em></li>`).join("")}</ul>
+    <div class="tr-mock-p"><span>Progreso del bloque</span><i><b></b></i></div>
+    <p class="tr-mock-n">${TR_CHECK}Ajustada según tu último control</p></div>`;
+}
+
+/* ---------- inicio: acceso a entrenamiento ---------- */
+function trainerCTA(){
+  if(!entrenaOn()) return "";
+  const f=trFoto(), low=trPlans().filter(p=>p.precio).sort((a,b)=>a.precio-b.precio)[0];
+  return `<section class="blk"><a class="tr-cta${f?"":" nophoto"}" href="#/entrenamiento">${f?`<img class="tr-bg" src="${esc(img(f,1600))}" alt="" loading="lazy" referrerpolicy="no-referrer">`:""}
+    <div class="tr-in"><span class="tr-kick">Entrenamiento personalizado</span><h2>Entrená con un plan a medida</h2><p>Online o presencial, con seguimiento y la suplementación justa para tu objetivo.${low?` Planes desde ${money(low.precio)} por ${esc(low.periodo)}.`:""}</p><span class="btn${f?" light":""}">Ver planes</span></div>${f?"":trMock()}</a></section>`;
+}
+
+/* ---------- suplementos que acompañan el objetivo elegido ---------- */
+function trRec(){
+  const g=trGoal();
+  if(!g) return `<p class="tr-empty">Elegí un objetivo y te mostramos los suplementos que mejor lo acompañan.</p>`;
+  const items=buildStack(g.id,"elite");
+  if(!items.length) return `<p class="tr-empty">Por ahora no hay productos para este objetivo. Escribinos y te asesoramos.</p>`;
+  const mp=maxPct();
+  return `<div class="grid">${items.map(card).join("")}</div>${quizOn()?`<div class="gcta"><p>¿Querés el combo completo${mp?` con hasta ${mp}% de descuento`:""}?</p><a class="btn" href="#/armar" data-trstack>Armar mi stack</a></div>`:""}`;
+}
+
+/* ---------- página ---------- */
+function viewTrainer(){
+  if(!entrenaOn()) return view404();
+  if(!TR.goal&&QZ.goal&&trGoals().some(g=>g.id===QZ.goal)) TR.goal=QZ.goal;   // si viene del quiz, ya trae su objetivo
+  const plans=trPlans(), tests=trTests(), pl=payList(), f=trFoto(), wa=!!S.whatsapp;
+  const bio=list(S.entrena_bio,"|"), bioP=bio.length?bio:ENTRENA_DEF.bio;
+  const dsc=Math.max(0,Math.min(50,Math.round(num(S.entrena_desc_suple))));
+  const payA=pl.length?`Se paga por mes. Podés pagar con ${pl.join(", ")}.${S.pagos_detalle?" "+S.pagos_detalle:""}`:"Se paga por mes. Te paso los medios de pago por WhatsApp.";
+  const faq=ENTRENA_DEF.faq.map(([q,a])=>[q,a||payA]);
+  const sec=(title,extra,body,id)=>`<section class="blk"${id?` id="${id}"`:""}><div class="head"><h2>${title}</h2>${extra||""}</div>${body}</section>`;
+  const waBtn=(cls,txt)=>wa?`<a class="btn ${cls}" data-tw="" href="${esc(trWa())}" target="_blank" rel="noopener">${txt}</a>`:"";
+  return `<div class="page-top tr"><div class="crumbs"><a href="#/">Inicio</a> / Entrenamiento</div>
+  <section class="tr-hero${f?"":" nophoto"}">${f?`<img class="tr-bg" src="${esc(img(f,1600))}" alt="" referrerpolicy="no-referrer">`:""}
+    <div class="tr-in"><span class="tr-kick">Entrenamiento personalizado</span>
+      <h1>${esc(S.entrena_titulo)}</h1>
+      ${S.entrena_texto?`<p>${esc(S.entrena_texto)}</p>`:""}
+      <div class="tr-acts">${plans.length?`<button type="button" class="btn${f?" light":""}" data-tr="trPlanes">Ver planes</button>`:""}${waBtn(f?"line":"out","Consultar por WhatsApp")}</div>
+      <ul class="tr-feats"><li>Online o presencial</li><li>Rutina en tu celular</li><li>Ajustes según tu progreso</li></ul>
+    </div>${f?"":trMock()}</section>
+  ${sec("Cómo funciona","",`<ol class="tr-steps">${ENTRENA_DEF.pasos.map(([t,d],i)=>`<li><span class="tr-n">${String(i+1).padStart(2,"0")}</span><strong>${esc(t)}</strong><p>${esc(d)}</p></li>`).join("")}</ol>`)}
+  ${plans.length?sec("Planes",`<span class="crumbs" style="margin:0">Precios por mes</span>`,`<div class="tr-plans">${plans.map(p=>`<article class="tr-plan${p.destacado?" on":""}">${p.destacado?`<span class="qbadge">Recomendado</span>`:""}
+      <h3>${esc(p.nombre)}</h3>${p.sub?`<p class="tr-sub">${esc(p.sub)}</p>`:""}
+      <div class="tr-price">${p.precio?`<b>${money(p.precio)}</b><span>por ${esc(p.periodo)}</span>`:`<b>A consultar</b>`}</div>
+      ${p.incluye.length?`<ul class="tr-inc">${p.incluye.map(x=>`<li>${TR_CHECK}<span>${esc(x)}</span></li>`).join("")}</ul>`:""}
+      ${wa?`<a class="btn${p.destacado?"":" out"}" data-tw="${esc(p.id)}" href="${esc(trWa(p))}" target="_blank" rel="noopener">Quiero este plan</a>`:""}
+    </article>`).join("")}</div>
+    ${dsc||pl.length?`<div class="tr-notes">${dsc?`<p>Con cualquier plan tenés <b>${dsc}% de descuento</b> en los suplementos de la tienda.</p>`:""}${pl.length?`<p>Medios de pago: ${esc(pl.join(" · "))}</p>`:""}</div>`:""}`,"trPlanes"):""}
+  ${sec("Entrenamiento y suplementación",`<a href="#/guia">Guía de suplementos</a>`,`<p class="prep">Elegí tu objetivo: lo sumamos a tu consulta y te mostramos qué suplementos de la tienda lo acompañan.</p>
+    <div class="chips" role="group" aria-label="Tu objetivo">${trGoals().map(g=>`<button type="button" class="chip${TR.goal===g.id?" on":""}" data-trg="${esc(g.id)}" aria-pressed="${TR.goal===g.id}">${esc(g.l)}</button>`).join("")}</div>
+    <div class="tr-rec" id="trRec" aria-live="polite">${trRec()}</div>`)}
+  <section class="blk"><div class="tr-about${f?"":" nophoto"}">
+    ${f?`<div class="ph tr-ph">${imgTag(f,"",900)}</div>`:""}
+    <div><div class="head"><h2>Sobre mí</h2></div><div class="tr-bio">${bioP.map(t=>`<p>${esc(t)}</p>`).join("")}</div></div>
+  </div></section>
+  ${tests.length?sec("Lo que dicen los alumnos","",`<div class="tr-tests">${tests.map(t=>`<figure><blockquote>${esc(t.texto)}</blockquote><figcaption><b>${esc(t.nombre||"")}</b>${esc(t.detalle||"")}</figcaption></figure>`).join("")}</div>`):""}
+  ${sec("Preguntas frecuentes","",`<div class="tr-faq">${faq.map(([q,a])=>`<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join("")}</div>`)}
+  <section class="blk"><div class="stackcta"><div><h2>¿Arrancamos?</h2><p>Escribime, te hago unas preguntas y armamos tu plan.</p></div>${waBtn("","Escribir por WhatsApp")}</div></section>
+  <p class="edu-note">Si tenés alguna condición de salud, una lesión o estás embarazada, consultá con tu médico antes de empezar un plan de entrenamiento.</p>
+  </div>`;
+}
+function trainerMount(){
+  const el=document.querySelector(".tr"); if(!el) return;
+  const plans=trPlans();
+  el.addEventListener("click",e=>{
+    const s=e.target.closest("[data-tr]");
+    if(s){
+      const t=document.getElementById(s.dataset.tr); if(!t) return;
+      const hh=(document.querySelector("header.top")||{}).offsetHeight||0;
+      window.scrollTo({top:t.getBoundingClientRect().top+scrollY-hh-8,behavior:MOTION?"smooth":"auto"});
+      return;
+    }
+    const g=e.target.closest("[data-trg]");
+    if(g){
+      TR.goal=TR.goal===g.dataset.trg?"":g.dataset.trg;
+      el.querySelectorAll("[data-trg]").forEach(b=>{ const on=b.dataset.trg===TR.goal; b.classList.toggle("on",on); b.setAttribute("aria-pressed",on); });
+      const r=$("#trRec"); if(r){ r.innerHTML=trRec(); rvScan(true); }
+      el.querySelectorAll("[data-tw]").forEach(a=>{ a.href=trWa(plans.find(x=>x.id===a.dataset.tw)||null); });
+      return;
+    }
+    // "Armar mi stack": el quiz arranca con el mismo objetivo ya elegido
+    if(e.target.closest("[data-trstack]")&&TR.goal){ QZ.goal=TR.goal; QZ.step=1; }
+  });
+}
+
 /* ---------- ficha de producto: qué es y cómo se usa ---------- */
 function productEdu(p){
   const t=TIPO[p.tipo]; if(!t) return "";
@@ -2140,6 +2446,7 @@ function pageTitle(parts){
   if(a==="pagina"){ const x=DATA.paginas.find(v=>v.id===b); return t(x&&x.titulo); }
   if(a==="marcas") return t("Marcas"); if(a==="tienda") return t("Tienda"); if(a==="admin") return t("Administrador");
   if(a==="armar") return t("Armá tu stack"); if(a==="guia"){ const x=TIPO[b]; return t(x?x.nombre:"Guía de suplementos"); }
+  if(a==="entrenamiento") return t("Entrenamiento personalizado");
   return n;
 }
 function route(keep){
@@ -2156,6 +2463,7 @@ function route(keep){
   else if(parts[0]==="pagina") html=viewPage(parts[1]);
   else if(parts[0]==="armar") html=viewQuiz();
   else if(parts[0]==="guia") html=parts[1]?viewGuideItem(parts[1]):viewGuide();
+  else if(parts[0]==="entrenamiento") html=viewTrainer();
   else html=view404();
   document.body.classList.toggle("home",home);
   document.body.classList.toggle("pdp",parts[0]==="p");
@@ -2178,6 +2486,7 @@ function route(keep){
   if(home) stripMount();
   if(parts[0]==="armar") quizMount();
   if(parts[0]==="guia"&&!parts[1]) guideMount();
+  if(parts[0]==="entrenamiento") trainerMount();
   if(nowAdmin) admMount();
   rvScan(keep);
   aiSync(nowAdmin); trackRoute(parts,params);
@@ -2241,7 +2550,7 @@ addEventListener("resize",()=>{ clearTimeout(stripMount.t); stripMount.t=setTime
 if(document.fonts&&document.fonts.ready) document.fonts.ready.then(()=>{ if(document.body.classList.contains("home")) stripMount(); });
 
 /* aparición al bajar: cada bloque entra suave cuando llega a la pantalla (los que entran juntos, escalonados) */
-const RV_SEL=".blk>.head,.blk>.reord,.stackcta,.grid>.item,.catlist>a,.brands>.bt,.glist>.gitem,.gcta,.educols>div,.gcols>section,.pd>.ph,.pd>.info,.doc>*,.fcols>div,.fbot";
+const RV_SEL=".blk>.head,.blk>.reord,.stackcta,.grid>.item,.catlist>a,.brands>.bt,.glist>.gitem,.gcta,.educols>div,.gcols>section,.pd>.ph,.pd>.info,.doc>*,.fcols>div,.fbot,.tr-cta,.tr-steps>li,.tr-plans>.tr-plan,.tr-about>*,.tr-faq,.tr-tests>figure";
 const RV={io:null};
 function rvScan(keep){
   if(!MOTION||!("IntersectionObserver" in window)) return;
