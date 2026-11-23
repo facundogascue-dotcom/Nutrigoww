@@ -420,7 +420,7 @@ table.adm-t{width:100%;border-collapse:collapse;font-size:15px}
 .f{display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--mist)}
 .f small{font-size:13px}
 .f input[type=text],.f input[type=password],.f textarea,.f select,.adm-login input{color:var(--ink);padding:11px 14px;border:1px solid var(--line);border-radius:10px;background:var(--paper);width:100%;font-size:15px}
-.f select{padding-right:36px}
+.f select{padding-right:36px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none' stroke='%236E7471' stroke-width='1.5'%3E%3Cpath d='M1 1l4 4 4-4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;-webkit-appearance:none;appearance:none;cursor:pointer}
 .f input:focus,.f textarea:focus,.f select:focus,.adm-login input:focus{outline:none;border-color:var(--ink)}
 .f textarea{resize:vertical;min-height:96px}
 .mh{color:var(--ink);font-weight:500}
@@ -1296,6 +1296,34 @@ body.trbar .tr-stick{transform:none}
 .dgrid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
 .dgrid label{display:flex;flex-direction:column;gap:5px;font-size:13px;color:var(--mist)}
 @media(max-width:700px){.dgrid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+/* programas por objetivo */
+.tr-prog-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px}
+.tr-prog-ic{display:grid;place-items:center;width:46px;height:46px;border-radius:13px;background:color-mix(in srgb,var(--accent) 16%,transparent);color:var(--accent)}
+.tr-prog-ic svg{width:24px;height:24px}
+.tr-prog-dur{padding:5px 12px;border:1px solid var(--line-strong);border-radius:999px;font-size:12.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
+.tr-tl{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:5px;margin-top:22px}
+.tr-tl span{display:grid;gap:7px;font-size:12px;color:var(--mist);white-space:nowrap}
+.tr-tl i{height:5px;border-radius:3px;background:color-mix(in srgb,var(--accent) var(--k),var(--line-strong));transform-origin:left center}
+.tr-tl.many span:not(:first-child):not(:last-child){font-size:0}
+.tr-tl.tr-a:not(.go) i{transform:scaleX(0)}
+.tr-tl.go i{animation:trGrow .6s var(--ease) both;animation-delay:calc(.25s + var(--j)*.2s)}
+.tr-price .tr-eq{flex-basis:100%;margin-top:6px;font-size:14.5px;line-height:1.4;color:var(--mist)}
+@media(min-width:901px){
+  .tr-progs:has(>:nth-child(4)),.tr-progs:not(:has(>:nth-child(3))){grid-template-columns:repeat(2,minmax(0,1fr))}
+  .tr-progs:not(:has(>:nth-child(2))){grid-template-columns:minmax(0,1fr);max-width:560px}
+}
+.tr-prog-acts{display:grid;justify-items:center;gap:14px}
+.tr-prog-acts .tr-back{margin:0}
+.tr-disc{margin:22px 0 0;max-width:72ch;font-size:14.5px;line-height:1.6;color:var(--mist)}
+/* panel: programas */
+.pgb{margin:10px 0 0;padding:14px 18px 18px;border:1px solid var(--line);border-radius:var(--r-box);min-width:0}
+.pgb legend{padding:0 6px;font-size:13.5px;font-weight:600;color:var(--ink)}
+.pgrid{display:grid;grid-template-columns:2fr 1fr 1fr 1.6fr;gap:12px 14px}
+.pgrid .w2{grid-column:span 2}
+.pgrid textarea{min-height:0}
+@media(max-width:900px){.pgrid{grid-template-columns:1fr 1fr}.pgrid .w2{grid-column:1/-1}}
+@media(max-width:560px){.pgrid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -1539,6 +1567,8 @@ const CONFIG = {
     entrena_precios_online:"",      // precios por días: 2=35000|3=40000|… (se editan en el panel, pestaña Asesorías)
     entrena_precios_seguimiento:"", // vacío = los de fábrica
     entrena_precios_presencial:"",
+    entrena_prog_activo:"SI",       // programas por objetivo: duración y precio cerrados
+    entrena_programas:"",           // JSON con los programas; vacío = los de fábrica (se editan en el panel)
     entrena_bio:"",           // párrafos de «Sobre mí» separados por |; vacío = los de fábrica
     entrena_testimonios:"",   // JSON [{texto,nombre,detalle}]; vacío = no se muestra la sección
     entrena_desc_suple:"10"   // % de descuento en suplementos para alumnos (vacío o 0 = no se muestra)
@@ -2411,6 +2441,8 @@ function guideMount(){
      entrena_bio con los párrafos separados por |.
    - Precios según los días por semana: entrena_precios_online, _seguimiento y
      _presencial con el formato 2=35000|3=40000 (pestaña Asesorías del panel).
+   - Programas por objetivo (duración y precio cerrados): entrena_programas,
+     también desde la pestaña Asesorías. Sin promesas de resultados.
    ===================================================================== */
 const ENTRENA_DEF={
   planes:[
@@ -2421,8 +2453,21 @@ const ENTRENA_DEF={
     {id:"presencial",nombre:"Presencial",periodo:"mes",dias:{2:80000,3:110000,4:140000,5:165000},sub:"Entrenamos juntos, uno a uno, los días que elijas.",
      incluye:["{clases} clases por mes, uno a uno","Todo lo del plan Online + seguimiento","Rutina para los días que entrenás por tu cuenta","Horarios a coordinar"]}
   ],
+  // programas por objetivo: precio por todo el programa (ejemplos). Sin prometer kilos: la meta se define en la evaluación.
+  programas:[
+    {nombre:"Bajar de peso",meses:3,precio:150000,objetivo:"perder-grasa",
+     texto:"Para bajar grasa de forma sostenible, con entrenamiento, hábitos y alimentación. Sin dietas extremas.",
+     incluye:["Evaluación inicial y meta personalizada","Rutina a medida que se ajusta cada semana","Guía de alimentación y hábitos","Control semanal de peso, medidas y fotos"]},
+    {nombre:"Ganar masa muscular",meses:4,precio:190000,objetivo:"ganar-masa-muscular",
+     texto:"Fuerza e hipertrofia con una progresión de cargas planificada semana a semana.",
+     incluye:["Evaluación inicial y meta personalizada","Plan de fuerza con progresión de cargas","Guía de alimentación para ganar masa","Control de cargas y medidas cada semana"]},
+    {nombre:"Empezar de cero",meses:2,precio:80000,objetivo:"salud-general",
+     texto:"Para arrancar o volver después de un parate: técnica, hábito y confianza, sin lesionarte.",
+     incluye:["Evaluación inicial y meta personalizada","Aprendés la técnica de cada ejercicio","Rutina progresiva de 2 o 3 días por semana","Consultas por WhatsApp"]}
+  ],
+  faqProg:["¿Qué diferencia hay entre un plan y un programa?","El plan es por mes: lo renovás, lo cambiás o lo dejás cuando quieras. El programa va por una meta concreta, con una duración y un precio cerrados de principio a fin."],
   pasos:[
-    ["Elegís tu plan","Elegís el plan y cuántos días por semana querés entrenar, me escribís por WhatsApp y coordinamos el inicio."],
+    ["Elegís tu plan","Elegís un plan por mes (con los días que quieras) o un programa por objetivo, me escribís por WhatsApp y coordinamos el inicio."],
     ["Evaluación inicial","Me contás tu objetivo, tu experiencia, tus horarios, dónde entrenás y si tenés alguna lesión."],
     ["Recibís tu rutina","Armo tu plan a medida y te llega al celular, con cada ejercicio explicado."],
     ["Seguimiento y ajustes","Vemos cómo avanzás y ajustamos la rutina para que sigas progresando."]
@@ -2441,6 +2486,7 @@ const ENTRENA_DEF={
   ]
 };
 const entrenaOn=()=>!no(S.entrena_activo);
+const entrenaProgOn=()=>!no(S.entrena_prog_activo);
 const trName=()=>String(S.entrena_nombre||"").trim()||"Asesorías";
 function jsonArr(v,def){ try{ const j=v?JSON.parse(v):null; if(Array.isArray(j)&&j.length) return j; }catch(e){} return def; }
 // precios por días: "2=35000|3=40000", {2:35000} o [{dias:2,precio:35000}] → [{d:2,precio:35000},…]
@@ -2525,7 +2571,7 @@ function trainerCTA(){
   if(!entrenaOn()) return "";
   const f=trFoto(), low=trPlans().filter(p=>p.desde).sort((a,b)=>a.desde-b.desde)[0];
   return `<section class="blk"><a class="tr-cta${f?"":" nophoto"}" href="#/entrenamiento">${f?`<img class="tr-bg" src="${esc(img(f,1600))}" alt="" loading="lazy" referrerpolicy="no-referrer">`:""}
-    <div class="tr-in"><span class="tr-kick">Entrenamiento personalizado</span><h2>Entrená con un plan a medida</h2><p>Online o presencial, con seguimiento y la suplementación justa para tu objetivo.${low?` Planes desde ${money(low.desde)} por ${esc(low.periodo)}.`:""}</p><span class="btn${f?" light":""}">Ver planes</span></div>${f?"":trMock()}</a></section>`;
+    <div class="tr-in"><span class="tr-kick">Entrenamiento personalizado</span><h2>Entrená con un plan a medida</h2><p>Online o presencial, con seguimiento y la suplementación justa para tu objetivo.${low?` Planes desde ${money(low.desde)} por ${esc(low.periodo)}${entrenaProgOn()&&trProgs(S.entrena_programas).length?" y programas por objetivo":""}.`:""}</p><span class="btn${f?" light":""}">Ver planes</span></div>${f?"":trMock()}</a></section>`;
 }
 
 /* ---------- suplementos que acompañan el objetivo elegido ---------- */
@@ -2598,6 +2644,36 @@ function trSyncDias(root){
   if(fp&&pk) fp.textContent=trFindPrice(pk);
 }
 
+/* ---------- programas por objetivo: duración y precio cerrados ---------- */
+function trProgs(v){
+  let a=null;
+  if(Array.isArray(v)) a=v; else { try{ const j=v?JSON.parse(v):null; if(Array.isArray(j)) a=j; }catch(e){} }
+  if(!a) a=ENTRENA_DEF.programas;   // "[]" guardado a propósito = sin programas
+  return a.filter(p=>p&&typeof p==="object"&&String(p.nombre||"").trim()).map((p,i)=>{
+    const nombre=String(p.nombre).trim();
+    return {id:slug(nombre)||("prog"+i),nombre,meses:Math.max(0,Math.round(num(p.meses))),precio:num(p.precio),objetivo:String(p.objetivo||"").trim(),
+      texto:String(p.texto||"").trim(),incluye:(Array.isArray(p.incluye)?p.incluye:list(p.incluye,"|")).map(x=>String(x).trim()).filter(Boolean)};
+  });
+}
+const trMeses=n=>`${n} ${n===1?"mes":"meses"}`;
+const trProgGoal=p=>p.objetivo?trGoals().find(g=>g.id===slug(p.objetivo)||slug(g.l)===slug(p.objetivo))||null:null;
+function trWaProg(p){
+  if(!S.whatsapp) return "";
+  const det=[p.meses?trMeses(p.meses):"",p.precio?money(p.precio):""].filter(Boolean).join(", ");
+  return `https://wa.me/${S.whatsapp}?text=${encodeURIComponent(`Hola ${S.nombre}! Quiero empezar el programa ${p.nombre}${det?` (${det})`:""}.`)}`;
+}
+function trProgCard(p){
+  const g=trProgGoal(p), ic=g&&ICONS[g.ic];
+  return `<article class="tr-plan tr-prog" data-prog="${esc(p.id)}">
+    <div class="tr-prog-top">${ic?`<span class="tr-prog-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ic[1]}</svg></span>`:"<span></span>"}${p.meses?`<span class="tr-prog-dur">${trMeses(p.meses)}</span>`:""}</div>
+    <h3>${esc(p.nombre)}</h3>${p.texto?`<p class="tr-sub">${esc(p.texto)}</p>`:""}
+    ${p.meses>1&&p.meses<=12?`<div class="tr-tl${TR_ANIM?" tr-a":""}${p.meses>6?" many":""}" aria-hidden="true" style="--n:${p.meses}">${Array.from({length:p.meses},(_,i)=>`<span style="--j:${i};--k:${Math.round((i+1)/p.meses*100)}%"><i></i>Mes ${i+1}</span>`).join("")}</div>`:""}
+    <div class="tr-price">${p.precio?`<b>${money(p.precio)}</b><span>${p.meses?"en total":"precio total"}</span>${p.meses>1?`<span class="tr-eq">Equivale a ${money(Math.round(p.precio/p.meses/100)*100)} por mes</span>`:""}`:`<b>A consultar</b>`}</div>
+    ${p.incluye.length?`<ul class="tr-inc">${p.incluye.map(x=>`<li>${TR_CHECK}<span>${esc(x)}</span></li>`).join("")}</ul>`:""}
+    <div class="tr-prog-acts">${S.whatsapp?`<a class="btn out" href="${esc(trWaProg(p))}" target="_blank" rel="noopener">Quiero este programa</a>`:""}${g?`<button type="button" class="tr-back" data-trgo="${esc(g.id)}">Suplementos para este objetivo</button>`:""}</div>
+  </article>`;
+}
+
 /* ---------- página ---------- */
 function viewTrainer(){
   if(!entrenaOn()) return view404();
@@ -2606,8 +2682,9 @@ function viewTrainer(){
   if(TR.pick&&!plans.some(p=>p.id===TR.pick)){ TR.pick=""; TR.fq=""; }
   const bio=list(S.entrena_bio,"|"), bioP=bio.length?bio:ENTRENA_DEF.bio;
   const dsc=Math.max(0,Math.min(50,Math.round(num(S.entrena_desc_suple))));
-  const payA=pl.length?`Se paga por mes. Podés pagar con ${pl.join(", ")}.${S.pagos_detalle?" "+S.pagos_detalle:""}`:"Se paga por mes. Te paso los medios de pago por WhatsApp.";
-  const faq=ENTRENA_DEF.faq.map(([q,a])=>[q,a||payA]);
+  const payA=pl.length?`Los planes se pagan por mes y los programas tienen precio cerrado. Podés pagar con ${pl.join(", ")}.${S.pagos_detalle?" "+S.pagos_detalle:""}`:"Los planes se pagan por mes y los programas tienen precio cerrado. Te paso los medios de pago por WhatsApp.";
+  const progs=entrenaProgOn()?trProgs(S.entrena_programas):[];
+  const faq=ENTRENA_DEF.faq.map(([q,a])=>[q,a||payA]).concat(progs.length?[ENTRENA_DEF.faqProg]:[]);
   const sec=(title,extra,body,id)=>`<section class="blk"${id?` id="${id}"`:""}><div class="head"><h2>${title}</h2>${extra||""}</div>${body}</section>`;
   const waBtn=(cls,txt)=>wa?`<a class="btn ${cls}" data-tw="" href="${esc(trWa())}" target="_blank" rel="noopener">${txt}</a>`:"";
   const find=trFindMap(plans)?`<div class="tr-find" id="trFind" aria-live="polite">${trFind()}</div>`:"";
@@ -2628,9 +2705,12 @@ function viewTrainer(){
       ${wa?`<a class="btn${p.destacado?"":" out"}" data-tw="${esc(p.id)}" href="${esc(trWa(p))}" target="_blank" rel="noopener">Quiero este plan</a>`:""}
     </article>`).join("")}</div>
     ${dsc||pl.length?`<div class="tr-notes">${dsc?`<p>Con cualquier plan tenés <b>${dsc}% de descuento</b> en los suplementos de la tienda.</p>`:""}${pl.length?`<p>Medios de pago: ${esc(pl.join(" · "))}</p>`:""}</div>`:""}`,"trPlanes"):""}
+  ${progs.length?sec("Programas por objetivo",`<span class="crumbs" style="margin:0">Duración y precio cerrados</span>`,`<p class="prep">¿Tenés una meta concreta? Elegí un programa con principio y fin: arrancamos con una evaluación y definimos juntos tu meta según tu punto de partida.</p>
+    <div class="tr-plans tr-progs">${progs.map(trProgCard).join("")}</div>
+    <p class="tr-disc">Los resultados dependen de cada persona: tu punto de partida, la constancia, el descanso y la alimentación. Por eso la meta la definimos juntos en la evaluación inicial.</p>`,"trProgs"):""}
   ${sec("Entrenamiento y suplementación",`<a href="#/guia">Guía de suplementos</a>`,`<p class="prep">Elegí tu objetivo: lo sumamos a tu consulta y te mostramos qué suplementos de la tienda lo acompañan.</p>
     <div class="chips" role="group" aria-label="Tu objetivo">${trGoals().map(g=>`<button type="button" class="chip${TR.goal===g.id?" on":""}" data-trg="${esc(g.id)}" aria-pressed="${TR.goal===g.id}">${esc(g.l)}</button>`).join("")}</div>
-    <div class="tr-rec" id="trRec" aria-live="polite">${trRec()}</div>`)}
+    <div class="tr-rec" id="trRec" aria-live="polite">${trRec()}</div>`,"trSup")}
   <section class="blk"><div class="tr-about${f?"":" nophoto"}">
     ${f?`<div class="ph tr-ph">${imgTag(f,"",900)}</div>`:""}
     <div><div class="head"><h2>Sobre mí</h2></div><div class="tr-bio">${bioP.map(t=>`<p>${esc(t)}</p>`).join("")}</div></div>
@@ -2647,6 +2727,12 @@ function trainerMount(){
   const hero=el.querySelector(".tr-hero"), stage=el.querySelector(".tr-stage");
   // los links de WhatsApp llevan el plan (el del botón o el que eligió en las preguntas), los días y el objetivo
   const setWa=()=>{ const all=trPlans(); root.querySelectorAll("[data-tw]").forEach(a=>{ a.href=trWa(all.find(x=>x.id===(a.dataset.tw||TR.pick))||null); }); };
+  // objetivo elegido: chips, suplementos y WhatsApp
+  const paintGoal=()=>{
+    el.querySelectorAll("[data-trg]").forEach(b=>{ const on=b.dataset.trg===TR.goal; b.classList.toggle("on",on); b.setAttribute("aria-pressed",on); });
+    const r=$("#trRec"); if(r){ r.innerHTML=trRec(); rvScan(true); }
+    setWa();
+  };
   const paintPick=()=>{
     const ps=root.querySelector(".tr-plans"); if(ps) ps.classList.toggle("has-pick",!!TR.pick);
     root.querySelectorAll(".tr-plan[data-plan]").forEach(c=>c.classList.toggle("pick",c.dataset.plan===TR.pick));
@@ -2672,25 +2758,26 @@ function trainerMount(){
     }
     const td=e.target.closest("[data-td]");
     if(td){ const d=+td.dataset.td; if(d&&d!==TR.dias){ TR.dias=d; trSyncDias(root); setWa(); } return; }
-    const g=e.target.closest("[data-trg]");
-    if(g){
-      TR.goal=TR.goal===g.dataset.trg?"":g.dataset.trg;
-      el.querySelectorAll("[data-trg]").forEach(b=>{ const on=b.dataset.trg===TR.goal; b.classList.toggle("on",on); b.setAttribute("aria-pressed",on); });
-      const r=$("#trRec"); if(r){ r.innerHTML=trRec(); rvScan(true); }
-      setWa();
+    // programa: "Suplementos para este objetivo" elige el objetivo y baja a los suplementos
+    const go=e.target.closest("[data-trgo]");
+    if(go){
+      TR.goal=go.dataset.trgo; paintGoal();
+      const t=document.getElementById("trSup"), hh=(document.querySelector("header.top")||{}).offsetHeight||0;
+      if(t) window.scrollTo({top:t.getBoundingClientRect().top+scrollY-hh-8,behavior:MOTION?"smooth":"auto"});
       return;
     }
+    const g=e.target.closest("[data-trg]");
+    if(g){ TR.goal=TR.goal===g.dataset.trg?"":g.dataset.trg; paintGoal(); return; }
     // "Armar mi stack": el quiz arranca con el mismo objetivo ya elegido
     if(e.target.closest("[data-trstack]")&&TR.goal){ QZ.goal=TR.goal; QZ.step=1; }
   });
   const fine=window.matchMedia&&matchMedia("(hover:hover) and (pointer:fine)").matches;
-  // planes: un brillo suave sigue al mouse
-  const ps=el.querySelector(".tr-plans");
-  if(ps&&fine) ps.addEventListener("pointermove",e=>{
+  // planes y programas: un brillo suave sigue al mouse
+  if(fine) el.querySelectorAll(".tr-plans").forEach(ps=>ps.addEventListener("pointermove",e=>{
     const c=e.target.closest(".tr-plan"); if(!c) return;
     const r=c.getBoundingClientRect();
     c.style.setProperty("--mx",Math.round(e.clientX-r.left)+"px"); c.style.setProperty("--my",Math.round(e.clientY-r.top)+"px");
-  });
+  }));
   // portada: las tarjetas se inclinan apenas siguiendo al mouse
   if(hero&&stage&&fine&&MOTION){
     hero.addEventListener("pointermove",e=>{
@@ -3166,6 +3253,9 @@ const SCHEMA={
     {k:"entrena_precios_seguimiento",l:"Online + seguimiento",t:"dias",plan:"seguimiento"},
     {k:"entrena_precios_presencial",l:"Presencial",t:"dias",plan:"presencial"},
     {k:"entrena_desc_suple",l:"Descuento en suplementos para alumnos (%)",t:"text",num:1,ej:"10",hint:"Ej: 10. Vacío o 0 = no se muestra."},
+    {t:"h",l:"Programas por objetivo"},
+    {k:"entrena_prog_activo",l:"Mostrar programas por objetivo",t:"bool",def:1},
+    {k:"entrena_programas",l:"Programas (hasta 4)",t:"progs",hint:"Para sacar uno, borrá su nombre. El precio es por todo el programa; vacío = «A consultar». Consejo: no prometas kilos exactos, la meta la definen juntos en la evaluación."},
     {t:"h",l:"Sobre mí"},
     {k:"entrena_bio",l:"Texto de «Sobre mí»",t:"lines",hint:"Un párrafo por línea. Vacío = el texto de ejemplo."}]},
   tienda:{label:"Tienda",tab:"config",cols:[],fields:[
@@ -3513,6 +3603,19 @@ function admField(f,val){
     const opts=ADM.rows.filter(r=>!r.padre&&r._row!==cur).map(r=>{const id=slug(r.slug||r.titulo||r.nombre);return `<option value="${esc(id)}" ${val&&slug(val)===id?"selected":""}>${esc(r.titulo||r.nombre)}</option>`}).join("");
     return `<label class="f wide">${lab}<select name="${f.k}"><option value="">${ADM.tab==="categorias"?"Ninguna (es una categoría principal)":"Ninguna (es una página principal)"}</option>${opts}</select>${hint}</label>`;
   }
+  if(f.t==="progs"){   // hasta 4 programas: nombre, duración, precio, objetivo, texto e incluye
+    const cur=trProgs(val).slice(0,4), gs=trGoals(), n=k=>`${f.k}__`+k;
+    while(cur.length<4) cur.push({nombre:"",meses:"",precio:"",objetivo:"",texto:"",incluye:[]});
+    const blk=(p,i)=>{ const og=trProgGoal(p); return `<fieldset class="pgb"><legend>Programa ${i+1}</legend><div class="pgrid">
+      <label class="f">Nombre<input type="text" name="${n(i+"_nombre")}" value="${esc(p.nombre)}" placeholder="Ej: Bajar de peso"></label>
+      <label class="f">Duración (meses)<input type="text" inputmode="numeric" name="${n(i+"_meses")}" value="${esc(p.meses||"")}"></label>
+      <label class="f">Precio total<input type="text" inputmode="decimal" name="${n(i+"_precio")}" value="${esc(p.precio||"")}"></label>
+      <label class="f">Objetivo (para los suplementos)<select name="${n(i+"_objetivo")}"><option value="">Ninguno</option>${gs.map(g=>`<option value="${esc(g.id)}" ${og&&og.id===g.id?"selected":""}>${esc(g.l)}</option>`).join("")}</select></label>
+      <label class="f w2">Para quién es<textarea name="${n(i+"_texto")}" rows="3">${esc(p.texto)}</textarea></label>
+      <label class="f w2">Qué incluye (uno por línea)<textarea name="${n(i+"_incluye")}" rows="4">${esc(p.incluye.join("\n"))}</textarea></label>
+    </div></fieldset>`; };
+    return `<div class="f wide"><span>${lab}</span>${cur.map(blk).join("")}${hint}</div>`;
+  }
   if(f.t==="dias"){   // un precio por cada cantidad de días; vacío = ese día no se ofrece
     const cur=trDias(val).length?trDias(val):trDias((ENTRENA_DEF.planes.find(p=>p.id===f.plan)||{}).dias);
     return `<div class="f wide"><span>${lab}</span><div class="dgrid">${[1,2,3,4,5,6].map(d=>{ const o=cur.find(x=>x.d===d); return `<label>${d} ${d===1?"día":"días"}<input name="${f.k}__${d}" type="text" inputmode="decimal" value="${o?o.precio:""}" placeholder="—"></label>`; }).join("")}</div>${hint||"<small>Precio por mes, solo el número. Dejá vacíos los días que no ofrecés.</small>"}</div>`;
@@ -3543,6 +3646,20 @@ function admCollect(form,fields){
       const c=[...form.querySelectorAll('input[name="pagos_chk"]:checked')].map(i=>i.value);
       const o=(form.elements.pagos_otros.value||"").split(",").map(x=>x.trim()).filter(Boolean);
       raw[f.k]=[...c,...o].join("|"); continue;
+    }
+    if(f.t==="progs"){
+      const arr=[]; let err="";
+      for(let i=0;i<4;i++){
+        const g=k=>{ const x=form.elements[`${f.k}__${i}_${k}`]; return x?x.value.trim():""; };
+        const nombre=g("nombre"); if(!nombre) continue;
+        const ms=g("meses"), m=parseInt(ms,10), pr=g("precio"), np=pr?admNum(pr):"";
+        if(!err&&!(m>=1&&m<=24&&/^\d+$/.test(ms))) err=`En «Programa ${i+1}», poné la duración en meses: un número del 1 al 24.`;
+        if(!err&&pr&&np===null) err=`En «Programa ${i+1}», poné el precio solo con números. Ej: 150000`;
+        arr.push({nombre,meses:m||ms,precio:np===null?pr:(np?+np:""),objetivo:g("objetivo"),texto:g("texto"),incluye:g("incluye").split("\n").map(x=>x.trim()).filter(Boolean)});
+      }
+      raw[f.k]=JSON.stringify(arr);   // aunque haya un error, lo escrito no se pierde
+      if(err) return {err,raw};
+      continue;
     }
     if(f.t==="dias"){
       const parts=[];
