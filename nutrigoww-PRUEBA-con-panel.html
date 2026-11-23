@@ -1112,6 +1112,34 @@ body.cart-open .toast{bottom:auto;top:24px}
   .tr-ph .ini{font-size:120px}
   .tr-bio p:first-child{font-size:18.5px}
 }
+
+/* portada: dos botones grandes (Tienda / Asesorías) */
+.hgo{display:grid;grid-template-columns:repeat(2,minmax(0,350px));gap:16px}
+.hgo-b{display:flex;align-items:center;gap:18px;min-height:110px;padding:18px 24px 18px 18px;border-radius:20px;border:1.5px solid var(--hero-btn);background:var(--hero-btn);color:var(--hero-btn-ink);box-shadow:0 14px 34px rgba(0,0,0,.28);transition:transform .3s var(--ease),background .2s,border-color .2s,box-shadow .3s}
+.hgo-b:hover{transform:translateY(-3px);background:var(--hero-btn-hover);border-color:var(--hero-btn-hover);box-shadow:0 18px 40px rgba(0,0,0,.34)}
+.hgo-b.alt{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.6);color:#fff;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+.hgo-b.alt:hover{background:rgba(255,255,255,.2);border-color:#fff}
+.hgo-ic{flex:none;display:grid;place-items:center;width:64px;height:64px;border-radius:16px;background:rgba(0,0,0,.14)}
+.hgo-b.alt .hgo-ic{background:rgba(255,255,255,.14)}
+.hgo-ic svg{width:30px;height:30px}
+.hgo-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px;text-align:left}
+.hgo-tx b{font:600 27px/1.05 var(--font);letter-spacing:-.01em}
+.hgo-tx small{font-size:13.5px;line-height:1.35;opacity:.82}
+.hgo-ar{flex:none}
+.hgo-ar svg{width:22px;height:22px;transition:transform .3s var(--ease)}
+.hgo-b:hover .hgo-ar svg{transform:translateX(4px)}
+/* portada sin foto ni video: los botones toman los colores de la página */
+.hgo.plain .hgo-b{background:var(--accent);border-color:var(--accent);color:var(--on-accent);box-shadow:none}
+.hgo.plain .hgo-b.alt{background:var(--stone);border-color:var(--line-strong);color:var(--ink);-webkit-backdrop-filter:none;backdrop-filter:none}
+.hgo.plain .hgo-b.alt .hgo-ic{background:var(--paper);color:var(--accent)}
+:root:not([data-tema]) .hgo-tx b{font-family:var(--cond);font-weight:700;font-size:40px;line-height:.95;text-transform:uppercase;letter-spacing:.01em}
+:root[data-tema="negro"] .hgo-tx b{font-family:var(--serif);font-weight:500;font-size:34px}
+@media(max-width:700px){
+  .hgo{grid-template-columns:1fr;gap:10px}
+  .hgo-b{min-height:84px;padding:14px 18px 14px 14px;gap:14px}
+  .hgo-ic{width:52px;height:52px}
+  :root:not([data-tema]) .hgo-tx b{font-size:30px}
+}
 </style>
 </head>
 <body>
@@ -1347,6 +1375,7 @@ const CONFIG = {
     asistente_bienvenida:"Contame tu objetivo o tu consulta y te recomiendo qué productos del catálogo te sirven.",
     // entrenamiento personalizado (#/entrenamiento). Los planes de fábrica están en ENTRENA_DEF
     entrena_activo:"SI",
+    entrena_nombre:"Asesorías", // nombre de la sección en el menú y en el botón grande de la portada
     entrena_titulo:"Entrená con un plan hecho para vos.",
     entrena_texto:"Rutinas a medida de tu objetivo, tu nivel y los días que tenés. Con seguimiento real y la suplementación justa, todo en un mismo lugar.",
     entrena_foto:"",          // link de Drive (o cualquier link de imagen). Vacío = foto de la portada
@@ -1605,7 +1634,7 @@ function renderFooter(){
   $("#sitefoot").innerHTML=`<div class="wrap fcols">
     <div><div class="flogo">${esc(S.nombre)}</div>${S.pie?`<p>${esc(S.pie)}</p>`:""}${fpay}</div>
     <div><h4>Tienda</h4><a href="#/marcas">Marcas</a><a href="#/tienda">Toda la tienda</a>${cats}</div>
-    ${entrenaOn()||pages?`<div><h4>Información</h4>${entrenaOn()?`<a href="#/entrenamiento">Entrenamiento personalizado</a>`:""}${pages}</div>`:""}
+    ${entrenaOn()||pages?`<div><h4>Información</h4>${entrenaOn()?`<a href="#/entrenamiento">${esc(trName())}</a>`:""}${pages}</div>`:""}
     ${any?`<div><h4>Contacto</h4>${wa}${ig}${em}${dir}${hor}</div>`:""}
   </div><div class="wrap"><div class="fbot">© ${yr} ${esc(S.nombre)}. Todos los derechos reservados.</div></div>`;
   $("#mf").innerHTML=wa+ig+em;
@@ -1689,7 +1718,7 @@ function renderNav(){
   const items=[
     ["#/marcas","Marcas",h.startsWith("#/marcas")||h.startsWith("#/m/")],
     ["#/tienda","Tienda",h.startsWith("#/tienda")||h.startsWith("#/c/")]
-  ].concat(entrenaOn()?[["#/entrenamiento","Entrenamiento",h.startsWith("#/entrenamiento")]]:[]).concat(quizOn()?[["#/armar","Armá tu stack",h.startsWith("#/armar")]]:[]).concat([["#/guia","Guía",h.startsWith("#/guia")]]).concat(DATA.paginas.filter(p=>p.menu&&!p.padre).map(p=>["#/pagina/"+p.id,p.titulo,h==="#/pagina/"+p.id||DATA.paginas.some(k=>k.padre===p.id&&h==="#/pagina/"+k.id)]));
+  ].concat(entrenaOn()?[["#/entrenamiento",trName(),h.startsWith("#/entrenamiento")]]:[]).concat(quizOn()?[["#/armar","Armá tu stack",h.startsWith("#/armar")]]:[]).concat([["#/guia","Guía",h.startsWith("#/guia")]]).concat(DATA.paginas.filter(p=>p.menu&&!p.padre).map(p=>["#/pagina/"+p.id,p.titulo,h==="#/pagina/"+p.id||DATA.paginas.some(k=>k.padre===p.id&&h==="#/pagina/"+k.id)]));
   const html=items.map(([href,t,on])=>`<a href="${href}" class="${on?"on":""}">${esc(t)}</a>`).join("");
   $("#nav").innerHTML=html; $("#mnav").innerHTML=html;
 }
@@ -1754,10 +1783,10 @@ function bannerHTML(){
     <div class="wrap in">
       <h1>${accentTitle(S.banner_titulo)}</h1>
       ${S.banner_texto?`<p>${esc(S.banner_texto)}</p>`:""}
-      <div class="acts">
+      ${entrenaOn()?heroChoices(hasImg):`<div class="acts">
         <a class="${b1}" href="${esc(link)}" ${ext?'target="_blank" rel="noopener"':""}>${esc(S.banner_boton||"Ver marcas")}</a>
         <a class="${b2}" href="#/tienda">Ver la tienda</a>
-      </div>
+      </div>`}
     </div>
     ${vid?`<button class="vpp" id="heroPP" type="button" aria-label="Pausar video"><span class="i-pause" aria-hidden="true"></span></button>`:""}
     ${hasImg?`<button class="scue" id="heroCue" type="button" aria-label="Bajar al contenido"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>`:""}
@@ -2251,6 +2280,7 @@ const ENTRENA_DEF={
   ]
 };
 const entrenaOn=()=>!no(S.entrena_activo);
+const trName=()=>String(S.entrena_nombre||"").trim()||"Asesorías";
 function jsonArr(v,def){ try{ const j=v?JSON.parse(v):null; if(Array.isArray(j)&&j.length) return j; }catch(e){} return def; }
 function trPlans(){
   return jsonArr(S.entrena_planes,ENTRENA_DEF.planes).filter(p=>p&&typeof p==="object").map((p,i)=>{
@@ -2284,6 +2314,17 @@ function trMock(){
     <p class="tr-mock-n">${TR_CHECK}Ajustada según tu último control</p></div>`;
 }
 
+/* ---------- portada: dos botones grandes, Tienda y Asesorías ---------- */
+function heroChoices(onImg){
+  const ar='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+  const ic=p=>`<span class="hgo-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${p}</svg></span>`;
+  const bag='<path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8V6.5a3 3 0 016 0V8"/>';
+  return `<div class="hgo${onImg?"":" plain"}">
+    <a class="hgo-b" href="#/tienda">${ic(bag)}<span class="hgo-tx"><b>Tienda</b><small>Suplementos de las mejores marcas</small></span><span class="hgo-ar">${ar}</span></a>
+    <a class="hgo-b alt" href="#/entrenamiento">${ic(ICONS.pesa[1])}<span class="hgo-tx"><b>${esc(trName())}</b><small>Entrenamiento personalizado</small></span><span class="hgo-ar">${ar}</span></a>
+  </div>`;
+}
+
 /* ---------- inicio: acceso a entrenamiento ---------- */
 function trainerCTA(){
   if(!entrenaOn()) return "";
@@ -2313,7 +2354,7 @@ function viewTrainer(){
   const faq=ENTRENA_DEF.faq.map(([q,a])=>[q,a||payA]);
   const sec=(title,extra,body,id)=>`<section class="blk"${id?` id="${id}"`:""}><div class="head"><h2>${title}</h2>${extra||""}</div>${body}</section>`;
   const waBtn=(cls,txt)=>wa?`<a class="btn ${cls}" data-tw="" href="${esc(trWa())}" target="_blank" rel="noopener">${txt}</a>`:"";
-  return `<div class="page-top tr"><div class="crumbs"><a href="#/">Inicio</a> / Entrenamiento</div>
+  return `<div class="page-top tr"><div class="crumbs"><a href="#/">Inicio</a> / ${esc(trName())}</div>
   <section class="tr-hero${f?"":" nophoto"}">${f?`<img class="tr-bg" src="${esc(img(f,1600))}" alt="" referrerpolicy="no-referrer">`:""}
     <div class="tr-in"><span class="tr-kick">Entrenamiento personalizado</span>
       <h1>${esc(S.entrena_titulo)}</h1>
@@ -2446,7 +2487,7 @@ function pageTitle(parts){
   if(a==="pagina"){ const x=DATA.paginas.find(v=>v.id===b); return t(x&&x.titulo); }
   if(a==="marcas") return t("Marcas"); if(a==="tienda") return t("Tienda"); if(a==="admin") return t("Administrador");
   if(a==="armar") return t("Armá tu stack"); if(a==="guia"){ const x=TIPO[b]; return t(x?x.nombre:"Guía de suplementos"); }
-  if(a==="entrenamiento") return t("Entrenamiento personalizado");
+  if(a==="entrenamiento") return t(trName());
   return n;
 }
 function route(keep){
