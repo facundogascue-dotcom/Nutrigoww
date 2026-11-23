@@ -1324,6 +1324,82 @@ body.trbar .tr-stick{transform:none}
 .pgrid textarea{min-height:0}
 @media(max-width:900px){.pgrid{grid-template-columns:1fr 1fr}.pgrid .w2{grid-column:1/-1}}
 @media(max-width:560px){.pgrid{grid-template-columns:1fr}}
+
+/* ficha para arrancar */
+.tr-ficha{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.3fr);gap:28px 56px;align-items:start;padding:44px;border:1px solid var(--line);border-radius:var(--r-box);background:var(--stone)}
+.tr-ficha .tr-kick{color:var(--accent)}
+.tr-fi-intro{position:sticky;top:110px}
+.tr-fi-intro h2{font:400 clamp(26px,3vw,36px)/1.1 var(--font);letter-spacing:-.02em;margin:0 0 12px}
+:root:not([data-tema]) .tr-fi-intro h2{font-family:var(--cond);font-weight:700;font-size:clamp(38px,4.6vw,62px);line-height:.92;text-transform:uppercase;letter-spacing:.005em}
+:root[data-tema="negro"] .tr-fi-intro h2{font-family:var(--serif);font-weight:500;letter-spacing:-.012em}
+.tr-fi-intro p{margin:0;max-width:44ch;color:var(--ink-soft);font-size:16.5px;line-height:1.55}
+.tr-fi-pts{display:grid;gap:10px;margin:22px 0 0;padding:0;list-style:none}
+.tr-fi-pts li{display:flex;align-items:center;gap:10px;font-size:15px;color:var(--ink)}
+.tr-fi-pts svg{flex:none;width:18px;height:18px;color:var(--accent)}
+.tr-fi-intro .tr-back{margin-top:24px}
+.tr-fi{min-width:0;min-height:430px;padding:26px 28px 28px;border:1px solid var(--line);border-radius:var(--r-box);
+  background:radial-gradient(70% 120% at 100% 0%,color-mix(in srgb,var(--accent) 9%,transparent),transparent 60%),var(--paper)}
+:root[data-tema="claro"] .tr-fi{background:var(--paper)}
+.tr-fi-st.in{animation:trIn .45s var(--ease) both}
+.tr-fi-top{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.tr-fi-top .tr-find-k{margin:0;white-space:nowrap}
+.tr-fi .tr-find-k svg{width:16px;height:16px}
+.tr-fi-bar{flex:1;height:4px;border-radius:2px;background:var(--line-strong);overflow:hidden}
+.tr-fi-bar i{display:block;height:100%;border-radius:2px;background:var(--accent);transform-origin:left center;transform:scaleX(var(--p));animation:trFiBar .6s var(--ease) both}
+@keyframes trFiBar{from{transform:scaleX(var(--p0))}}
+.tr-fi-top .tr-back{margin:0}
+.tr-fi h3{margin:0 0 20px;font:600 26px/1.12 var(--font);letter-spacing:-.01em;outline:none}
+:root:not([data-tema]) .tr-fi h3{font-family:var(--cond);font-weight:700;font-size:32px;line-height:1;text-transform:uppercase;letter-spacing:.005em}
+:root[data-tema="negro"] .tr-fi h3{font-family:var(--serif);font-weight:500}
+.tr-fi-goals{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.tr-fi-g{display:flex;align-items:center;gap:12px;min-height:64px;padding:12px 14px;border:1px solid var(--line-strong);border-radius:14px;background:var(--stone);color:var(--ink);font-size:14.5px;font-weight:600;line-height:1.25;text-align:left;transition:border-color .2s,background .2s,transform .3s var(--ease)}
+.tr-fi-g:hover{border-color:var(--accent);transform:translateY(-2px)}
+.tr-fi-ic{display:grid;place-items:center;flex:none;width:36px;height:36px;border-radius:10px;background:color-mix(in srgb,var(--accent) 14%,transparent);color:var(--accent)}
+.tr-fi-ic svg{width:20px;height:20px}
+.tr-fi-g.on,.tr-fi .tr-opt.on{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,var(--stone))}
+.tr-fi-gl{margin:18px 0 8px;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mist)}
+.tr-fi-gl:first-of-type{margin-top:0}
+.tr-fi-ns{margin-top:10px}
+.tr-fi-q{margin-bottom:22px}
+.tr-fi-l{display:block;margin-bottom:10px;font-size:15px;font-weight:600;color:var(--ink)}
+.tr-fi .tr-seg{max-width:360px}
+.tr-fi-pr{margin:10px 0 0;font-size:14.5px;color:var(--mist)}
+.tr-fi-pr b{font-weight:600;color:var(--price);white-space:nowrap}
+.tr-fi-fix{margin:0;font-size:15px;color:var(--ink-soft)}
+.tr-fi .cn{font-size:14px}
+.tr-fi .cn input,.tr-fi .cn textarea{width:100%;min-width:0;color:var(--ink)}
+.tr-fi .cn textarea{min-height:84px}
+.tr-fi-lt{margin-top:14px}
+.tr-fi-row{display:grid;grid-template-columns:minmax(0,1fr) 110px;gap:12px;margin-bottom:14px}
+.tr-fi-nt{margin-bottom:18px}
+.tr-fi-err{margin:0 0 14px;color:var(--danger);font-size:14px;font-weight:500}
+.tr-fi-nav{display:flex;flex-wrap:wrap;gap:10px}
+.tr-fi-sum{display:grid;margin:0 0 22px}
+.tr-fi-sum>div{display:grid;grid-template-columns:150px minmax(0,1fr) auto;gap:4px 16px;align-items:baseline;padding:11px 0;border-bottom:1px solid var(--line)}
+.tr-fi-sum>div:first-child{border-top:1px solid var(--line)}
+.tr-fi-sum dt{font-size:13.5px;color:var(--mist)}
+.tr-fi-sum dd{margin:0;font-size:15px;line-height:1.45;color:var(--ink);overflow-wrap:anywhere}
+.tr-fi-sum .tr-back{margin:0;font-size:13.5px}
+.tr-fi-ok{margin:14px 0 0;font-size:14.5px;color:var(--ink-soft)}
+@media(max-width:900px){
+  .tr-ficha{grid-template-columns:1fr;gap:26px;padding:32px 26px}
+  .tr-fi-intro{position:static}
+  .tr-fi{min-height:0}
+}
+@media(max-width:700px){
+  .tr-ficha{padding:0;border:0;background:none}
+  .tr-fi{padding:20px 16px 22px}
+  .tr-fi-goals{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .tr-fi-g{flex-direction:column;align-items:flex-start;gap:10px;min-height:0;padding:12px}
+  .tr-fi-ic{width:32px;height:32px}
+  .tr-fi h3{font-size:22px;margin-bottom:16px}
+  :root:not([data-tema]) .tr-fi h3{font-size:27px}
+  .tr-fi-row{grid-template-columns:minmax(0,1fr) 88px}
+  .tr-fi-sum>div{grid-template-columns:minmax(0,1fr) auto;gap:2px 12px}
+  .tr-fi-sum dt,.tr-fi-sum dd{grid-column:1}
+  .tr-fi-sum .tr-back{grid-column:2;grid-row:1/3;align-self:center}
+  .tr-fi-nav .btn{flex:1 1 100%}
+}
 </style>
 </head>
 <body>
@@ -1569,6 +1645,7 @@ const CONFIG = {
     entrena_precios_presencial:"",
     entrena_prog_activo:"SI",       // programas por objetivo: duración y precio cerrados
     entrena_programas:"",           // JSON con los programas; vacío = los de fábrica (se editan en el panel)
+    entrena_ficha_activo:"SI",      // ficha para arrancar: 4 pasos que llegan completos por WhatsApp (no guarda datos)
     entrena_bio:"",           // párrafos de «Sobre mí» separados por |; vacío = los de fábrica
     entrena_testimonios:"",   // JSON [{texto,nombre,detalle}]; vacío = no se muestra la sección
     entrena_desc_suple:"10"   // % de descuento en suplementos para alumnos (vacío o 0 = no se muestra)
@@ -2443,6 +2520,8 @@ function guideMount(){
      _presencial con el formato 2=35000|3=40000 (pestaña Asesorías del panel).
    - Programas por objetivo (duración y precio cerrados): entrena_programas,
      también desde la pestaña Asesorías. Sin promesas de resultados.
+   - Ficha para arrancar: entrena_ficha_activo (SI/NO). Arma un mensaje de
+     WhatsApp con las respuestas; no guarda nada. Necesita el WhatsApp cargado.
    ===================================================================== */
 const ENTRENA_DEF={
   planes:[
@@ -2487,6 +2566,7 @@ const ENTRENA_DEF={
 };
 const entrenaOn=()=>!no(S.entrena_activo);
 const entrenaProgOn=()=>!no(S.entrena_prog_activo);
+const entrenaFichaOn=()=>!no(S.entrena_ficha_activo)&&!!S.whatsapp;
 const trName=()=>String(S.entrena_nombre||"").trim()||"Asesorías";
 function jsonArr(v,def){ try{ const j=v?JSON.parse(v):null; if(Array.isArray(j)&&j.length) return j; }catch(e){} return def; }
 // precios por días: "2=35000|3=40000", {2:35000} o [{dias:2,precio:35000}] → [{d:2,precio:35000},…]
@@ -2675,11 +2755,128 @@ function trProgCard(p){
 }
 
 /* ---------- página ---------- */
+/* ---------- ficha para arrancar: 4 pasos cortos y llega completa por WhatsApp (no se guarda nada) ---------- */
+const TRF={step:1,from:1,ret:false,goal:"",plan:"",donde:"",exp:"",les:"",lesTxt:"",nombre:"",edad:"",nota:"",err:"",sent:false};
+const TRF_DONDE=[["gym","En un gimnasio"],["casa","En casa"],["aire","Al aire libre"]];
+const TRF_EXP=[["cero","Nunca entrené","Nunca entrené"],["volver","Entrené, pero lo dejé","Entrené antes, pero lo dejé"],["menos","Menos de un año","Entreno hace menos de un año"],["mas","Más de un año","Entreno hace más de un año"]];
+const trIsPres=p=>/presencial/.test(p.id+" "+slug(p.nombre));
+// lo que eligió en el paso 2: un plan por mes, un programa o "todavía no sé"
+function trFiSel(){
+  const v=TRF.plan||"";
+  if(v.startsWith("plan:")){ const p=trPlans().find(x=>x.id===v.slice(5)); return p?{k:"plan",p}:null; }
+  if(v.startsWith("prog:")){ const p=(entrenaProgOn()?trProgs(S.entrena_programas):[]).find(x=>x.id===v.slice(5)); return p?{k:"prog",p}:null; }
+  return v==="nose"?{k:"nose"}:null;
+}
+const trFiPres=s=>!!s&&s.k==="plan"&&trIsPres(s.p);
+// días: los que ofrece el plan elegido (el mismo número que en las tarjetas); si no, de 2 a 5
+const trFiDiasOpts=s=>s&&s.k==="plan"&&s.p.opts.length?s.p.opts.map(o=>o.d):[2,3,4,5];
+const trFiDias=s=>trFiDiasOpts(s).reduce((a,b)=>Math.abs(b-TR.dias)<Math.abs(a-TR.dias)?b:a);
+function trFiSelTxt(s){
+  if(!s) return "";
+  if(s.k==="plan") return `Plan ${s.p.nombre}, ${trDiasTxt(trFiDias(s))}${s.p.precio?` (${money(s.p.precio)} por ${s.p.periodo})`:""}`;
+  if(s.k==="prog"){ const det=[s.p.meses?trMeses(s.p.meses):"",s.p.precio?money(s.p.precio):""].filter(Boolean).join(", "); return `Programa ${s.p.nombre}${det?` (${det})`:""}`; }
+  return "Todavía no sé, quiero que me asesores";
+}
+function trFiPr(s){
+  if(s&&s.k==="plan"&&s.p.precio) return `${esc(s.p.nombre)}${s.p.opts.length?", "+trDiasTxt(trFiDias(s)):""}: <b>${money(s.p.precio)} por ${esc(s.p.periodo)}</b>`;
+  if(s&&s.k==="prog"&&s.p.precio) return `Programa ${esc(s.p.nombre)}: <b>${money(s.p.precio)} en total</b>`;
+  return "";
+}
+// qué falta completar hasta el paso n (devuelve el primer paso con algo pendiente)
+function trFiErr(n){
+  if(!trGoals().some(g=>g.id===TRF.goal)) return {s:1,m:"Elegí tu objetivo."};
+  const s=trFiSel();
+  if(n>=2&&!s) return {s:2,m:"Elegí cómo querés entrenar."};
+  if(n>=3&&!trFiPres(s)&&!TRF.donde) return {s:3,m:"Elegí dónde vas a entrenar."};
+  if(n>=3&&!TRF.exp) return {s:3,m:"Contame hace cuánto entrenás."};
+  if(n>=4&&!TRF.les) return {s:4,m:"Contame si tenés alguna lesión o molestia."};
+  if(n>=4&&TRF.edad&&!(+TRF.edad>=12&&+TRF.edad<=99)) return {s:4,m:"Revisá la edad: solo el número, por ejemplo 28."};
+  return null;
+}
+// las respuestas, en el orden del mensaje: [título, texto, paso donde se cambia]
+function trFiRows(){
+  const g=trGoals().find(x=>x.id===TRF.goal), s=trFiSel(), ex=TRF_EXP.find(x=>x[0]===TRF.exp), dn=TRF_DONDE.find(x=>x[0]===TRF.donde);
+  const nom=TRF.nombre.trim(), ed=TRF.edad?`${TRF.edad} años`:"", lt=TRF.lesTxt.trim();
+  return [
+    nom?["Nombre",nom+(ed?` (${ed})`:""),4]:["Edad",ed,4],
+    ["Objetivo",g?g.l:"",1],
+    ["Me interesa",trFiSelTxt(s),2],
+    ["Días por semana",s&&s.k!=="plan"?String(trFiDias(s)):"",3],
+    ["Dónde entreno",!trFiPres(s)&&dn?dn[1]:"",3],
+    ["Experiencia",ex?ex[2]:"",3],
+    ["Lesiones o molestias",TRF.les==="si"?(lt?`Sí: ${lt}`:"Sí, te cuento por acá"):TRF.les==="no"?"No":"",4],
+    ["Comentario",TRF.nota.trim(),4]
+  ].filter(r=>r[1]);
+}
+function trFiWa(){
+  if(!S.whatsapp) return "";
+  const msg=`Hola ${S.nombre}! Te mando mi ficha para arrancar:\n\n${trFiRows().map(([k,v])=>`*${k}:* ${v}`).join("\n")}`;
+  return `https://wa.me/${S.whatsapp}?text=${encodeURIComponent(msg)}`;
+}
+function trFiInit(){
+  if(!TRF.goal&&TR.goal&&trGoals().some(g=>g.id===TR.goal)) TRF.goal=TR.goal;
+  if(!TRF.plan&&TR.pick&&trPlans().some(p=>p.id===TR.pick)) TRF.plan="plan:"+TR.pick;
+  TRF.from=TRF.step;   // al entrar a la página, sin animación
+}
+function trFi(){
+  if(TRF.step>1){ const er=trFiErr(TRF.step-1); if(er) TRF.step=er.s; }   // si cambiaron los planes, vuelve al paso que falta
+  const st=TRF.step, moved=TRF.from!==st, p0=Math.min(TRF.from,4)/4; TRF.from=st;
+  const err=TRF.err?`<p class="tr-fi-err" role="alert">${esc(TRF.err)}</p>`:"";
+  const head=n=>`<div class="tr-fi-top"><span class="tr-find-k">Paso ${n} de 4</span><span class="tr-fi-bar" aria-hidden="true"><i style="--p0:${p0};--p:${n/4}"></i></span>${n>1?`<button type="button" class="tr-back" data-fi="back">Atrás</button>`:""}</div>`;
+  const chip=(k,v,t)=>`<button type="button" class="chip${TRF[k]===v?" on":""}" data-fi="${k}" data-v="${v}" aria-pressed="${TRF[k]===v}">${esc(t)}</button>`;
+  const q=(id,l,body)=>`<div class="tr-fi-q"><span class="tr-fi-l" id="${id}">${l}</span>${body}</div>`;
+  const opt=x=>`<button type="button" class="tr-opt${TRF.plan===x.v?" on":""}" data-fi="plan" data-v="${esc(x.v)}" aria-pressed="${TRF.plan===x.v}"><span><b>${esc(x.t)}</b>${x.s?`<small>${esc(x.s)}</small>`:""}</span>${TR_AR}</button>`;
+  const s=trFiSel();
+  let h="";
+  if(st===1){
+    h=`${head(1)}<h3 tabindex="-1">¿Qué querés lograr?</h3>
+    <div class="tr-fi-goals" role="group" aria-label="Tu objetivo">${trGoals().map(g=>{ const on=TRF.goal===g.id, ic=ICONS[g.ic];
+      return `<button type="button" class="tr-fi-g${on?" on":""}" data-fi="goal" data-v="${esc(g.id)}" aria-pressed="${on}">${ic?`<span class="tr-fi-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ic[1]}</svg></span>`:""}<span>${esc(g.l)}</span></button>`; }).join("")}</div>`;
+  } else if(st===2){
+    const plans=trPlans().map(p=>({v:"plan:"+p.id,t:p.nombre,s:p.desde?`Desde ${money(p.desde)} por ${p.periodo}`:p.sub}));
+    const progs=(entrenaProgOn()?trProgs(S.entrena_programas):[]).map(p=>({v:"prog:"+p.id,t:p.nombre,s:[p.meses?trMeses(p.meses):"",p.precio?money(p.precio)+" en total":""].filter(Boolean).join(" · ")}));
+    h=`${head(2)}<h3 tabindex="-1">¿Cómo querés entrenar?</h3>
+    ${plans.length?`<p class="tr-fi-gl">Planes por mes</p><div class="tr-opts">${plans.map(opt).join("")}</div>`:""}
+    ${progs.length?`<p class="tr-fi-gl">Programas por objetivo</p><div class="tr-opts">${progs.map(opt).join("")}</div>`:""}
+    <div class="tr-opts tr-fi-ns">${opt({v:"nose",t:"Todavía no sé",s:"Quiero que me asesores"})}</div>`;
+  } else if(st===3){
+    const ds=trFiDiasOpts(s), d=trFiDias(s), pr=trFiPr(s);
+    h=`${head(3)}<h3 tabindex="-1">Tu semana y tu experiencia</h3>
+    ${q("trfi-d","¿Cuántos días por semana podés entrenar?",(ds.length>1?`<div class="tr-seg" role="group" aria-labelledby="trfi-d" style="--n:${ds.length};--i:${Math.max(0,ds.indexOf(d))}">${ds.map(x=>`<button type="button" data-fi="dias" data-v="${x}" aria-label="${x} ${x===1?"día":"días"}" aria-pressed="${x===d}"${x===d?' class="on"':""}>${x}</button>`).join("")}</div>`:`<p class="tr-fi-fix">${trDiasTxt(d)}</p>`)+(pr?`<p class="tr-fi-pr" data-fipr>${pr}</p>`:""))}
+    ${trFiPres(s)?"":q("trfi-w","¿Dónde vas a entrenar?",`<div class="chips" role="group" aria-labelledby="trfi-w">${TRF_DONDE.map(([v,t])=>chip("donde",v,t)).join("")}</div>`)}
+    ${q("trfi-e","¿Hace cuánto entrenás?",`<div class="chips" role="group" aria-labelledby="trfi-e">${TRF_EXP.map(([v,t])=>chip("exp",v,t)).join("")}</div>`)}
+    ${err}<div class="tr-fi-nav"><button type="button" class="btn" data-fi="next">Siguiente</button></div>`;
+  } else if(st===4){
+    h=`${head(4)}<h3 tabindex="-1">Último paso: contame de vos</h3>
+    ${q("trfi-l","¿Tenés alguna lesión o molestia?",`<div class="chips" role="group" aria-labelledby="trfi-l">${chip("les","no","No")}${chip("les","si","Sí")}</div>${TRF.les==="si"?`<label class="cn tr-fi-lt">¿Cuál? Contame en pocas palabras<input type="text" data-fin="lesTxt" maxlength="150" value="${esc(TRF.lesTxt)}" placeholder="Ej: molestia en la rodilla derecha"></label>`:""}`)}
+    <div class="tr-fi-row"><label class="cn">Tu nombre<input type="text" data-fin="nombre" maxlength="60" autocomplete="given-name" value="${esc(TRF.nombre)}"></label><label class="cn">Edad<input type="text" inputmode="numeric" data-fin="edad" maxlength="2" value="${esc(TRF.edad)}"></label></div>
+    <label class="cn tr-fi-nt">¿Algo más que quieras contarme? (opcional)<textarea data-fin="nota" rows="3" maxlength="400" placeholder="Horarios, deportes que hacés, qué te gustaría mejorar…">${esc(TRF.nota)}</textarea></label>
+    ${err}<div class="tr-fi-nav"><button type="button" class="btn" data-fi="next">Ver mi ficha</button></div>`;
+  } else {
+    h=`<div class="tr-fi-top"><span class="tr-find-k">${TR_CHECK}Ficha lista</span><span class="tr-fi-bar" aria-hidden="true"><i style="--p0:${p0};--p:1"></i></span></div>
+    <h3 tabindex="-1">Revisá y mandámela</h3>
+    <dl class="tr-fi-sum">${trFiRows().map(([k,v,n])=>`<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd><button type="button" class="tr-back" data-fi="edit" data-v="${n}" aria-label="Cambiar ${esc(k.toLowerCase())}">Cambiar</button></div>`).join("")}</dl>
+    <div class="tr-fi-nav"><a class="btn" data-fiwa href="${esc(trFiWa())}" target="_blank" rel="noopener">Enviar por WhatsApp</a></div>
+    <p class="tr-fi-ok"${TRF.sent?"":" hidden"}>¡Listo! Se abrió WhatsApp con tu ficha. Si no se abrió, tocá el botón de nuevo.</p>`;
+  }
+  return `<div class="tr-fi-st${moved&&MOTION?" in":""}">${h}</div>`;
+}
+function trFichaSec(){
+  return `<section class="blk" id="trFicha"><div class="tr-ficha">
+    <div class="tr-fi-intro"><span class="tr-kick">Ficha para arrancar</span><h2>¿Arrancamos?</h2>
+      <p>Completá tu ficha en un minuto y me llega todo por WhatsApp. Así la primera charla va directo a armar tu plan.</p>
+      <ul class="tr-fi-pts"><li>${TR_CHECK}4 pasos cortos</li><li>${TR_CHECK}La mandás vos por WhatsApp</li><li>${TR_CHECK}No se guarda nada en la página</li></ul>
+      <a class="tr-back" data-tw="" href="${esc(trWa())}" target="_blank" rel="noopener">Prefiero escribirte directo</a></div>
+    <div class="tr-fi" id="trFi">${trFi()}</div>
+  </div></section>`;
+}
+
 function viewTrainer(){
   if(!entrenaOn()) return view404();
   if(!TR.goal&&QZ.goal&&trGoals().some(g=>g.id===QZ.goal)) TR.goal=QZ.goal;   // si viene del quiz, ya trae su objetivo
   const plans=trPlans(), tests=trTests(), pl=payList(), f=trFoto(), wa=!!S.whatsapp;
   if(TR.pick&&!plans.some(p=>p.id===TR.pick)){ TR.pick=""; TR.fq=""; }
+  const ficha=entrenaFichaOn(); if(ficha) trFiInit();
   const bio=list(S.entrena_bio,"|"), bioP=bio.length?bio:ENTRENA_DEF.bio;
   const dsc=Math.max(0,Math.min(50,Math.round(num(S.entrena_desc_suple))));
   const payA=pl.length?`Los planes se pagan por mes y los programas tienen precio cerrado. Podés pagar con ${pl.join(", ")}.${S.pagos_detalle?" "+S.pagos_detalle:""}`:"Los planes se pagan por mes y los programas tienen precio cerrado. Te paso los medios de pago por WhatsApp.";
@@ -2717,7 +2914,7 @@ function viewTrainer(){
   </div></section>
   ${tests.length?sec("Lo que dicen los alumnos","",`<div class="tr-tests">${tests.map(t=>`<figure><blockquote>${esc(t.texto)}</blockquote><figcaption><b>${esc(t.nombre||"")}</b>${esc(t.detalle||"")}</figcaption></figure>`).join("")}</div>`):""}
   ${sec("Preguntas frecuentes","",`<div class="tr-faq">${faq.map(([q,a])=>`<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join("")}</div>`)}
-  <section class="blk"><div class="stackcta"><div><h2>¿Arrancamos?</h2><p>Escribime, te hago unas preguntas y armamos tu plan.</p></div>${waBtn("","Escribir por WhatsApp")}</div></section>
+  ${ficha?trFichaSec():`<section class="blk"><div class="stackcta"><div><h2>¿Arrancamos?</h2><p>Escribime, te hago unas preguntas y armamos tu plan.</p></div>${waBtn("","Escribir por WhatsApp")}</div></section>`}
   <p class="edu-note">Si tenés alguna condición de salud, una lesión o estás embarazada, consultá con tu médico antes de empezar un plan de entrenamiento.</p>
   </div>${trBar(plans)}`;
 }
@@ -2737,7 +2934,52 @@ function trainerMount(){
     const ps=root.querySelector(".tr-plans"); if(ps) ps.classList.toggle("has-pick",!!TR.pick);
     root.querySelectorAll(".tr-plan[data-plan]").forEach(c=>c.classList.toggle("pick",c.dataset.plan===TR.pick));
   };
+  // ficha para arrancar: al cambiar de paso, el foco va al título (y sube si el paso quedó arriba)
+  const fiPaint=sel=>{
+    const box=$("#trFi"); if(!box) return;
+    const moved=TRF.from!==TRF.step;
+    box.innerHTML=trFi();
+    if(moved){
+      const h=box.querySelector("h3"); if(h) h.focus({preventScroll:true});
+      const hh=(document.querySelector("header.top")||{}).offsetHeight||0, top=box.getBoundingClientRect().top;
+      if(top<hh+8) window.scrollTo({top:top+scrollY-hh-12,behavior:MOTION?"smooth":"auto"});
+    } else if(sel){ const f=box.querySelector(sel); if(f) f.focus({preventScroll:true}); }
+  };
+  // los días de la ficha son los mismos que los de las tarjetas
+  const fiDias=()=>{
+    const box=$("#trFi"); if(!box) return;
+    if(TRF.step===5){ fiPaint(); return; }
+    const seg=box.querySelector(".tr-seg"); if(!seg) return;
+    const s=trFiSel(), ds=trFiDiasOpts(s), d=trFiDias(s);
+    seg.style.setProperty("--i",Math.max(0,ds.indexOf(d)));
+    seg.querySelectorAll("[data-fi]").forEach(b=>{ const on=+b.dataset.v===d; b.classList.toggle("on",on); b.setAttribute("aria-pressed",on); });
+    const pr=box.querySelector("[data-fipr]"); if(pr) pr.innerHTML=trFiPr(s);
+  };
   root.addEventListener("click",e=>{
+    if(e.target.closest("[data-fiwa]")){ TRF.sent=true; const ok=$("#trFi .tr-fi-ok"); if(ok) ok.hidden=false; return; }
+    const fb=e.target.closest("[data-fi]");
+    if(fb){
+      const a=fb.dataset.fi, v=fb.dataset.v||"";
+      const go=n=>{ TRF.err=""; TRF.step=n; fiPaint(); };
+      const after=n=>TRF.ret&&!trFiErr(4)?5:n;   // si vino a cambiar algo desde el resumen, vuelve al resumen
+      if(a==="goal"){ TRF.goal=v; if(TR.goal!==v){ TR.goal=v; paintGoal(); } go(after(2)); }
+      else if(a==="plan"){ TRF.plan=v; go(after(3)); }
+      else if(a==="dias"){ const d=+v; if(d&&d!==TR.dias){ TR.dias=d; trSyncDias(root); setWa(); } fiDias(); }
+      else if(a==="donde"||a==="exp"){
+        TRF[a]=v; TRF.err="";
+        fb.parentElement.querySelectorAll("[data-fi]").forEach(b=>{ const on=b===fb; b.classList.toggle("on",on); b.setAttribute("aria-pressed",on); });
+        const er=$("#trFi .tr-fi-err"); if(er) er.remove();
+      }
+      else if(a==="les"){ TRF.les=v; TRF.err=""; fiPaint(v==="si"?'[data-fin="lesTxt"]':'[data-fi="les"][data-v="no"]'); }
+      else if(a==="next"){
+        const n=TRF.step, er=trFiErr(n);
+        if(er){ TRF.err=er.m; if(er.s!==n) TRF.step=er.s; fiPaint('[data-fi="next"]'); return; }
+        go(after(n+1));
+      }
+      else if(a==="back"){ TRF.ret=false; go(Math.max(1,TRF.step-1)); }
+      else if(a==="edit"){ TRF.ret=true; go(+v||1); }
+      return;
+    }
     const s=e.target.closest("[data-tr]");
     if(s){
       const t=document.getElementById(s.dataset.tr); if(!t) return;
@@ -2757,7 +2999,7 @@ function trainerMount(){
       return;
     }
     const td=e.target.closest("[data-td]");
-    if(td){ const d=+td.dataset.td; if(d&&d!==TR.dias){ TR.dias=d; trSyncDias(root); setWa(); } return; }
+    if(td){ const d=+td.dataset.td; if(d&&d!==TR.dias){ TR.dias=d; trSyncDias(root); setWa(); fiDias(); } return; }
     // programa: "Suplementos para este objetivo" elige el objetivo y baja a los suplementos
     const go=e.target.closest("[data-trgo]");
     if(go){
@@ -2770,6 +3012,17 @@ function trainerMount(){
     if(g){ TR.goal=TR.goal===g.dataset.trg?"":g.dataset.trg; paintGoal(); return; }
     // "Armar mi stack": el quiz arranca con el mismo objetivo ya elegido
     if(e.target.closest("[data-trstack]")&&TR.goal){ QZ.goal=TR.goal; QZ.step=1; }
+  });
+  // ficha: lo que escribe queda guardado mientras navega (solo en esta pestaña)
+  root.addEventListener("input",e=>{
+    const t=e.target.closest("[data-fin]"); if(!t) return;
+    let v=t.value;
+    if(t.dataset.fin==="edad"){ const c=v.replace(/\D/g,"").slice(0,2); if(c!==v){ t.value=c; v=c; } }
+    TRF[t.dataset.fin]=v;
+  });
+  root.addEventListener("keydown",e=>{
+    if(e.key!=="Enter"||!e.target.matches("#trFi input[data-fin]")) return;
+    e.preventDefault(); const n=$("#trFi [data-fi=next]"); if(n) n.click();
   });
   const fine=window.matchMedia&&matchMedia("(hover:hover) and (pointer:fine)").matches;
   // planes y programas: un brillo suave sigue al mouse
@@ -2788,7 +3041,7 @@ function trainerMount(){
     hero.addEventListener("pointerleave",()=>{ stage.style.removeProperty("--ry"); stage.style.removeProperty("--rx"); });
   }
   // barra fija del celular: visible entre el final de la portada y el "¿Arrancamos?"
-  const bar=root.querySelector(".tr-stick"), end=el.querySelector(".stackcta");
+  const bar=root.querySelector(".tr-stick"), end=el.querySelector(".tr-ficha,.stackcta");
   if(bar&&hero&&"IntersectionObserver" in window){
     const st=new Map();
     TRP.bar=new IntersectionObserver(es=>{
@@ -3256,6 +3509,8 @@ const SCHEMA={
     {t:"h",l:"Programas por objetivo"},
     {k:"entrena_prog_activo",l:"Mostrar programas por objetivo",t:"bool",def:1},
     {k:"entrena_programas",l:"Programas (hasta 4)",t:"progs",hint:"Para sacar uno, borrá su nombre. El precio es por todo el programa; vacío = «A consultar». Consejo: no prometas kilos exactos, la meta la definen juntos en la evaluación."},
+    {t:"h",l:"Ficha para arrancar"},
+    {k:"entrena_ficha_activo",l:"Mostrar la ficha para arrancar",t:"bool",def:1,hint:"Al final de la página: 4 pasos (objetivo, plan, días, experiencia y lesiones) que te llegan completos por WhatsApp. No guarda datos en la página. Necesita el WhatsApp cargado en la pestaña Tienda."},
     {t:"h",l:"Sobre mí"},
     {k:"entrena_bio",l:"Texto de «Sobre mí»",t:"lines",hint:"Un párrafo por línea. Vacío = el texto de ejemplo."}]},
   tienda:{label:"Tienda",tab:"config",cols:[],fields:[
@@ -3582,7 +3837,8 @@ function admField(f,val){
   const lab=esc(f.l)+(f.req?" *":"");
   if(f.t==="bool"){
     const on=val===""?!!f.def:yes(val);
-    return `<label class="chk"><input type="checkbox" name="${f.k}" ${on?"checked":""}> ${esc(f.l)}</label>`;
+    const c=`<label class="chk"><input type="checkbox" name="${f.k}" ${on?"checked":""}> ${esc(f.l)}</label>`;
+    return f.hint?`<div class="f wide">${c}${hint}</div>`:c;
   }
   if(f.t==="pages"){
     const sel=new Set(String(val||"").split(/[|,]/).map(x=>slug(x)).filter(Boolean));
