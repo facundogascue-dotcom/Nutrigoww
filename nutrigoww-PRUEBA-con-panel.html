@@ -1282,6 +1282,20 @@ body.trbar .tr-stick{transform:none}
   .tr-find h3{font-size:22px}
   :root:not([data-tema]) .tr-find h3{font-size:28px}
 }
+
+/* días por semana dentro de cada plan: una pastilla que se desliza */
+.tr-days{margin-top:22px}
+.tr-days>span{display:block;margin-bottom:8px;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mist)}
+.tr-seg{position:relative;display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));padding:4px;border:1px solid var(--line);border-radius:999px;background:var(--paper)}
+.tr-seg::before{content:"";position:absolute;top:4px;bottom:4px;left:4px;width:calc((100% - 8px)/var(--n));border-radius:999px;background:var(--accent);transform:translateX(calc(var(--i)*100%));transition:transform .45s var(--ease)}
+.tr-seg button{position:relative;z-index:1;height:38px;padding:0;border:0;border-radius:999px;background:none;color:var(--ink-soft);font-size:15px;font-weight:600;font-variant-numeric:tabular-nums;transition:color .3s}
+.tr-seg button.on{color:var(--on-accent)}
+.tr-seg button:not(.on):hover{color:var(--ink)}
+.tr-price b{font-variant-numeric:tabular-nums}
+/* panel: precios por días */
+.dgrid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
+.dgrid label{display:flex;flex-direction:column;gap:5px;font-size:13px;color:var(--mist)}
+@media(max-width:700px){.dgrid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 </style>
 </head>
 <body>
@@ -1522,6 +1536,9 @@ const CONFIG = {
     entrena_texto:"Rutinas a medida de tu objetivo, tu nivel y los días que tenés. Con seguimiento real y la suplementación justa, todo en un mismo lugar.",
     entrena_foto:"",          // link de Drive (o cualquier link de imagen). Vacío = foto de la portada
     entrena_planes:"",        // JSON con los planes; vacío = los de fábrica
+    entrena_precios_online:"",      // precios por días: 2=35000|3=40000|… (se editan en el panel, pestaña Asesorías)
+    entrena_precios_seguimiento:"", // vacío = los de fábrica
+    entrena_precios_presencial:"",
     entrena_bio:"",           // párrafos de «Sobre mí» separados por |; vacío = los de fábrica
     entrena_testimonios:"",   // JSON [{texto,nombre,detalle}]; vacío = no se muestra la sección
     entrena_desc_suple:"10"   // % de descuento en suplementos para alumnos (vacío o 0 = no se muestra)
@@ -2392,18 +2409,20 @@ function guideMount(){
    - Se pueden pisar desde la pestaña Config con las claves entrena_*:
      entrena_planes y entrena_testimonios en formato JSON (igual que objetivos),
      entrena_bio con los párrafos separados por |.
+   - Precios según los días por semana: entrena_precios_online, _seguimiento y
+     _presencial con el formato 2=35000|3=40000 (pestaña Asesorías del panel).
    ===================================================================== */
 const ENTRENA_DEF={
   planes:[
-    {id:"online",nombre:"Online",precio:25000,periodo:"mes",sub:"Tu rutina a medida, para entrenar por tu cuenta donde quieras.",
+    {id:"online",nombre:"Online",periodo:"mes",dias:{2:35000,3:40000,4:45000,5:50000},sub:"Tu rutina a medida, para entrenar por tu cuenta donde quieras.",
      incluye:["Evaluación inicial: objetivo, nivel, lesiones y días disponibles","Rutina personalizada en tu celular, con video de cada ejercicio","Rutina nueva cada 4 semanas","Consultas por WhatsApp"]},
-    {id:"seguimiento",nombre:"Online + seguimiento",precio:45000,periodo:"mes",destacado:true,sub:"Para no aflojar: revisamos tu progreso todas las semanas.",
+    {id:"seguimiento",nombre:"Online + seguimiento",periodo:"mes",dias:{2:50000,3:55000,4:60000,5:65000},destacado:true,sub:"Para no aflojar: revisamos tu progreso todas las semanas.",
      incluye:["Todo lo del plan Online","Control semanal de cargas, medidas y fotos","Ajustes de la rutina todas las semanas","Corrección de técnica por video","Guía de alimentación y suplementación"]},
-    {id:"presencial",nombre:"Presencial",precio:80000,periodo:"mes",sub:"Entrenamos juntos, uno a uno, dos veces por semana.",
-     incluye:["8 clases por mes, uno a uno","Todo lo del plan Online + seguimiento","Rutina para los días que entrenás por tu cuenta","Horarios a coordinar"]}
+    {id:"presencial",nombre:"Presencial",periodo:"mes",dias:{2:80000,3:110000,4:140000,5:165000},sub:"Entrenamos juntos, uno a uno, los días que elijas.",
+     incluye:["{clases} clases por mes, uno a uno","Todo lo del plan Online + seguimiento","Rutina para los días que entrenás por tu cuenta","Horarios a coordinar"]}
   ],
   pasos:[
-    ["Elegís tu plan","Me escribís por WhatsApp con el plan que te interesa y coordinamos el inicio."],
+    ["Elegís tu plan","Elegís el plan y cuántos días por semana querés entrenar, me escribís por WhatsApp y coordinamos el inicio."],
     ["Evaluación inicial","Me contás tu objetivo, tu experiencia, tus horarios, dónde entrenás y si tenés alguna lesión."],
     ["Recibís tu rutina","Armo tu plan a medida y te llega al celular, con cada ejercicio explicado."],
     ["Seguimiento y ajustes","Vemos cómo avanzás y ajustamos la rutina para que sigas progresando."]
@@ -2418,22 +2437,37 @@ const ENTRENA_DEF={
     ["¿Puedo entrenar en casa o en mi gimnasio?","Sí. Me contás con qué equipamiento contás y la rutina se adapta: gimnasio, casa o al aire libre."],
     ["¿Qué pasa si tengo una lesión o una molestia?","Contámelo en la evaluación inicial. Adaptamos los ejercicios y, si hace falta, te pido el visto bueno de tu médico o kinesiólogo."],
     ["¿Cómo pago?",""],   // vacío: se completa con los medios de pago de la tienda
-    ["¿Puedo cambiar de plan o dejar cuando quiera?","Sí. Los planes son por mes y sin permanencia: podés cambiar, pausar o dejar al terminar cada mes."]
+    ["¿Puedo cambiar de plan o de días?","Sí. Los planes son por mes y sin permanencia: podés cambiar de plan o de cantidad de días, pausar o dejar al terminar cada mes."]
   ]
 };
 const entrenaOn=()=>!no(S.entrena_activo);
 const trName=()=>String(S.entrena_nombre||"").trim()||"Asesorías";
 function jsonArr(v,def){ try{ const j=v?JSON.parse(v):null; if(Array.isArray(j)&&j.length) return j; }catch(e){} return def; }
+// precios por días: "2=35000|3=40000", {2:35000} o [{dias:2,precio:35000}] → [{d:2,precio:35000},…]
+function trDias(v){
+  let pairs=[];
+  if(Array.isArray(v)) pairs=v.map(x=>Array.isArray(x)?x:[x&&x.dias,x&&x.precio]);
+  else if(v&&typeof v==="object") pairs=Object.entries(v);
+  else if(v) pairs=String(v).split(/[|;\n]+|,(?=\s*\d+\s*(?:d[ií]as?)?\s*[=:])/i).map(x=>x.split(/[=:]/));
+  const out=[];
+  pairs.forEach(([d,p])=>{ d=parseInt(String(d==null?"":d).replace(/\D/g,""),10); p=num(p); if(d>=1&&d<=7&&p>0&&!out.some(o=>o.d===d)) out.push({d,precio:p}); });
+  return out.sort((a,b)=>a.d-b.d);
+}
 function trPlans(){
   return jsonArr(S.entrena_planes,ENTRENA_DEF.planes).filter(p=>p&&typeof p==="object").map((p,i)=>{
-    const nombre=String(p.nombre||"").trim();
-    return {id:slug(p.id||nombre)||("plan"+i),nombre,precio:num(p.precio),periodo:String(p.periodo||"mes").trim(),sub:String(p.sub||"").trim(),
-      destacado:p.destacado===true||yes(p.destacado),
+    const nombre=String(p.nombre||"").trim(), id=slug(p.id||nombre)||("plan"+i);
+    const own=trDias(S["entrena_precios_"+id.replace(/-/g,"_")]), opts=own.length?own:trDias(p.dias);
+    // los días elegidos, o los más cercanos que ofrezca este plan
+    const o=opts.length?opts.reduce((a,b)=>Math.abs(b.d-TR.dias)<Math.abs(a.d-TR.dias)?b:a):null, precio=o?o.precio:num(p.precio);
+    return {id,nombre,precio,opts,d:o?o.d:0,desde:opts.length?Math.min(...opts.map(x=>x.precio)):precio,
+      periodo:String(p.periodo||"mes").trim(),sub:String(p.sub||"").trim(),destacado:p.destacado===true||yes(p.destacado),
       incluye:(Array.isArray(p.incluye)?p.incluye:list(p.incluye,"|")).map(x=>String(x).trim()).filter(Boolean)};
   }).filter(p=>p.nombre);
 }
+const trDiasTxt=d=>`${d} ${d===1?"día":"días"} por semana`;
+const trClases=(x,p)=>x.replace(/\{clases\}/g,p.d?String(p.d*4):"");
 const trTests=()=>jsonArr(S.entrena_testimonios,[]).filter(t=>t&&String(t.texto||"").trim()).slice(0,6);
-const TR={goal:"",fq:"",pick:""};
+const TR={goal:"",fq:"",pick:"",dias:3};
 const trGoals=()=>quizGoals().length?quizGoals():allGoals();
 const trGoal=()=>trGoals().find(g=>g.id===TR.goal)||null;
 const trFoto=()=>String(S.entrena_foto||"").trim();   // tu foto: sin foto, la portada usa un diseño con la rutina de ejemplo
@@ -2441,7 +2475,7 @@ const trFoto=()=>String(S.entrena_foto||"").trim();   // tu foto: sin foto, la p
 function trWa(plan){
   if(!S.whatsapp) return "";
   const g=trGoal();
-  let msg=plan?`Hola ${S.nombre}! Quiero empezar el plan ${plan.nombre}${plan.precio?` (${money(plan.precio)} por ${plan.periodo})`:""}.`:`Hola ${S.nombre}! Quiero consultar por el entrenamiento personalizado.`;
+  let msg=plan?`Hola ${S.nombre}! Quiero empezar el plan ${plan.nombre}${plan.d?`, ${trDiasTxt(plan.d)}`:""}${plan.precio?` (${money(plan.precio)} por ${plan.periodo})`:""}.`:`Hola ${S.nombre}! Quiero consultar por el entrenamiento personalizado.`;
   if(g) msg+=` Mi objetivo: ${g.l.toLowerCase()}.`;
   return `https://wa.me/${S.whatsapp}?text=${encodeURIComponent(msg)}`;
 }
@@ -2489,9 +2523,9 @@ function heroChoices(onImg){
 /* ---------- inicio: acceso a entrenamiento ---------- */
 function trainerCTA(){
   if(!entrenaOn()) return "";
-  const f=trFoto(), low=trPlans().filter(p=>p.precio).sort((a,b)=>a.precio-b.precio)[0];
+  const f=trFoto(), low=trPlans().filter(p=>p.desde).sort((a,b)=>a.desde-b.desde)[0];
   return `<section class="blk"><a class="tr-cta${f?"":" nophoto"}" href="#/entrenamiento">${f?`<img class="tr-bg" src="${esc(img(f,1600))}" alt="" loading="lazy" referrerpolicy="no-referrer">`:""}
-    <div class="tr-in"><span class="tr-kick">Entrenamiento personalizado</span><h2>Entrená con un plan a medida</h2><p>Online o presencial, con seguimiento y la suplementación justa para tu objetivo.${low?` Planes desde ${money(low.precio)} por ${esc(low.periodo)}.`:""}</p><span class="btn${f?" light":""}">Ver planes</span></div>${f?"":trMock()}</a></section>`;
+    <div class="tr-in"><span class="tr-kick">Entrenamiento personalizado</span><h2>Entrená con un plan a medida</h2><p>Online o presencial, con seguimiento y la suplementación justa para tu objetivo.${low?` Planes desde ${money(low.desde)} por ${esc(low.periodo)}.`:""}</p><span class="btn${f?" light":""}">Ver planes</span></div>${f?"":trMock()}</a></section>`;
 }
 
 /* ---------- suplementos que acompañan el objetivo elegido ---------- */
@@ -2510,7 +2544,7 @@ const TR_AR='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-w
 function trFindMap(plans){
   const k=p=>p.id+" "+slug(p.nombre);
   const pres=plans.find(p=>/presencial/.test(k(p)));
-  const rest=plans.filter(p=>p!==pres&&p.precio).sort((a,b)=>a.precio-b.precio);
+  const rest=plans.filter(p=>p!==pres&&p.desde).sort((a,b)=>a.desde-b.desde);
   const segui=rest.find(p=>/seguimiento/.test(k(p)))||rest[rest.length-1], solo=rest.find(p=>p!==segui);
   return pres&&solo&&segui?{pres,solo,segui}:null;
 }
@@ -2520,7 +2554,7 @@ function trFind(){
   const dots=n=>`<span class="tr-dots" aria-hidden="true"><i class="on"></i><i${n>1?' class="on"':""}></i></span>`;
   const p=[m.pres,m.solo,m.segui].find(x=>x.id===TR.pick);
   if(p) return `<div class="tr-find-in tr-find-r"><div><span class="tr-find-k">Tu plan ideal</span><h3 tabindex="-1">${esc(p.nombre)}</h3>
-      <p>${p.sub?esc(p.sub)+" ":""}${p.precio?`<b>${money(p.precio)} por ${esc(p.periodo)}</b>`:""}</p><button type="button" class="tr-back" data-tf="reset">Volver a empezar</button></div>
+      <p>${p.sub?esc(p.sub)+" ":""}${p.precio?`<b data-tfp>${trFindPrice(p)}</b>`:""}</p><button type="button" class="tr-back" data-tf="reset">Volver a empezar</button></div>
     <div class="tr-find-acts">${S.whatsapp?`<a class="btn" data-tw="${esc(p.id)}" href="${esc(trWa(p))}" target="_blank" rel="noopener">Quiero este plan</a>`:""}<button type="button" class="btn out" data-tr="trp-${esc(p.id)}">Ver qué incluye</button></div></div>`;
   if(TR.fq==="cuenta") return `<div class="tr-find-in"><div><span class="tr-find-k">${dots(2)}Pregunta 2 de 2</span><h3 tabindex="-1">¿Cuánto acompañamiento querés?</h3><button type="button" class="tr-back" data-tf="reset">Volver</button></div>
     <div class="tr-opts">${opt("solo","Solo la rutina","A medida, para seguirla a tu ritmo")}${opt("segui","Que me sigas de cerca","Controles y ajustes todas las semanas")}</div></div>`;
@@ -2530,8 +2564,38 @@ function trFind(){
 // barra fija abajo en el celular: aparece al pasar la portada y se va al llegar al final
 function trBar(plans){
   if(!S.whatsapp&&!plans.length) return "";
-  const low=plans.filter(p=>p.precio).sort((a,b)=>a.precio-b.precio)[0];
-  return `<div class="stick tr-stick"><div><small>${low?`Planes por ${esc(low.periodo)}`:esc(trName())}</small><b>${low?`Desde ${money(low.precio)}`:"Entrenamiento personalizado"}</b></div>${S.whatsapp?`<a class="btn" data-tw="" href="${esc(trWa())}" target="_blank" rel="noopener">Quiero empezar</a>`:`<button type="button" class="btn" data-tr="trPlanes">Ver planes</button>`}</div>`;
+  const low=plans.filter(p=>p.desde).sort((a,b)=>a.desde-b.desde)[0];
+  return `<div class="stick tr-stick"><div><small>${low?`Planes por ${esc(low.periodo)}`:esc(trName())}</small><b>${low?`Desde ${money(low.desde)}`:"Entrenamiento personalizado"}</b></div>${S.whatsapp?`<a class="btn" data-tw="" href="${esc(trWa())}" target="_blank" rel="noopener">Quiero empezar</a>`:`<button type="button" class="btn" data-tr="trPlanes">Ver planes</button>`}</div>`;
+}
+
+/* ---------- días por semana: el mismo número en todas las tarjetas ---------- */
+const trFindPrice=p=>`${p.d?trDiasTxt(p.d)+" · ":""}${money(p.precio)} por ${esc(p.periodo)}`;
+function trSeg(p){
+  if(p.opts.length<2) return "";
+  return `<div class="tr-days"><span id="trd-${esc(p.id)}">Días por semana</span><div class="tr-seg" role="group" aria-labelledby="trd-${esc(p.id)}" style="--n:${p.opts.length};--i:${Math.max(0,p.opts.findIndex(o=>o.d===p.d))}">${p.opts.map(o=>`<button type="button" data-td="${o.d}" aria-label="${o.d} ${o.d===1?"día":"días"}" aria-pressed="${o.d===p.d}"${o.d===p.d?' class="on"':""}>${o.d}</button>`).join("")}</div></div>`;
+}
+// el precio cuenta hasta el nuevo valor
+function trCount(el,to){
+  const from=+el.dataset.v||to; el.dataset.v=to; cancelAnimationFrame(el._raf);
+  if(!MOTION||from===to){ el.textContent=money(to); return; }
+  const t0=performance.now();
+  const step=t=>{ const k=Math.min(1,(t-t0)/450), e=1-Math.pow(1-k,3); el.textContent=money(k<1?Math.round((from+(to-from)*e)/100)*100:to); if(k<1) el._raf=requestAnimationFrame(step); };
+  el._raf=requestAnimationFrame(step);
+}
+function trSyncDias(root){
+  const plans=trPlans();
+  root.querySelectorAll(".tr-plan[data-plan]").forEach(c=>{
+    const p=plans.find(x=>x.id===c.dataset.plan); if(!p) return;
+    const seg=c.querySelector(".tr-seg");
+    if(seg){
+      seg.style.setProperty("--i",Math.max(0,p.opts.findIndex(o=>o.d===p.d)));
+      seg.querySelectorAll("[data-td]").forEach(b=>{ const on=+b.dataset.td===p.d; b.classList.toggle("on",on); b.setAttribute("aria-pressed",on); });
+    }
+    const pr=c.querySelector("[data-tp]"); if(pr) trCount(pr,p.precio);
+    c.querySelectorAll("[data-tcl]").forEach(x=>{ x.textContent=trClases(x.dataset.tcl,p); });
+  });
+  const fp=root.querySelector("[data-tfp]"), pk=plans.find(x=>x.id===TR.pick);
+  if(fp&&pk) fp.textContent=trFindPrice(pk);
 }
 
 /* ---------- página ---------- */
@@ -2558,8 +2622,9 @@ function viewTrainer(){
   ${sec("Cómo funciona","",`<ol class="tr-steps">${ENTRENA_DEF.pasos.map(([t,d],i)=>`<li><span class="tr-n">${String(i+1).padStart(2,"0")}</span><strong>${esc(t)}</strong><p>${esc(d)}</p></li>`).join("")}</ol>`)}
   ${plans.length?sec("Planes",`<span class="crumbs" style="margin:0">Precios por mes</span>`,`${find}<div class="tr-plans${TR.pick?" has-pick":""}">${plans.map(p=>`<article class="tr-plan${p.destacado?" on":""}${TR.pick===p.id?" pick":""}" id="trp-${esc(p.id)}" data-plan="${esc(p.id)}">${p.destacado?`<span class="qbadge">Recomendado</span>`:""}<span class="tr-pk">Ideal para vos</span>
       <h3>${esc(p.nombre)}</h3>${p.sub?`<p class="tr-sub">${esc(p.sub)}</p>`:""}
-      <div class="tr-price">${p.precio?`<b>${money(p.precio)}</b><span>por ${esc(p.periodo)}</span>`:`<b>A consultar</b>`}</div>
-      ${p.incluye.length?`<ul class="tr-inc">${p.incluye.map(x=>`<li>${TR_CHECK}<span>${esc(x)}</span></li>`).join("")}</ul>`:""}
+      ${trSeg(p)}
+      <div class="tr-price">${p.precio?`<b data-tp data-v="${p.precio}">${money(p.precio)}</b><span>por ${esc(p.periodo)}${p.opts.length===1?` · ${trDiasTxt(p.d)}`:""}</span>`:`<b>A consultar</b>`}</div>
+      ${p.incluye.length?`<ul class="tr-inc">${p.incluye.map(x=>`<li>${TR_CHECK}<span${/\{clases\}/.test(x)?` data-tcl="${esc(x)}"`:""}>${esc(trClases(x,p))}</span></li>`).join("")}</ul>`:""}
       ${wa?`<a class="btn${p.destacado?"":" out"}" data-tw="${esc(p.id)}" href="${esc(trWa(p))}" target="_blank" rel="noopener">Quiero este plan</a>`:""}
     </article>`).join("")}</div>
     ${dsc||pl.length?`<div class="tr-notes">${dsc?`<p>Con cualquier plan tenés <b>${dsc}% de descuento</b> en los suplementos de la tienda.</p>`:""}${pl.length?`<p>Medios de pago: ${esc(pl.join(" · "))}</p>`:""}</div>`:""}`,"trPlanes"):""}
@@ -2578,10 +2643,10 @@ function viewTrainer(){
 }
 function trainerMount(){
   const el=document.querySelector(".tr"); if(!el) return;
-  const root=el.parentElement||el, plans=trPlans();   // root también incluye la barra fija del celular
+  const root=el.parentElement||el;   // root también incluye la barra fija del celular
   const hero=el.querySelector(".tr-hero"), stage=el.querySelector(".tr-stage");
-  // los links de WhatsApp llevan el plan (el del botón o el que eligió en las preguntas) y el objetivo
-  const setWa=()=>root.querySelectorAll("[data-tw]").forEach(a=>{ a.href=trWa(plans.find(x=>x.id===(a.dataset.tw||TR.pick))||null); });
+  // los links de WhatsApp llevan el plan (el del botón o el que eligió en las preguntas), los días y el objetivo
+  const setWa=()=>{ const all=trPlans(); root.querySelectorAll("[data-tw]").forEach(a=>{ a.href=trWa(all.find(x=>x.id===(a.dataset.tw||TR.pick))||null); }); };
   const paintPick=()=>{
     const ps=root.querySelector(".tr-plans"); if(ps) ps.classList.toggle("has-pick",!!TR.pick);
     root.querySelectorAll(".tr-plan[data-plan]").forEach(c=>c.classList.toggle("pick",c.dataset.plan===TR.pick));
@@ -2596,7 +2661,7 @@ function trainerMount(){
     }
     const q=e.target.closest("[data-tf]");
     if(q){
-      const m=trFindMap(plans), v=q.dataset.tf; if(!m) return;
+      const m=trFindMap(trPlans()), v=q.dataset.tf; if(!m) return;
       if(v==="cuenta"){ TR.fq="cuenta"; TR.pick=""; }
       else if(v==="reset"){ TR.fq=""; TR.pick=""; }
       else TR.pick=(v==="pres"?m.pres:v==="solo"?m.solo:m.segui).id;
@@ -2605,6 +2670,8 @@ function trainerMount(){
       paintPick(); setWa();
       return;
     }
+    const td=e.target.closest("[data-td]");
+    if(td){ const d=+td.dataset.td; if(d&&d!==TR.dias){ TR.dias=d; trSyncDias(root); setWa(); } return; }
     const g=e.target.closest("[data-trg]");
     if(g){
       TR.goal=TR.goal===g.dataset.trg?"":g.dataset.trg;
@@ -3088,6 +3155,19 @@ const SCHEMA={
     {k:"stack_desc_base",l:"Descuento stack Base (%)",t:"text",num:1,ej:"0",hint:"1 producto. Ej: 0"},
     {k:"stack_desc_pro",l:"Descuento stack Pro (%)",t:"text",num:1,ej:"5",hint:"2 productos. Ej: 5"},
     {k:"stack_desc_elite",l:"Descuento stack Elite (%)",t:"text",num:1,ej:"10",hint:"3 productos. Ej: 10"}]},
+  asesorias:{label:"Asesorías",tab:"config",cols:[],fields:[
+    {k:"entrena_activo",l:"Mostrar Asesorías en la tienda",t:"bool",def:1},
+    {k:"entrena_nombre",l:"Nombre en el menú",t:"text",hint:"Ej: Asesorías"},
+    {k:"entrena_titulo",l:"Título de la portada",t:"text",wide:1},
+    {k:"entrena_texto",l:"Texto de la portada",t:"area"},
+    {k:"entrena_foto",l:"Tu foto (opcional)",t:"image",hint:"Se ve de fondo en la portada y en «Sobre mí». Vacía = la portada con la rutina de ejemplo."},
+    {t:"h",l:"Precios por mes según los días por semana"},
+    {k:"entrena_precios_online",l:"Online",t:"dias",plan:"online"},
+    {k:"entrena_precios_seguimiento",l:"Online + seguimiento",t:"dias",plan:"seguimiento"},
+    {k:"entrena_precios_presencial",l:"Presencial",t:"dias",plan:"presencial"},
+    {k:"entrena_desc_suple",l:"Descuento en suplementos para alumnos (%)",t:"text",num:1,ej:"10",hint:"Ej: 10. Vacío o 0 = no se muestra."},
+    {t:"h",l:"Sobre mí"},
+    {k:"entrena_bio",l:"Texto de «Sobre mí»",t:"lines",hint:"Un párrafo por línea. Vacío = el texto de ejemplo."}]},
   tienda:{label:"Tienda",tab:"config",cols:[],fields:[
     {t:"h",l:"Estilo"},
     {k:"estilo",l:"Estilo de la página",t:"choice",opts:[["grafito","Grafito y naranja (deportivo)"],["negro","Negro y dorado"],["claro","Claro (blanco y gris)"]],hint:"Cambia los colores de toda la tienda y del panel."},
@@ -3190,7 +3270,7 @@ async function admLoad(){
       ADM.cfg={}; r.rows.forEach(x=>{ if(x.clave) ADM.cfg[slug(x.clave).replace(/-/g,"_")]=x.valor||""; });
       ADM.ai={hasKey:!!st.hasKey,model:st.model||""};
     }
-    else if(ADM.tab==="tienda"||ADM.tab==="stack"){ const r=await admApi("read",{tab:CONFIG.TABS.config}); ADM.cfg={}; r.rows.forEach(x=>{ if(x.clave) ADM.cfg[slug(x.clave).replace(/-/g,"_")]=x.valor||""; }); if(ADM.tab==="stack") admGoalsLoad(); }
+    else if(ADM.tab==="tienda"||ADM.tab==="stack"||ADM.tab==="asesorias"){ const r=await admApi("read",{tab:CONFIG.TABS.config}); ADM.cfg={}; r.rows.forEach(x=>{ if(x.clave) ADM.cfg[slug(x.clave).replace(/-/g,"_")]=x.valor||""; }); if(ADM.tab==="stack") admGoalsLoad(); }
     else{ const r=await admApi("read",{tab:CONFIG.TABS[SCHEMA[ADM.tab].tab]}); ADM.rows=r.rows; if(ADM.tab==="productos") await admLoadLists(); }
   }catch(e){ ADM.err=e.message; }
   ADM.loading=false; admRender();
@@ -3225,6 +3305,7 @@ function admPanel(){
   else if(ADM.tab==="asistente") body=admAI()+`<div style="margin-top:40px">${admForm(SCHEMA.asistente.fields,{...CONFIG.DEFAULTS,...ADM.cfg},"admCfg","Cómo se presenta en la tienda")}</div>`;
   else if(ADM.tab==="stack") body=admStack();
   else if(ADM.tab==="tienda") body=admForm(SCHEMA.tienda.fields,{...CONFIG.DEFAULTS,...ADM.cfg},"admCfg","Ajustes de la tienda");
+  else if(ADM.tab==="asesorias") body=admForm(SCHEMA.asesorias.fields,{...CONFIG.DEFAULTS,...ADM.cfg},"admCfg","Asesorías");
   else if(ADM.edit) body=admForm(SCHEMA[ADM.tab].fields,ADM.edit.data,"admForm",`${ADM.edit.row?"Editar":SCHEMA[ADM.tab].nw} ${SCHEMA[ADM.tab].one}`,ADM.tab==="productos"&&!ADM.edit.row);
   else body=admList();
   return `<div class="adm-top"><div><h1>Administrador</h1><span class="muted">Los cambios se ven en la tienda al instante.</span></div>
@@ -3432,6 +3513,10 @@ function admField(f,val){
     const opts=ADM.rows.filter(r=>!r.padre&&r._row!==cur).map(r=>{const id=slug(r.slug||r.titulo||r.nombre);return `<option value="${esc(id)}" ${val&&slug(val)===id?"selected":""}>${esc(r.titulo||r.nombre)}</option>`}).join("");
     return `<label class="f wide">${lab}<select name="${f.k}"><option value="">${ADM.tab==="categorias"?"Ninguna (es una categoría principal)":"Ninguna (es una página principal)"}</option>${opts}</select>${hint}</label>`;
   }
+  if(f.t==="dias"){   // un precio por cada cantidad de días; vacío = ese día no se ofrece
+    const cur=trDias(val).length?trDias(val):trDias((ENTRENA_DEF.planes.find(p=>p.id===f.plan)||{}).dias);
+    return `<div class="f wide"><span>${lab}</span><div class="dgrid">${[1,2,3,4,5,6].map(d=>{ const o=cur.find(x=>x.d===d); return `<label>${d} ${d===1?"día":"días"}<input name="${f.k}__${d}" type="text" inputmode="decimal" value="${o?o.precio:""}" placeholder="—"></label>`; }).join("")}</div>${hint||"<small>Precio por mes, solo el número. Dejá vacíos los días que no ofrecés.</small>"}</div>`;
+  }
   if(f.t==="choice"){
     const cur=val||f.opts[0][0];
     return `<label class="f">${lab}<select name="${f.k}">${f.opts.map(([v,t])=>`<option value="${esc(v)}" ${slug(cur)===slug(v)?"selected":""}>${esc(t)}</option>`).join("")}</select>${hint}</label>`;
@@ -3458,6 +3543,15 @@ function admCollect(form,fields){
       const c=[...form.querySelectorAll('input[name="pagos_chk"]:checked')].map(i=>i.value);
       const o=(form.elements.pagos_otros.value||"").split(",").map(x=>x.trim()).filter(Boolean);
       raw[f.k]=[...c,...o].join("|"); continue;
+    }
+    if(f.t==="dias"){
+      const parts=[];
+      for(let d=1;d<=6;d++){
+        const x=form.elements[`${f.k}__${d}`], v=x?x.value.trim():""; if(!v) continue;
+        const n=admNum(v); if(n===null||+n<=0) return {err:`En «${f.l}», ${d} ${d===1?"día":"días"}: poné solo el número. Ej: 40000`,raw};
+        parts.push(`${d}=${n}`);
+      }
+      raw[f.k]=parts.join("|"); continue;
     }
     const el=form.elements[f.k];
     raw[f.k]=f.t==="bool"?(el.checked?"SI":"NO"):el.value;
